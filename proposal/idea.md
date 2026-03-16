@@ -29,8 +29,8 @@ Bidding Model Solver: The Input: the Convention Card of other Players, Bidding H
 - A user can make a play, and our system returns a near-expert response. 
 - A user can make a mistake, and our system returns feedback on that response
 
-## **Top three sources of information:** 
-Bridge Webs for bidding and playing to text, Bridge Base for played hands, and Double Dummy for card play development.
+## **Top sources of information:** 
+Bridge Webs and Bridge Bum for bidding and playing to text, Bridge Base for played hands, and Double Dummy for card play development.
 
 ## **Risks:** 
 Limited availability of information, Limited Access to clients, and compounding training could lead to overfitting.
