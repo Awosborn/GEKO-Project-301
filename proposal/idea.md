@@ -12,7 +12,7 @@ Our product is a Bridge-Coach model that plays against players, learns strategy,
 no bridge-coaching software is currently available that provides feedback to the player, and the current top bridge-playing software is a neural network that does not take into account information about the individual player with whom it is playing. They act simply as if they are playing against another AI that plays the same way. This is a major issue, as playing with a partner who shares the same strategy is core to success in the game.
 
 ## **Market Size:** 
-The game is still popular today, with the World Bridge Federation having over 530,000 affiliated members. Bridge Base, a popular Bridge website, has around 14,000 active players.  Based on these and other organizations, we estimate a client base of around 600,000. #####
+The game is still popular today, with the World Bridge Federation having over 530,000 affiliated members. Bridge Base, one of the popular Bridge websites, has around 14,000 active players. Based on these and other organizations, we estimate a client base of around 600,000. Bridge Base Online has an estimated net revenue of 7.5 Million Dollars through robot partner games. Therefore we estimate potental market of 10 Million for GEKO. 
 
 ## **Technical:** 
 The game consists of two distinct phases: the bidding phase and the card play phase. Therefore, similarly, we break the bridge solver into two distinct parts. 
