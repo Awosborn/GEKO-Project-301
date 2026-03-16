@@ -1,4 +1,4 @@
-Alexander Osborn Awosborn@asu.edu Micah Kawamura- mhkawamura@asu.edu  Sivan- sgarteiz@asu.edu Gannon Evers- gcevers@asu.edu 
+Alexander Osborn Awosborn@asu.edu Micah Kawamura- mhkawamura@asu.edu  Sivan Garteiz- sgarteiz@asu.edu Gannon Evers- gcevers@asu.edu 
 
 ## **SHORT:** 
 **Potential Solution Size:** 10 million dollars, **Solution:** Coaching and Game Solver Software, **Technical:** GPT and Neural Network, **Users Market:** 600,000 current bridge players, **Specialized Expertise:** Developers are nationally competitive bridge players.
