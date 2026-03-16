@@ -18,16 +18,16 @@ The game is still popular today, with the World Bridge Federation having over 53
 The game consists of two distinct phases: the bidding phase and the card play phase. Therefore, similarly, we break the bridge solver into two distinct parts. 
 Bidding Model Solver: The Input: the Convention Card of other Players, Bidding History, Bidding Model Outputs, Best possible next bid. Training will be done by using a latent learning model. 
 
--**Card play Model Solver:** Input Convention Card of Human Player, Bidding History, Double Dummy, Card playing History. Output: best possible next move. This will be trained by trying to maximize the card play outcome compared to double dummy, a best-possible-outcome solver that uses branching and full information to determine the best possible next play. 
+- **Card play Model Solver:** Input Convention Card of Human Player, Bidding History, Double Dummy, Card playing History. Output: best possible next move. This will be trained by trying to maximize the card play outcome compared to double dummy, a best-possible-outcome solver that uses branching and full information to determine the best possible next play. 
 
--**The Coaching Software:** This will operate similarly, taking in all the same information as the playing or bidding model and the outputs from that phase. This will be trained using the bridge literature. 
+- **The Coaching Software:** This will operate similarly, taking in all the same information as the playing or bidding model and the outputs from that phase. This will be trained using the bridge literature. 
 
--**Development:** Double dummy will train card play; Card play will train the bidding model; the bidding model and Double dummy will then train Card play; Card Play model will, in turn, serve as training input to the Bidding model. The coaching model will be trained on the bridge literature.
+- **Development:** Double dummy will train card play; Card play will train the bidding model; the bidding model and Double dummy will then train Card play; Card Play model will, in turn, serve as training input to the Bidding model. The coaching model will be trained on the bridge literature.
 
 ## **Minimum viable product outcomes:** 
--A user can bid, and our system returns a near-expert response. 
--A user can make a play, and our system returns a near-expert response. 
--A user can make a mistake, and our system returns feedback on that response
+- A user can bid, and our system returns a near-expert response. 
+- A user can make a play, and our system returns a near-expert response. 
+- A user can make a mistake, and our system returns feedback on that response
 
 ## **Top three sources of information:** 
 Bridge Webs for bidding and playing to text, Bridge Base for played hands, and Double Dummy for card play development.
