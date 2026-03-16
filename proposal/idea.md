@@ -1,6 +1,6 @@
 
 ## **SHORT:** 
-**Potential Solution Size:** 5 million dollars, **Solution:** Coaching and Game Solver Software, **Technical** GPT and Neural Network, **Users Market:** 530,000 current bridge players, **Specialized Expertise:** Developers are nationally competitive bridge players.
+**Potential Solution Size:** 5 million dollars, **Solution:** Coaching and Game Solver Software, **Technical:** GPT and Neural Network, **Users Market:** 530,000 current bridge players, **Specialized Expertise:** Developers are nationally competitive bridge players.
 
 ## **Current issue:** 
 Contract Bridge is a strategy-based card game in which players bid for a contract. The game, however, suffers from a steep learning curve and can only be played in groups of four. This means the game is particularly hard to learn or improve at unless you have a group of four players at the same level and with the same passion.
