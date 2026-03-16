@@ -35,5 +35,6 @@ Bridge Webs and Bridge Bum for bidding and playing to text, Bridge Base for play
 ## **Risks:** 
 Limited availability of information, Limited Access to clients, and compounding training could lead to overfitting.
 ## **View More**
-**Working Document with devlopment plan and reaserch**
+**Working Document with Devlopment Plan and Reaserch**
 >https://docs.google.com/document/d/1xZoK_cYJ6gdN7i4bWNUwEGE84FgnHGcAbojvDdZYgJM/edit?usp=sharing
+
