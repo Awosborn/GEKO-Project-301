@@ -8,6 +8,9 @@ Contract Bridge is a strategy-based card game in which players bid for a contrac
 ## **Solution:** 
 Our product is a Bridge-Coach model that plays against players, learns strategy, and coaches them on their play using GPT.
 
+## **Users**
+ Our potential users are bridge players with skill levels ranging from interested to advanced.
+
 ## **Differences from the market:** 
 No bridge-coaching software is currently available that provides feedback to the player, and the current top bridge-playing software is a neural network that does not take into account information about the individual player with whom it is playing. They act simply as if they are playing against another AI that plays the same way. This is a major issue, as playing with a partner who shares the same strategy is core to success in the game. As our software will be able to read a player's convention card (Mandated Strategy Declaration), it will be able to adapt to its partner and coach according to the strategy of the opponents. By using AI instead of simple heuristics, it can leverage the many strategies that are core to partnership gameplay in contract bridge.
 
