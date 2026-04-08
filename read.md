@@ -1,5 +1,13 @@
 # GEKO Project Overview
 
+## Quick Commands (Run these first)
+- Train both models:
+  - `python3 MVP/cli.py train-all`
+- Train with self-play cycle against previous best versions:
+  - `python3 MVP/cli.py train-cycle`
+- Play against the currently stable models:
+  - `python3 MVP/cli.py play`
+
 ## Purpose of the Codebase
 This repository contains the MVP implementation for the **GEKO bridge coaching and play engine**. The code focuses on simulating and evaluating Contract Bridge gameplay with separate logic for bidding, card play, rules validation, and penalties.
 
@@ -27,3 +35,9 @@ For each PR, append a short section at the bottom using this template:
 - Be specific and concise.
 - Include at least one validation/check item, even if manual.
 - Do not delete historical PR update sections.
+
+## PR Update - 2026-04-08 - training-cli-self-play-cycle
+- Summary: Added a unified CLI command for training both models and playing against stable models, plus a training cycle that pits new candidate policies against the prior stable champion before promotion.
+- Files touched: read.md, MVP/cli.py, MVP/train_cycle.py, MVP/model_registry.py, MVP/train_bidding.py, MVP/train_cardplay.py
+- Validation: Ran `python3 MVP/cli.py train-cycle`, `python3 MVP/cli.py train-all`, and `python3 MVP/cli.py --help`.
+- Follow-ups: Consider extending arena evaluation from context-match scoring to full hand-level simulated matches.

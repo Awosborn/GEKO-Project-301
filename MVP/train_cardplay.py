@@ -59,7 +59,7 @@ def _episodes_from_runner_records(path: Path) -> List[Dict[str, object]]:
     return episodes
 
 
-def train_cardplay_model() -> Dict[str, object]:
+def train_cardplay_model(*, stable: bool = True, notes: str | None = None) -> Dict[str, object]:
     runner_train = _episodes_from_runner_records(DATASETS_DIR / "runner_cardplay_train.jsonl")
     runner_val = _episodes_from_runner_records(DATASETS_DIR / "runner_cardplay_val.jsonl")
     train_rows = runner_train or _read_jsonl(DATASETS_DIR / "train.jsonl")
@@ -114,8 +114,8 @@ def train_cardplay_model() -> Dict[str, object]:
         version=version,
         metrics=metrics,
         artifact_payload=artifact_payload,
-        stable=True,
-        notes="Frequency baseline trained from card-play episode records.",
+        stable=stable,
+        notes=notes or "Frequency baseline trained from card-play episode records.",
     )
 
     return {"artifact": artifact_payload, "metadata": metadata.__dict__}

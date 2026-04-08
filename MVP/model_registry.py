@@ -95,3 +95,41 @@ def load_latest_stable_model(model_type: str, task: str) -> Optional[Dict[str, A
     payload = json.loads(path.read_text(encoding="utf-8"))
     payload["_metadata"] = latest
     return payload
+
+
+def list_model_artifacts(model_type: str, task: str) -> List[Dict[str, Any]]:
+    registry = _load_registry()
+    artifacts = [
+        item
+        for item in registry.get("artifacts", [])
+        if item.get("model_type") == model_type and item.get("task") == task
+    ]
+    return sorted(artifacts, key=lambda item: item.get("created_at", ""))
+
+
+def load_model_artifact(model_type: str, task: str, version: str) -> Optional[Dict[str, Any]]:
+    for entry in list_model_artifacts(model_type=model_type, task=task):
+        if str(entry.get("version")) != str(version):
+            continue
+        path = Path(__file__).resolve().parent / str(entry.get("artifact_path", ""))
+        if not path.exists():
+            return None
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        payload["_metadata"] = entry
+        return payload
+    return None
+
+
+def promote_model_artifact(model_type: str, task: str, version: str) -> bool:
+    registry = _load_registry()
+    target_found = False
+    for entry in registry.get("artifacts", []):
+        if entry.get("model_type") != model_type or entry.get("task") != task:
+            continue
+        is_target = str(entry.get("version")) == str(version)
+        entry["stable"] = is_target
+        if is_target:
+            target_found = True
+    if target_found:
+        _save_registry(registry)
+    return target_found
