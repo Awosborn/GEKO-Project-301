@@ -32,7 +32,7 @@ def _default_bid_space() -> List[str]:
 class TokenStore:
     """Persistent mapping of symbols to token IDs + random embedding vectors."""
 
-    embedding_size: int = 16
+    embedding_size: int = 73
     seed: int = 301
 
     def __post_init__(self) -> None:
@@ -57,13 +57,27 @@ class TokenStore:
         self._store["meta"]["next_id"] = token_id + 1
         return token_id
 
+    def _resize_vector(self, vector: List[float]) -> List[float]:
+        if len(vector) == self.embedding_size:
+            return vector
+        if len(vector) > self.embedding_size:
+            return vector[: self.embedding_size]
+        return vector + [round(self._rng.uniform(-1.0, 1.0), 6) for _ in range(self.embedding_size - len(vector))]
+
+    def _enforce_embedding_size(self) -> None:
+        for category in ("bids", "cards", "strategy_questions"):
+            bucket: Dict[str, Dict[str, object]] = self._store.get(category, {})
+            for item in bucket.values():
+                item["vector"] = self._resize_vector(list(item.get("vector", [])))
+        self._store["meta"]["embedding_size"] = self.embedding_size
+
     def load(self, path: Path = TOKEN_STORE_PATH) -> None:
         if not path.exists():
             return
         payload = json.loads(path.read_text(encoding="utf-8"))
         self._store = payload
-        self.embedding_size = int(payload.get("meta", {}).get("embedding_size", self.embedding_size))
         self._rng = random.Random(self.seed)
+        self._enforce_embedding_size()
 
     def save(self, path: Path = TOKEN_STORE_PATH) -> None:
         path.write_text(json.dumps(self._store, indent=2), encoding="utf-8")
@@ -129,7 +143,7 @@ class BridgeTrainingPreprocessor:
 def build_training_setup(
     data: GameData,
     token_path: Path = TOKEN_STORE_PATH,
-    embedding_size: int = 16,
+    embedding_size: int = 73,
     seed: int = 301,
 ) -> Dict[str, object]:
     """Initialize/load/update token mappings and encode GameData for training input.
