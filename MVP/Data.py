@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import json
+from pathlib import Path
 import random
 from typing import Dict, List, Optional, Tuple
 
@@ -110,6 +112,7 @@ class StrategyDeclaration:
         ]
     )
     numeric_answers: List[int] = field(default_factory=list)
+    loaded_profile_name: Optional[str] = None
 
     def Strat_define(self) -> List[int]:
         """Prompt user to define strategy and return numeric answer array."""
@@ -136,6 +139,66 @@ class StrategyDeclaration:
                         print(f"Please choose a number between 1 and {len(options)}.")
                     except ValueError:
                         print("Invalid input. Please enter a valid option number.")
+        return self.numeric_answers
+
+    def load(self, profile_number: int) -> List[int]:
+        """
+        Load a predefined strategy profile from MVP/bridge_nine_strategy_profiles.json.
+
+        Notes:
+        - Accepts profile numbers 1-9 (inclusive), as requested by the MVP profile set.
+        - Converts profile answer values into the same numeric encoding used by Strat_define:
+          numeric question -> literal integer, choice question -> 1-based option index.
+        """
+        if not 1 <= profile_number <= 9:
+            raise ValueError("profile_number must be between 1 and 9.")
+
+        profiles_path = Path(__file__).resolve().parent / "bridge_nine_strategy_profiles.json"
+        payload = json.loads(profiles_path.read_text(encoding="utf-8"))
+        profiles = payload.get("profiles", [])
+
+        if profile_number > len(profiles):
+            raise ValueError(
+                f"Profile {profile_number} is unavailable. "
+                f"Found {len(profiles)} profiles in {profiles_path.name}."
+            )
+
+        profile = profiles[profile_number - 1]
+        answers = profile.get("answers", {})
+
+        # deterministic key ordering: q1_..., q2_..., ... q75_...
+        sorted_items = sorted(
+            answers.items(),
+            key=lambda item: int(item[0].split("_", 1)[0][1:]),
+        )
+
+        if len(sorted_items) != len(self.question_bank):
+            raise ValueError(
+                "Loaded profile answer count does not match StrategyDeclaration question count."
+            )
+
+        loaded_numeric_answers: List[int] = []
+        for question_index, (answer_key, raw_answer) in enumerate(sorted_items):
+            _, answer_type, options = self.question_bank[question_index]
+            if answer_type == "numeric":
+                if not isinstance(raw_answer, int):
+                    raise ValueError(
+                        f"{answer_key} expects numeric answer, received {type(raw_answer).__name__}."
+                    )
+                loaded_numeric_answers.append(raw_answer)
+                continue
+
+            # choice answer: store option number (1-based), matching Strat_define behavior.
+            try:
+                option_index = options.index(str(raw_answer)) + 1
+            except ValueError as exc:
+                raise ValueError(
+                    f"{answer_key} has unsupported option '{raw_answer}'."
+                ) from exc
+            loaded_numeric_answers.append(option_index)
+
+        self.numeric_answers = loaded_numeric_answers
+        self.loaded_profile_name = profile.get("strategy_name")
         return self.numeric_answers
 
 
