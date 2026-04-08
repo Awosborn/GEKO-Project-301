@@ -6,6 +6,7 @@ import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 from BidRecommender import recommend_bid as recommend_bids_for_player
+from CardPlayRecommender import recommend_card as recommend_card_for_player
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
 from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
 from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
@@ -358,8 +359,30 @@ def card_play_function(
 
         for player in order:
             while True:
-                prompt = f"Player {player}, play a card from your hand {hands[player]}: "
+                prompt = (
+                    f"Player {player}, play a card from your hand {hands[player]} "
+                    "(or ? for model advice): "
+                )
                 card = input_fn(prompt).strip().upper()
+                if card == "?":
+                    recommendations = recommend_card_for_player(
+                        hand=hands[player],
+                        trick_cards=trick,
+                        contract=contract,
+                        bid_history=data.curr_bid_hist,
+                        strategy_answers=data.strat_dec.numeric_answers,
+                        player=player,
+                    )
+                    if recommendations:
+                        top = recommendations[0]
+                        print(
+                            "Model advice: "
+                            f"{top['card']} (conf={top['confidence']:.2f}) - {top['reason']} "
+                            f"rationale={top['rationale']}"
+                        )
+                    else:
+                        print("Model advice unavailable for this decision.")
+                    continue
                 if card not in hands[player]:
                     print("You must play a card you hold.")
                     continue
