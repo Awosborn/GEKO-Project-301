@@ -53,3 +53,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md
 - Validation: Ran `python --version` and `python MVP/cli.py --help`.
 - Follow-ups: Consider adding a tiny PowerShell helper script that auto-detects a working Python interpreter and runs `cli.py`.
+
+## PR Update - 2026-04-08 - add-run_this-numbered-launcher
+- Summary: Added a repo-root `run_this` launcher script that prompts for a numbered choice and executes the matching GEKO CLI command.
+- Files touched: run_this, read.md
+- Validation: Ran `python3 run_this` (with selections `4` and invalid `9`).
+- Follow-ups: Consider adding a fifth option to let users enter custom CLI subcommands directly.
