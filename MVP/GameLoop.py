@@ -16,6 +16,7 @@ from Coach import Coach
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
 from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
 from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
+from demo_scenarios import get_demo_scenario, list_demo_scenarios
 from model_registry import load_latest_stable_model
 
 TRUMP_ORDER = {"C": 0, "D": 1, "H": 2, "S": 3, "NT": 4}
@@ -218,6 +219,19 @@ def preset(data: GameData, rng: random.Random | None = None) -> Tuple[List[int],
     return start_positions, start_positions[0]
 
 
+def preset_from_scenario(data: GameData, scenario: Dict[str, Any]) -> Tuple[List[int], int]:
+    """Load a fixed scenario for deterministic demos."""
+    data.reset_round_state()
+    data.board_number = int(scenario["board_number"])
+    data.set_board_vulnerability()
+    for player in PLAYERS:
+        cards = [str(card).upper() for card in scenario["hands"][player]]
+        data.curr_card_hold[player - 1] = sorted(cards, key=lambda c: (RANK_ORDER[c[:-1]], SUITS.index(c[-1])))
+    start_positions = list(scenario.get("start_positions", [1, 2, 3, 4]))
+    data.double_dummy_outcome = _find_optimal_double_dummy_result(data)
+    return start_positions, start_positions[0]
+
+
 # Function: display_cards.
 def display_cards(data: GameData) -> None:
     ns_vul = "VUL" if data.vulnerability[1] else "NV"
@@ -289,6 +303,22 @@ def _display_recommendation_comparison(
         )
     else:
         print("Coaching comparison: recommendation unavailable for this action.")
+
+
+def _immediate_deviation_feedback(
+    decision: str,
+    user_action: str,
+    recommendations: Sequence[Dict[str, object]],
+) -> None:
+    if not recommendations:
+        print("Feedback: no near-expert recommendation available.")
+        return
+    key = "bid" if decision == "bid" else "card"
+    top = str(recommendations[0].get(key, "")).upper()
+    if user_action.strip().upper() == top:
+        print("Feedback: aligned with near-expert top line.")
+    else:
+        print(f"Feedback: deviation detected. Near-expert preferred {top}.")
 
 
 # Function: _is_opening_bid_for_player.
@@ -442,6 +472,7 @@ def bid_function(
 
         data.record_bid(player, raw)
         _display_recommendation_comparison(raw, recommendations)
+        _immediate_deviation_feedback("bid", raw, recommendations)
         bid_feedback = coach.explain_bid_decision(
             user_bid=raw,
             recommended_bids=recommendations,
@@ -560,6 +591,7 @@ def card_play_function(
                 lead_suit = card[-1]
             hands[player].remove(card)
             trick.append((player, card))
+            _immediate_deviation_feedback("card", card, recommendations)
             card_feedback = coach.explain_card_play(
                 user_card=card,
                 recommended_cards=recommendations,
@@ -675,10 +707,80 @@ def calc_point_function(
     return points
 
 
-# Function: game.
-def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = None) -> GameData:
-    """Play one full hand in order: preset -> display -> bid -> card play -> point calc."""
+def _build_end_of_hand_report(
+    data: GameData,
+    contract: Optional[Tuple[int, str, int, int]],
+    tricks: Dict[int, int],
+    adjusted_points: Dict[int, int],
+    decision_feedback: Sequence[Dict[str, Any]],
+) -> Dict[str, Any]:
+    alternatives = [item for item in decision_feedback if item.get("suggested_alternative")]
+    top_alternatives = alternatives[:5]
+    projected = 0
+    if data.double_dummy_outcome is not None:
+        projected = int(data.double_dummy_outcome.projected_score)
+    actual_side = 0
+    if contract is not None:
+        declarer = contract[2]
+        pair = (1, 3) if declarer in (1, 3) else (2, 4)
+        actual_side = adjusted_points[pair[0]]
+    return {
+        "contract": contract,
+        "tricks": tricks,
+        "adjusted_points": adjusted_points,
+        "recommended_alternatives": [
+            {
+                "decision": item.get("decision"),
+                "player": item.get("player"),
+                "user_action": item.get("user_action"),
+                "suggested_alternative": item.get("suggested_alternative"),
+                "severity": item.get("severity"),
+            }
+            for item in top_alternatives
+        ],
+        "projected_score_impact": projected - actual_side,
+    }
+
+
+def _display_end_of_hand_report(report: Dict[str, Any]) -> None:
+    print("\n=== End-of-Hand Coaching Report ===")
+    print(f"Contract: {report.get('contract')}")
+    print(f"Tricks won by seat: {report.get('tricks')}")
+    print(f"Adjusted points: {report.get('adjusted_points')}")
+    print(f"Projected score impact vs double-dummy target: {report.get('projected_score_impact')}")
+    print("Recommended alternatives:")
+    for alt in report.get("recommended_alternatives", []):
+        print(
+            f"  {alt.get('decision')} P{alt.get('player')} "
+            f"{alt.get('user_action')} -> {alt.get('suggested_alternative')} "
+            f"[{alt.get('severity')}]"
+        )
+
+
+def _make_scripted_input(scripted_actions: Sequence[str], live_input_fn: Callable[[str], str]) -> Callable[[str], str]:
+    queue = [str(item).upper() for item in scripted_actions]
+
+    def _inner(prompt: str) -> str:
+        if queue:
+            action = queue.pop(0)
+            print(f"{prompt}{action}  [scripted]")
+            return action
+        return live_input_fn(prompt)
+
+    return _inner
+
+
+def _run_mode(
+    mode: str,
+    *,
+    input_fn: Callable[[str], str],
+    rng: random.Random | None,
+    scenario_name: Optional[str],
+) -> GameData:
+    """Run one training mode: practice_bid, practice_play, or coach_full_hand."""
     data = GameData()
+    if not data.strat_dec.numeric_answers:
+        data.strat_dec.load(1)
     bidding_model = load_latest_stable_model(model_type="policy", task="bidding")
     cardplay_model = load_latest_stable_model(model_type="policy", task="cardplay")
     if bidding_model and bidding_model.get("_metadata"):
@@ -687,13 +789,30 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
     if cardplay_model and cardplay_model.get("_metadata"):
         meta = cardplay_model["_metadata"]
         print(f"Loaded stable card-play model: {meta.get('version')} ({meta.get('artifact_path')})")
-    start_positions, opening_player = preset(data, rng=rng)
+    scenario: Optional[Dict[str, Any]] = None
+    if scenario_name:
+        scenario = get_demo_scenario(scenario_name)
+        start_positions, opening_player = preset_from_scenario(data, scenario)
+        print(f"Loaded demo scenario '{scenario_name}': {scenario.get('description', '')}")
+    else:
+        start_positions, opening_player = preset(data, rng=rng)
+
     coach = Coach(strategy_profile=data.strat_dec.numeric_answers)
     decision_feedback: List[Dict[str, Any]] = []
     print(f"Starting order for this hand: {start_positions}")
     display_cards(data)
 
-    contract, bid_state = bid_function(data, start_positions, coach, decision_feedback, input_fn=input_fn)
+    bid_input_fn = input_fn
+    play_input_fn = input_fn
+    if scenario and scenario.get("scripted_auction"):
+        bid_input_fn = _make_scripted_input(scenario["scripted_auction"], input_fn)
+    if scenario and scenario.get("scripted_card_prefix"):
+        play_input_fn = _make_scripted_input(scenario["scripted_card_prefix"], input_fn)
+
+    contract: Optional[Tuple[int, str, int, int]] = None
+    bid_state = "complete"
+    if mode in {"practice_bid", "coach_full_hand"}:
+        contract, bid_state = bid_function(data, start_positions, coach, decision_feedback, input_fn=bid_input_fn)
     if bid_state == "quit":
         print("Game ended by user during bidding.")
         return data
@@ -701,7 +820,20 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         print("All four players passed. No play, no points.")
         return data
 
-    tricks = card_play_function(data, opening_player, contract, coach, decision_feedback, input_fn=input_fn)
+    if mode == "practice_play":
+        if scenario and scenario.get("scripted_contract"):
+            c = scenario["scripted_contract"]
+            contract = (int(c[0]), str(c[1]).upper(), int(c[2]), int(c[3]))
+            print(f"Practice play using scripted contract: {contract}")
+        else:
+            contract = (3, "NT", opening_player, 1)
+            print(f"Practice play default contract: {contract}")
+
+    if contract is None:
+        print("No contract available for card-play mode.")
+        return data
+
+    tricks = card_play_function(data, opening_player, contract, coach, decision_feedback, input_fn=play_input_fn)
     round_points = calc_point_function(contract, tricks, data.vulnerability)
     adjusted_points = dict(round_points)
     for player, penalty in data.penalty_points_by_player.items():
@@ -721,6 +853,9 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         },
     )
     print(f"Coach hand summary: {hand_summary_feedback['message']}")
+
+    end_of_hand_report = _build_end_of_hand_report(data, contract, tricks, adjusted_points, decision_feedback)
+    _display_end_of_hand_report(end_of_hand_report)
 
     data.round_result_payload = {
         "contract": contract,
@@ -768,6 +903,7 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         ],
         "adjusted_points": adjusted_points,
         "penalty_table": dict(MAJOR_INFRACTION_PENALTIES),
+        "end_of_hand_report": end_of_hand_report,
     }
 
     data.add_round_points(adjusted_points)
@@ -779,5 +915,31 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
     return data
 
 
+# Function: game.
+def game(
+    input_fn: Callable[[str], str] = input,
+    rng: random.Random | None = None,
+    mode: str = "coach_full_hand",
+    scenario_name: Optional[str] = None,
+) -> GameData:
+    return _run_mode(mode, input_fn=input_fn, rng=rng, scenario_name=scenario_name)
+
+
+def run_interactive_orchestrator(input_fn: Callable[[str], str] = input, rng: random.Random | None = None) -> None:
+    """Single flow that can demonstrate all proposal outcomes in one session."""
+    print("\nAvailable demo scenarios:")
+    for key, desc in list_demo_scenarios().items():
+        print(f"  - {key}: {desc}")
+    scenario_name = input_fn("Scenario name (enter for random deal): ").strip() or None
+    run_all = input_fn("Run all modes in one session? (y/n): ").strip().lower() == "y"
+
+    selected_modes = ["practice_bid", "practice_play", "coach_full_hand"] if run_all else [
+        input_fn("Mode [practice_bid/practice_play/coach_full_hand]: ").strip()
+    ]
+    for mode in selected_modes:
+        print(f"\n--- Running mode: {mode} ---")
+        _run_mode(mode, input_fn=input_fn, rng=rng, scenario_name=scenario_name)
+
+
 if __name__ == "__main__":
-    game()
+    run_interactive_orchestrator()
