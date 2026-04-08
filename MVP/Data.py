@@ -3,6 +3,7 @@
 #Define StratDec of partner player to use as rules for bidding stage in game loop
 #StratDec will be a matrix containing values corresponding to quesitions that are on a convention card
 #it will have defined values
+#ignore the Strat dec for now
 
 #Curr_Card_Hold this will be an array 4 by 13 with the values meaning which card each user has been given 
 #the values will begin at 2 club index of [0,0] followed by 2 of diamonds then hearts then spades the next row will begin with 3 of Clubs [1,0] this patern continues with the order of the face cards being J,Q,K, A till the Ace of spades at [13,4]
