@@ -1,3 +1,4 @@
+##In this file add functionality that checks it against the ACBL open chart
 """Strategy compliance checks for bidding and card play.
 
 The project stores strategy answers as numeric values in ``StrategyDeclaration.numeric_answers``.
