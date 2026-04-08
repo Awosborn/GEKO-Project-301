@@ -14,12 +14,15 @@ RANKS: Tuple[str, ...] = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q"
 PLAYERS: Tuple[int, ...] = (1, 2, 3, 4)
 
 
+# Function: build_deck.
 def build_deck() -> List[str]:
     """Create a standard ordered deck from 2C to AS."""
     return [f"{rank}{suit}" for rank in RANKS for suit in SUITS]
 
 
+# Data container: DoubleDummyOutcome.
 @dataclass
+# Class: DoubleDummyOutcome.
 class DoubleDummyOutcome:
     """Projected best contract and score from a double-dummy style estimate."""
 
@@ -29,7 +32,9 @@ class DoubleDummyOutcome:
     projected_score: int
 
 
+# Data container: StrategyDeclaration.
 @dataclass
+# Class: StrategyDeclaration.
 class StrategyDeclaration:
     """Stores partnership-system preferences as numeric answers."""
 
@@ -116,6 +121,7 @@ class StrategyDeclaration:
     loaded_profile_name: Optional[str] = None
     loaded_profile_version: Optional[str] = None
 
+    # Function: Strat_define.
     def Strat_define(self) -> List[int]:
         """Prompt user to define strategy and return numeric answer array."""
         self.numeric_answers = []
@@ -143,6 +149,7 @@ class StrategyDeclaration:
                         print("Invalid input. Please enter a valid option number.")
         return self.numeric_answers
 
+    # Function: load.
     def load(self, profile_number: int) -> List[int]:
         """
         Load a predefined strategy profile from MVP/bridge_nine_strategy_profiles.json.
@@ -205,13 +212,16 @@ class StrategyDeclaration:
         return self.numeric_answers
 
 
+# Function: strategy_answers_hash.
 def strategy_answers_hash(strategy_answers: List[int]) -> str:
     """Build a deterministic hash for a full strategy answer declaration."""
     normalized = ",".join(str(int(value)) for value in strategy_answers)
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
+# Data container: EpochMetadata.
 @dataclass
+# Class: EpochMetadata.
 class EpochMetadata:
     """Epoch-level strategy declaration metadata for reproducible training."""
 
@@ -222,7 +232,9 @@ class EpochMetadata:
     strategy_answers_numeric: List[int]
 
 
+# Data container: GameData.
 @dataclass
+# Class: GameData.
 class GameData:
     """Stores all current and historical values used by the MVP game loop."""
 
@@ -240,6 +252,7 @@ class GameData:
     round_result_payload: Dict[str, Any] = field(default_factory=dict)
     epoch_metadata: Optional[EpochMetadata] = None
 
+    # Function: reset_round_state.
     def reset_round_state(self) -> None:
         """Clear all hand-specific data before a new hand is dealt."""
         self.curr_card_hold = [[] for _ in PLAYERS]
@@ -251,6 +264,7 @@ class GameData:
         self.penalty_reason_breakdown = {}
         self.round_result_payload = {}
 
+    # Function: set_board_vulnerability.
     def set_board_vulnerability(self) -> None:
         """Apply duplicate-bridge vulnerability pattern based on board number."""
         # Standard 16-board cycle:
@@ -277,23 +291,27 @@ class GameData:
         ns_vul, ew_vul = cycle[(self.board_number - 1) % 16]
         self.vulnerability = {1: ns_vul, 3: ns_vul, 2: ew_vul, 4: ew_vul}
 
+    # Function: next_board.
     def next_board(self) -> None:
         """Advance to the next board and update vulnerability."""
         self.board_number += 1
         self.set_board_vulnerability()
 
+    # Function: randomize_board.
     def randomize_board(self, rng: random.Random | None = None) -> None:
         """Pick a random board number (1-16) and apply its vulnerability."""
         rng = rng or random.Random()
         self.board_number = rng.randint(1, 16)
         self.set_board_vulnerability()
 
+    # Function: record_bid.
     def record_bid(self, player: int, bid: str) -> None:
         """Append bids in rows of four columns that map to players 1-4."""
         if not self.curr_bid_hist or all(cell is not None for cell in self.curr_bid_hist[-1]):
             self.curr_bid_hist.append([None, None, None, None])
         self.curr_bid_hist[-1][player - 1] = bid
 
+    # Function: set_epoch_metadata.
     def set_epoch_metadata(self, epoch_id: str) -> EpochMetadata:
         """Attach reproducible epoch strategy declaration metadata to this board."""
         if not self.strat_dec.numeric_answers:
@@ -309,6 +327,7 @@ class GameData:
         self.epoch_metadata = metadata
         return metadata
 
+    # Function: record_infraction.
     def record_infraction(
         self,
         *,
@@ -333,6 +352,7 @@ class GameData:
         self.penalty_points_by_player[player] += penalty_points
         self.penalty_reason_breakdown[rule_type] = self.penalty_reason_breakdown.get(rule_type, 0) + penalty_points
 
+    # Function: add_round_points.
     def add_round_points(self, round_points: Dict[int, int]) -> None:
         """Save points earned this round and update historical totals."""
         for player in PLAYERS:

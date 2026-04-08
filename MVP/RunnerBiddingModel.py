@@ -26,7 +26,9 @@ from PenaltyConfig import ACBL_BREAK_PENALTY, STRAT_BREAK_PENALTY
 TOKEN_STORE_PATH = Path(__file__).resolve().parent / "training_tokens.json"
 
 
+# Data container: BidStep.
 @dataclass
+# Class: BidStep.
 class BidStep:
     """One chronological auction action with context and latent snapshots."""
 
@@ -43,7 +45,9 @@ class BidStep:
     latent_after: List[float]
 
 
+# Data container: AuctionEpisode.
 @dataclass
+# Class: AuctionEpisode.
 class AuctionEpisode:
     """Container used for episode-level delayed learning."""
 
@@ -64,6 +68,7 @@ class AuctionEpisode:
     reward_components: Dict[str, float] = field(default_factory=dict)
 
 
+# Class: AuctionEpisodeRunner.
 class AuctionEpisodeRunner(BridgeBiddingModel):
     """Bridge bidding runner with episode-oriented delayed credit assignment.
 
@@ -71,6 +76,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
     :meth:`close_auction_and_learn`.
     """
 
+    # Function: __init__.
     def __init__(
         self,
         focus_player: int = 1,
@@ -88,6 +94,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         self.current_episode: Optional[AuctionEpisode] = None
         self.training_records: List[Dict[str, object]] = []
 
+    # Function: _load_persisted_bid_tokens.
     def _load_persisted_bid_tokens(self, path: Path) -> Dict[str, int]:
         if not path.exists():
             return {}
@@ -104,9 +111,11 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
                 loaded[bid] = int(spec["id"])
         return loaded
 
+    # Function: _zero_latent.
     def _zero_latent(self) -> List[float]:
         return [0.0] * self.latent_size
 
+    # Function: _token_for_bid.
     def _token_for_bid(self, bid: str) -> int:
         clean_bid = self._normalize_bid(bid)
         # Prefer persisted training token IDs when available.
@@ -115,13 +124,16 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         # Fallback to static BID_VOCAB compatibility.
         return self.bid_to_id[clean_bid]
 
+    # Function: _encode_strategy_answers.
     def _encode_strategy_answers(self, strategy_answers: Sequence[float]) -> Dict[str, float]:
         return {f"strategy_q_{idx+1}": float(value) for idx, value in enumerate(strategy_answers)}
 
+    # Function: _strategy_answers_hash.
     def _strategy_answers_hash(self, strategy_answers: Sequence[float]) -> str:
         normalized = ",".join(str(float(value)) for value in strategy_answers)
         return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
+    # Function: _update_latent.
     def _update_latent(
         self,
         prev_latent: Sequence[float],
@@ -148,6 +160,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
 
         return next_latent
 
+    # Function: start_epoch.
     def start_epoch(
         self,
         epoch_id: str,
@@ -179,6 +192,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         self.current_episode = episode
         return episode
 
+    # Function: record_bid_step.
     def record_bid_step(
         self,
         player: int,
@@ -235,6 +249,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         self.current_episode.latent_trajectory.append(list(latent_after))
         return step
 
+    # Function: _build_training_record.
     def _build_training_record(self, episode: AuctionEpisode) -> Dict[str, object]:
         encoded_sequence = [
             {
@@ -276,6 +291,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
             },
         }
 
+    # Function: close_auction_and_learn.
     def close_auction_and_learn(
         self,
         final_contract: str,

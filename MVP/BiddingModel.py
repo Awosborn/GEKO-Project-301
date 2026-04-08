@@ -55,12 +55,15 @@ BID_VOCAB: Tuple[str, ...] = (
 )
 
 
+# Function: _partnership.
 def _partnership(player: int) -> int:
     """Players 1/3 are one side, players 2/4 are the other side."""
     return 0 if player in (1, 3) else 1
 
 
+# Data container: BidEvent.
 @dataclass(frozen=True)
+# Class: BidEvent.
 class BidEvent:
     """One bid with bidder identity and side-relative signal."""
 
@@ -69,6 +72,7 @@ class BidEvent:
     is_opponent_bid: bool
 
 
+# Class: BridgeBiddingModel.
 class BridgeBiddingModel:
     """Token-based bidding encoder for downstream ML training.
 
@@ -79,23 +83,27 @@ class BridgeBiddingModel:
     - Each bid is encoded with player identity and opponent/partner flag.
     """
 
+    # Function: __init__.
     def __init__(self, focus_player: int = 1) -> None:
         if focus_player not in (1, 2, 3, 4):
             raise ValueError("focus_player must be one of 1, 2, 3, 4.")
         self.focus_player = focus_player
         self.bid_to_id: Dict[str, int] = {bid: idx for idx, bid in enumerate(BID_VOCAB)}
 
+    # Function: _normalize_bid.
     def _normalize_bid(self, bid: str) -> str:
         clean_bid = bid.strip().upper()
         if clean_bid not in self.bid_to_id:
             raise ValueError(f"Unsupported bid symbol '{bid}'.")
         return clean_bid
 
+    # Function: _is_opponent.
     def _is_opponent(self, bidder: int) -> bool:
         if bidder not in (1, 2, 3, 4):
             raise ValueError("bidder must be one of 1, 2, 3, 4.")
         return _partnership(bidder) != _partnership(self.focus_player)
 
+    # Function: flatten_bid_history.
     def flatten_bid_history(
         self,
         bid_history: Sequence[Sequence[Optional[str]]],
@@ -122,6 +130,7 @@ class BridgeBiddingModel:
                 )
         return events
 
+    # Function: encode_bid_history.
     def encode_bid_history(
         self,
         bid_history: Sequence[Sequence[Optional[str]]],
@@ -147,6 +156,7 @@ class BridgeBiddingModel:
             )
         return encoded
 
+    # Function: next_bid_context.
     def next_bid_context(
         self,
         bid_history: Sequence[Sequence[Optional[str]]],

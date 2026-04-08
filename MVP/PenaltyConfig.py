@@ -14,6 +14,7 @@ MAJOR_INFRACTION_PENALTIES: Dict[str, int] = {
 }
 
 
+# Function: penalty_for_rule.
 def penalty_for_rule(rule_type: str) -> int:
     """Return configured penalty for a rule type; unknown types default to zero."""
     return int(MAJOR_INFRACTION_PENALTIES.get(rule_type, 0))
