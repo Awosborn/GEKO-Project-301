@@ -13,11 +13,13 @@ TRUMP_ORDER = {"C": 0, "D": 1, "H": 2, "S": 3, "NT": 4}
 RANK_ORDER = {rank: idx for idx, rank in enumerate(RANKS)}
 
 
+# Function: _hand_hcp.
 def _hand_hcp(hand: Sequence[str]) -> int:
     hcp_map = {"A": 4, "K": 3, "Q": 2, "J": 1}
     return sum(hcp_map.get(card[:-1], 0) for card in hand)
 
 
+# Function: _find_optimal_double_dummy_result.
 def _find_optimal_double_dummy_result(data: GameData) -> DoubleDummyOutcome:
     """Estimate a best contract/trick result and projected score from current hands."""
     side_hcp = {
@@ -51,6 +53,7 @@ def _find_optimal_double_dummy_result(data: GameData) -> DoubleDummyOutcome:
     )
 
 
+# Function: preset.
 def preset(data: GameData, rng: random.Random | None = None) -> Tuple[List[int], int]:
     """Reset hand data, deal cards, and choose a random player-1 starting offset."""
     rng = rng or random.Random()
@@ -72,6 +75,7 @@ def preset(data: GameData, rng: random.Random | None = None) -> Tuple[List[int],
     return start_positions, start_positions[0]
 
 
+# Function: display_cards.
 def display_cards(data: GameData) -> None:
     ns_vul = "VUL" if data.vulnerability[1] else "NV"
     ew_vul = "VUL" if data.vulnerability[2] else "NV"
@@ -87,6 +91,7 @@ def display_cards(data: GameData) -> None:
         print(f"Player {i} cards: {' '.join(hand)}")
 
 
+# Function: _bid_rank.
 def _bid_rank(bid: str) -> Optional[int]:
     bid = bid.upper().strip()
     if bid in {"P", "X", "XX"}:
@@ -96,12 +101,14 @@ def _bid_rank(bid: str) -> Optional[int]:
     return (level - 1) * 5 + TRUMP_ORDER[suit]
 
 
+# Function: _partnership.
 def _partnership(player: int) -> int:
     return 0 if player in (1, 3) else 1
 
 
 
 
+# Function: _is_opening_bid_for_player.
 def _is_opening_bid_for_player(data: GameData, player: int) -> bool:
     """Return True when player's side has not yet made any non-pass call."""
     side = _partnership(player)
@@ -114,6 +121,7 @@ def _is_opening_bid_for_player(data: GameData, player: int) -> bool:
     return True
 
 
+# Function: _log_bid_infraction.
 def _log_bid_infraction(
     data: GameData,
     *,
@@ -138,6 +146,7 @@ def _log_bid_infraction(
     )
 
 
+# Function: _validate_bid.
 def _validate_bid(
     bid: str,
     player: int,
@@ -175,6 +184,7 @@ def _validate_bid(
     return True, "contract"
 
 
+# Function: bid_function.
 def bid_function(
     data: GameData,
     start_order: Sequence[int],
@@ -264,6 +274,7 @@ def bid_function(
         idx += 1
 
 
+# Function: _beats.
 def _beats(card: str, best: str, lead_suit: str, trump: Optional[str]) -> bool:
     suit = card[-1]
     best_suit = best[-1]
@@ -278,6 +289,7 @@ def _beats(card: str, best: str, lead_suit: str, trump: Optional[str]) -> bool:
     return False
 
 
+# Function: card_play_function.
 def card_play_function(
     data: GameData,
     start_player: int,
@@ -324,6 +336,7 @@ def card_play_function(
     return tricks
 
 
+# Function: _overtrick_points.
 def _overtrick_points(suit: str, multiplier: int, overtricks: int, is_vulnerable: bool) -> int:
     if overtricks <= 0:
         return 0
@@ -336,6 +349,7 @@ def _overtrick_points(suit: str, multiplier: int, overtricks: int, is_vulnerable
     return overtricks * (400 if is_vulnerable else 200)
 
 
+# Function: _undertrick_penalty.
 def _undertrick_penalty(undertricks: int, multiplier: int, is_vulnerable: bool) -> int:
     if multiplier == 1:
         return undertricks * (100 if is_vulnerable else 50)
@@ -356,6 +370,7 @@ def _undertrick_penalty(undertricks: int, multiplier: int, is_vulnerable: bool) 
     return raw * (2 if multiplier == 4 else 1)
 
 
+# Function: calc_point_function.
 def calc_point_function(
     contract: Optional[Tuple[int, str, int, int]],
     tricks: Dict[int, int],
@@ -408,6 +423,7 @@ def calc_point_function(
     return points
 
 
+# Function: game.
 def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = None) -> GameData:
     """Play one full hand in order: preset -> display -> bid -> card play -> point calc."""
     data = GameData()

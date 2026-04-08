@@ -24,7 +24,9 @@ from CardPlayModel import BridgeCardPlayModel
 TOKEN_STORE_PATH = Path(__file__).resolve().parent / "training_tokens.json"
 
 
+# Data container: CardStep.
 @dataclass
+# Class: CardStep.
 class CardStep:
     """One chronological card-play event with context and latent snapshots."""
 
@@ -42,7 +44,9 @@ class CardStep:
     latent_after: List[float]
 
 
+# Data container: CardPlayEpisode.
 @dataclass
+# Class: CardPlayEpisode.
 class CardPlayEpisode:
     """Container used for episode-level delayed learning in card play."""
 
@@ -63,9 +67,11 @@ class CardPlayEpisode:
     reward_components: Dict[str, float] = field(default_factory=dict)
 
 
+# Class: CardPlayEpisodeRunner.
 class CardPlayEpisodeRunner(BridgeCardPlayModel):
     """Bridge card-play runner with delayed credit assignment at hand close."""
 
+    # Function: __init__.
     def __init__(
         self,
         focus_player: int = 1,
@@ -84,6 +90,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
         self.training_records: List[Dict[str, object]] = []
         self.bidding_encoder = BridgeBiddingModel(focus_player=focus_player)
 
+    # Function: _load_persisted_card_tokens.
     def _load_persisted_card_tokens(self, path: Path) -> Dict[str, int]:
         if not path.exists():
             return {}
@@ -100,22 +107,27 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
                 loaded[card] = int(spec["id"])
         return loaded
 
+    # Function: _zero_latent.
     def _zero_latent(self) -> List[float]:
         return [0.0] * self.latent_size
 
+    # Function: _token_for_card.
     def _token_for_card(self, card: str) -> int:
         clean_card = self._normalize_card(card)
         if clean_card in self._persisted_card_tokens:
             return self._persisted_card_tokens[clean_card]
         return self.card_to_id[clean_card]
 
+    # Function: _encode_strategy_answers.
     def _encode_strategy_answers(self, strategy_answers: Sequence[float]) -> Dict[str, float]:
         return {f"strategy_q_{idx+1}": float(value) for idx, value in enumerate(strategy_answers)}
 
+    # Function: _strategy_answers_hash.
     def _strategy_answers_hash(self, strategy_answers: Sequence[float]) -> str:
         normalized = ",".join(str(float(value)) for value in strategy_answers)
         return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
+    # Function: _update_latent.
     def _update_latent(
         self,
         prev_latent: Sequence[float],
@@ -136,6 +148,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
             next_latent.append(round(value, 6))
         return next_latent
 
+    # Function: _build_bid_history_context.
     def _build_bid_history_context(
         self,
         raw_bid_history: Optional[Sequence[Sequence[Optional[str]]]],
@@ -147,6 +160,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
             return []
         return self.bidding_encoder.encode_bid_history(raw_bid_history)
 
+    # Function: start_epoch.
     def start_epoch(
         self,
         epoch_id: str,
@@ -182,6 +196,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
         self.current_episode = episode
         return episode
 
+    # Function: record_card_step.
     def record_card_step(
         self,
         player: int,
@@ -243,6 +258,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
         self.current_episode.latent_trajectory.append(list(latent_after))
         return step
 
+    # Function: _build_training_record.
     def _build_training_record(self, episode: CardPlayEpisode) -> Dict[str, object]:
         encoded_sequence = [
             {
@@ -285,6 +301,7 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
             },
         }
 
+    # Function: close_hand_and_learn.
     def close_hand_and_learn(
         self,
         observed_declarer_tricks: int,

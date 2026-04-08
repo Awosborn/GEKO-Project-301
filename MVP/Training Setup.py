@@ -20,6 +20,7 @@ from Data import GameData, StrategyDeclaration, build_deck
 TOKEN_STORE_PATH = Path(__file__).resolve().parent / "training_tokens.json"
 
 
+# Function: _default_bid_space.
 def _default_bid_space() -> List[str]:
     bids: List[str] = ["P", "X", "XX"]
     for level in range(1, 8):
@@ -28,13 +29,16 @@ def _default_bid_space() -> List[str]:
     return bids
 
 
+# Data container: TokenStore.
 @dataclass
+# Class: TokenStore.
 class TokenStore:
     """Persistent mapping of symbols to token IDs + random embedding vectors."""
 
     embedding_size: int = 73
     seed: int = 301
 
+    # Function: __post_init__.
     def __post_init__(self) -> None:
         self._rng = random.Random(self.seed)
         self._store = {
@@ -44,9 +48,11 @@ class TokenStore:
             "strategy_questions": {},
         }
 
+    # Function: _new_embedding.
     def _new_embedding(self) -> List[float]:
         return [round(self._rng.uniform(-1.0, 1.0), 6) for _ in range(self.embedding_size)]
 
+    # Function: _assign_token.
     def _assign_token(self, category: str, symbol: str) -> int:
         bucket: Dict[str, Dict[str, object]] = self._store[category]
         if symbol in bucket:
@@ -57,6 +63,7 @@ class TokenStore:
         self._store["meta"]["next_id"] = token_id + 1
         return token_id
 
+    # Function: _resize_vector.
     def _resize_vector(self, vector: List[float]) -> List[float]:
         if len(vector) == self.embedding_size:
             return vector
@@ -64,6 +71,7 @@ class TokenStore:
             return vector[: self.embedding_size]
         return vector + [round(self._rng.uniform(-1.0, 1.0), 6) for _ in range(self.embedding_size - len(vector))]
 
+    # Function: _enforce_embedding_size.
     def _enforce_embedding_size(self) -> None:
         for category in ("bids", "cards", "strategy_questions"):
             bucket: Dict[str, Dict[str, object]] = self._store.get(category, {})
@@ -71,6 +79,7 @@ class TokenStore:
                 item["vector"] = self._resize_vector(list(item.get("vector", [])))
         self._store["meta"]["embedding_size"] = self.embedding_size
 
+    # Function: load.
     def load(self, path: Path = TOKEN_STORE_PATH) -> None:
         if not path.exists():
             return
@@ -79,9 +88,11 @@ class TokenStore:
         self._rng = random.Random(self.seed)
         self._enforce_embedding_size()
 
+    # Function: save.
     def save(self, path: Path = TOKEN_STORE_PATH) -> None:
         path.write_text(json.dumps(self._store, indent=2), encoding="utf-8")
 
+    # Function: ensure_base_vocab.
     def ensure_base_vocab(self, strategy: StrategyDeclaration) -> None:
         for bid in _default_bid_space():
             self._assign_token("bids", bid)
@@ -91,23 +102,29 @@ class TokenStore:
             symbol = f"Q{index}:{question}"
             self._assign_token("strategy_questions", symbol)
 
+    # Function: token_for_bid.
     def token_for_bid(self, bid: str) -> int:
         return self._assign_token("bids", bid.upper())
 
+    # Function: token_for_card.
     def token_for_card(self, card: str) -> int:
         return self._assign_token("cards", card.upper())
 
+    # Function: token_for_strategy_question.
     def token_for_strategy_question(self, question_index: int, question_text: str) -> int:
         symbol = f"Q{question_index}:{question_text}"
         return self._assign_token("strategy_questions", symbol)
 
 
+# Class: BridgeTrainingPreprocessor.
 class BridgeTrainingPreprocessor:
     """Converts live GameData into tokenized numeric structures."""
 
+    # Function: __init__.
     def __init__(self, store: TokenStore) -> None:
         self.store = store
 
+    # Function: encode_game_data.
     def encode_game_data(self, data: GameData) -> Dict[str, object]:
         strategy_tokens: List[Tuple[int, int]] = []
         question_tokens: List[int] = []
@@ -161,6 +178,7 @@ class BridgeTrainingPreprocessor:
         }
 
 
+# Function: build_training_setup.
 def build_training_setup(
     data: GameData,
     token_path: Path = TOKEN_STORE_PATH,

@@ -41,23 +41,28 @@ IDX_DECLARER_STYLE_NT = 72
 IDX_DECLARER_STYLE_SUIT = 73
 
 
+# Function: _normalize_bid.
 def _normalize_bid(bid: str) -> str:
     return bid.strip().upper()
 
 
+# Function: _hand_hcp.
 def _hand_hcp(hand: Sequence[str]) -> int:
     return sum(HCP_MAP.get(card[:-1], 0) for card in hand)
 
 
+# Function: _suit_length.
 def _suit_length(hand: Sequence[str], suit: str) -> int:
     return sum(1 for card in hand if card.endswith(suit))
 
 
+# Function: _opening_minimum_for_seat.
 def _opening_minimum_for_seat(strategy_answers: Sequence[int], seat: int) -> int:
     seat_idx_map = {1: IDX_OPEN_MIN_1ST, 2: IDX_OPEN_MIN_2ND, 3: IDX_OPEN_MIN_3RD, 4: IDX_OPEN_MIN_4TH}
     return strategy_answers[seat_idx_map[seat]]
 
 
+# Function: _acbl_open_chart_allows_bid.
 def _acbl_open_chart_allows_bid(
     bid: str,
     hand: Sequence[str],
@@ -99,6 +104,7 @@ def _acbl_open_chart_allows_bid(
 
 
 
+# Function: acbl_open_chart_allows_bid.
 def acbl_open_chart_allows_bid(
     bid: str,
     hand: Sequence[str],
@@ -109,6 +115,7 @@ def acbl_open_chart_allows_bid(
     return _acbl_open_chart_allows_bid(bid, hand, is_opening_bid=is_opening_bid)
 
 
+# Function: bid_follows_strategy.
 def bid_follows_strategy(
     bid: str,
     hand: Sequence[str],
@@ -214,6 +221,7 @@ def bid_follows_strategy(
     return True, f"{normalized} is compatible with current strategy declaration."
 
 
+# Function: card_play_follows_strategy.
 def card_play_follows_strategy(
     card: str,
     hand: Sequence[str],
@@ -263,6 +271,7 @@ def card_play_follows_strategy(
     return True, f"Card {normalized} is legal and compatible with strategy declaration."
 
 
+# Function: strategy_answers_from_declaration.
 def strategy_answers_from_declaration(strategy: StrategyDeclaration) -> List[int]:
     """Small helper to safely pull numeric answers from a StrategyDeclaration object."""
     return list(strategy.numeric_answers)

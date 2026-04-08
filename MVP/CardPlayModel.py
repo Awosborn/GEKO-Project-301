@@ -20,12 +20,15 @@ CARD_VOCAB: Tuple[str, ...] = tuple(f"{rank}{suit}" for rank in RANKS for suit i
 CARD_TO_ID: Dict[str, int] = {card: idx for idx, card in enumerate(CARD_VOCAB)}
 
 
+# Function: _partnership.
 def _partnership(player: int) -> int:
     """Players 1/3 are one side, players 2/4 are the other side."""
     return 0 if player in (1, 3) else 1
 
 
+# Data container: CardPlayEvent.
 @dataclass(frozen=True)
+# Class: CardPlayEvent.
 class CardPlayEvent:
     """One played card with bidder-side style markers for card play."""
 
@@ -39,21 +42,25 @@ class CardPlayEvent:
     legal_card_count: int
 
 
+# Class: BridgeCardPlayModel.
 class BridgeCardPlayModel:
     """Token-based card-play encoder for downstream ML training."""
 
+    # Function: __init__.
     def __init__(self, focus_player: int = 1) -> None:
         if focus_player not in (1, 2, 3, 4):
             raise ValueError("focus_player must be one of 1, 2, 3, 4.")
         self.focus_player = focus_player
         self.card_to_id: Dict[str, int] = dict(CARD_TO_ID)
 
+    # Function: _normalize_card.
     def _normalize_card(self, card: str) -> str:
         clean_card = card.strip().upper()
         if clean_card not in self.card_to_id:
             raise ValueError(f"Unsupported card symbol '{card}'.")
         return clean_card
 
+    # Function: _normalize_suit.
     def _normalize_suit(self, suit: Optional[str]) -> Optional[str]:
         if suit is None:
             return None
@@ -62,11 +69,13 @@ class BridgeCardPlayModel:
             raise ValueError(f"Unsupported suit '{suit}'.")
         return clean_suit
 
+    # Function: _is_opponent.
     def _is_opponent(self, player: int) -> bool:
         if player not in (1, 2, 3, 4):
             raise ValueError("player must be one of 1, 2, 3, 4.")
         return _partnership(player) != _partnership(self.focus_player)
 
+    # Function: encode_card_play_history.
     def encode_card_play_history(
         self,
         card_play_history: Sequence[Sequence[Dict[str, object]]],
@@ -105,6 +114,7 @@ class BridgeCardPlayModel:
                 )
         return encoded
 
+    # Function: next_card_context.
     def next_card_context(
         self,
         card_play_history: Sequence[Sequence[Dict[str, object]]],
