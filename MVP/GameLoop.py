@@ -16,6 +16,7 @@ from Coach import Coach
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
 from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
 from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
+from model_registry import load_latest_stable_model
 
 TRUMP_ORDER = {"C": 0, "D": 1, "H": 2, "S": 3, "NT": 4}
 RANK_ORDER = {rank: idx for idx, rank in enumerate(RANKS)}
@@ -678,6 +679,14 @@ def calc_point_function(
 def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = None) -> GameData:
     """Play one full hand in order: preset -> display -> bid -> card play -> point calc."""
     data = GameData()
+    bidding_model = load_latest_stable_model(model_type="policy", task="bidding")
+    cardplay_model = load_latest_stable_model(model_type="policy", task="cardplay")
+    if bidding_model and bidding_model.get("_metadata"):
+        meta = bidding_model["_metadata"]
+        print(f"Loaded stable bidding model: {meta.get('version')} ({meta.get('artifact_path')})")
+    if cardplay_model and cardplay_model.get("_metadata"):
+        meta = cardplay_model["_metadata"]
+        print(f"Loaded stable card-play model: {meta.get('version')} ({meta.get('artifact_path')})")
     start_positions, opening_player = preset(data, rng=rng)
     coach = Coach(strategy_profile=data.strat_dec.numeric_answers)
     decision_feedback: List[Dict[str, Any]] = []
