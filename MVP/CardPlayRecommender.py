@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Protocol, Sequence, Tuple
 
+from model_registry import load_latest_stable_model
+
 from CardPlayModel import BridgeCardPlayModel
 from RunnerCardPlayModel import CardPlayEpisodeRunner
 from Data import RANKS, SUITS
@@ -145,6 +147,59 @@ class HeuristicBaselineCardPolicy:
         return ranked
 
 
+
+
+# Class: LearnedArtifactCardPolicy.
+class LearnedArtifactCardPolicy:
+    """Policy wrapper around stored card-play artifacts."""
+
+    def __init__(self, artifact: Dict[str, object]) -> None:
+        self.artifact = artifact
+        self.mapping = dict(artifact.get("top_card_by_context", {}))
+
+    def rank_cards(
+        self,
+        features: Dict[str, object],
+        legal_cards: Sequence[str],
+    ) -> List[CardRecommendation]:
+        player = int(features.get("player", 1))
+        trick_cards = features.get("trick_cards", [])
+        trick_index = len(trick_cards) // 4 if isinstance(trick_cards, list) else 0
+        context = f"player={player}|trick={trick_index}"
+        preferred = self.mapping.get(context)
+
+        ranked: List[CardRecommendation] = []
+        if preferred in legal_cards:
+            ranked.append(
+                CardRecommendation(
+                    card=str(preferred),
+                    confidence=0.8,
+                    reason="Loaded stable card-play artifact preference for this context.",
+                    rationale={"plan": "artifact_preferred"},
+                )
+            )
+
+        for card in legal_cards:
+            if card == preferred:
+                continue
+            ranked.append(
+                CardRecommendation(
+                    card=card,
+                    confidence=0.2,
+                    reason="Fallback legal option without stronger artifact signal.",
+                    rationale={"plan": "artifact_fallback"},
+                )
+            )
+        return ranked
+
+
+def _default_policy() -> CardRankingModel:
+    artifact = load_latest_stable_model(model_type="policy", task="cardplay")
+    if artifact:
+        return LearnedArtifactCardPolicy(artifact)
+    return HeuristicBaselineCardPolicy()
+
+
 # Class: CardPlayRecommender.
 class CardPlayRecommender:
     """Feature builder + legal filter + ranking adapter for card-play advice."""
@@ -153,7 +208,7 @@ class CardPlayRecommender:
     def __init__(self, *, policy: Optional[CardRankingModel] = None, top_k_default: int = 3) -> None:
         self.encoder = BridgeCardPlayModel(focus_player=1)
         self.episode_encoder = CardPlayEpisodeRunner(focus_player=1)
-        self.policy: CardRankingModel = policy or HeuristicBaselineCardPolicy()
+        self.policy: CardRankingModel = policy or _default_policy()
         self.top_k_default = top_k_default
 
     # Function: _normalize_trick_cards.

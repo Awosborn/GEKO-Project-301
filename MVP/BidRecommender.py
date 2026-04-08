@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Protocol, Sequence, Tuple
 
+from model_registry import load_latest_stable_model
+
 from BiddingModel import BID_VOCAB, BridgeBiddingModel
 from RunnerBiddingModel import AuctionEpisodeRunner
 
@@ -139,6 +141,50 @@ class HeuristicBaselineBidPolicy:
         return sorted(scored, key=lambda item: item.confidence, reverse=True)
 
 
+
+
+# Class: LearnedArtifactBidPolicy.
+class LearnedArtifactBidPolicy:
+    """Policy wrapper around stored bidding artifacts."""
+
+    def __init__(self, artifact: Dict[str, object]) -> None:
+        self.artifact = artifact
+        self.mapping = dict(artifact.get("top_bid_by_context", {}))
+
+    def rank_bids(self, features: Dict[str, object], legal_bids: Sequence[str]) -> List[BidRecommendation]:
+        seat = int(features.get("seat", 1))
+        context = f"player={seat}"
+        preferred = self.mapping.get(context)
+        ranked: List[BidRecommendation] = []
+        if preferred in legal_bids:
+            ranked.append(
+                BidRecommendation(
+                    bid=str(preferred),
+                    confidence=0.82,
+                    reason="Loaded stable bidding artifact preference for this seat context.",
+                )
+            )
+
+        for bid in legal_bids:
+            if bid == preferred:
+                continue
+            ranked.append(
+                BidRecommendation(
+                    bid=bid,
+                    confidence=0.25 if bid == "P" else 0.18,
+                    reason="Fallback legal option while artifact has no stronger context signal.",
+                )
+            )
+        return ranked
+
+
+def _default_policy() -> BidRankingModel:
+    artifact = load_latest_stable_model(model_type="policy", task="bidding")
+    if artifact:
+        return LearnedArtifactBidPolicy(artifact)
+    return HeuristicBaselineBidPolicy()
+
+
 # Class: BidRecommender.
 class BidRecommender:
     """Feature builder + policy adapter returning ranked top-k bid candidates."""
@@ -152,7 +198,7 @@ class BidRecommender:
     ) -> None:
         self.encoder = BridgeBiddingModel(focus_player=1)
         self.episode_encoder = AuctionEpisodeRunner(focus_player=1)
-        self.policy: BidRankingModel = policy or HeuristicBaselineBidPolicy()
+        self.policy: BidRankingModel = policy or _default_policy()
         self.top_k_default = top_k_default
 
     # Function: _partnership.
