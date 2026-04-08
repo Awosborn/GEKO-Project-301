@@ -97,6 +97,18 @@ def _acbl_open_chart_allows_bid(
     return True, f"{normalized} passes coarse ACBL Open Chart checks."
 
 
+
+
+def acbl_open_chart_allows_bid(
+    bid: str,
+    hand: Sequence[str],
+    *,
+    is_opening_bid: bool,
+) -> Tuple[bool, str]:
+    """Public wrapper for coarse ACBL Open Chart checks."""
+    return _acbl_open_chart_allows_bid(bid, hand, is_opening_bid=is_opening_bid)
+
+
 def bid_follows_strategy(
     bid: str,
     hand: Sequence[str],

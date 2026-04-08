@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Sequence
 
 from BiddingModel import BID_VOCAB, BridgeBiddingModel
+from PenaltyConfig import ACBL_BREAK_PENALTY, STRAT_BREAK_PENALTY
 
 
 TOKEN_STORE_PATH = Path(__file__).resolve().parent / "training_tokens.json"
@@ -250,6 +251,18 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
             for k, v in reward_components.items()
             if "penalty" in k.lower() or k.lower().startswith("illegal")
         }
+
+        strategy_breaks = float(reward_components.get("strategy_break_count", 0.0))
+        acbl_breaks = float(reward_components.get("acbl_break_count", 0.0))
+        explicit_total_penalty = float(reward_components.get("total_infraction_penalty", 0.0))
+
+        terminal_violation_component = 0.0
+        if explicit_total_penalty > 0:
+            terminal_violation_component = -explicit_total_penalty
+        else:
+            terminal_violation_component = -((strategy_breaks * STRAT_BREAK_PENALTY) + (acbl_breaks * ACBL_BREAK_PENALTY))
+
+        episode.reward_components["terminal_violation_component"] = float(terminal_violation_component)
 
         # Delayed credit-assignment target (single scalar), computed only at close.
         total_reward = sum(episode.reward_components.values())

@@ -6,6 +6,8 @@ import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
+from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
+from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
 
 TRUMP_ORDER = {"C": 0, "D": 1, "H": 2, "S": 3, "NT": 4}
 RANK_ORDER = {rank: idx for idx, rank in enumerate(RANKS)}
@@ -98,6 +100,44 @@ def _partnership(player: int) -> int:
     return 0 if player in (1, 3) else 1
 
 
+
+
+def _is_opening_bid_for_player(data: GameData, player: int) -> bool:
+    """Return True when player's side has not yet made any non-pass call."""
+    side = _partnership(player)
+    for row in data.curr_bid_hist:
+        for seat, prior_bid in enumerate(row, start=1):
+            if prior_bid is None or prior_bid == "P":
+                continue
+            if _partnership(seat) == side:
+                return False
+    return True
+
+
+def _log_bid_infraction(
+    data: GameData,
+    *,
+    player: int,
+    bid: str,
+    rule_type: str,
+    message: str,
+    auction_index: int,
+) -> None:
+    penalty_points = penalty_for_rule(rule_type)
+    data.record_infraction(
+        player=player,
+        bid=bid,
+        rule_type=rule_type,
+        message=message,
+        auction_index=auction_index,
+        penalty_points=penalty_points,
+    )
+    print(
+        f"INFRACTION [{rule_type}] player={player} bid={bid} idx={auction_index} "
+        f"penalty={penalty_points}: {message}"
+    )
+
+
 def _validate_bid(
     bid: str,
     player: int,
@@ -147,6 +187,7 @@ def bid_function(
     last_contract: Optional[Tuple[int, str, int, int]] = None
     last_action: Optional[Tuple[str, int]] = None
 
+    auction_index = 0
     while True:
         player = start_order[idx % 4]
         raw = input_fn(
@@ -162,8 +203,43 @@ def bid_function(
         if action == "quit":
             return None, "quit"
 
+        is_opening_bid = _is_opening_bid_for_player(data, player)
+        chart_ok, chart_message = acbl_open_chart_allows_bid(raw, data.curr_card_hold[player - 1], is_opening_bid=is_opening_bid)
+        if not chart_ok:
+            _log_bid_infraction(
+                data,
+                player=player,
+                bid=raw,
+                rule_type="acbl_chart_violation",
+                message=chart_message,
+                auction_index=auction_index,
+            )
+            auction_index += 1
+            continue
+
+        strat_ok, strat_message = bid_follows_strategy(
+            raw,
+            data.curr_card_hold[player - 1],
+            data.strat_dec.numeric_answers,
+            seat=player,
+            is_opening_bid=is_opening_bid,
+            vulnerability=data.vulnerability[player],
+        )
+        if not strat_ok:
+            _log_bid_infraction(
+                data,
+                player=player,
+                bid=raw,
+                rule_type="strategy_mismatch",
+                message=strat_message,
+                auction_index=auction_index,
+            )
+            auction_index += 1
+            continue
+
         data.record_bid(player, raw)
         total_bids += 1
+        auction_index += 1
 
         if action == "pass":
             passes_in_row += 1
@@ -349,10 +425,27 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
 
     tricks = card_play_function(data, opening_player, contract, input_fn=input_fn)
     round_points = calc_point_function(contract, tricks, data.vulnerability)
-    data.add_round_points(round_points)
+    adjusted_points = dict(round_points)
+    for player, penalty in data.penalty_points_by_player.items():
+        adjusted_points[player] = adjusted_points.get(player, 0) - penalty
+
+    data.round_result_payload = {
+        "contract": contract,
+        "tricks": tricks,
+        "base_points": round_points,
+        "penalty_points_by_player": dict(data.penalty_points_by_player),
+        "cumulative_penalty_points": sum(data.penalty_points_by_player.values()),
+        "penalty_reason_breakdown": dict(data.penalty_reason_breakdown),
+        "infractions": list(data.bid_infractions),
+        "adjusted_points": adjusted_points,
+        "penalty_table": dict(MAJOR_INFRACTION_PENALTIES),
+    }
+
+    data.add_round_points(adjusted_points)
 
     print(f"Round tricks: {tricks}")
-    print(f"Round points: {data.curr_points}")
+    print(f"Round points (after penalties): {data.curr_points}")
+    print(f"Round result payload: {data.round_result_payload}")
     print(f"Historical points: {data.hist_points}")
     return data
 
