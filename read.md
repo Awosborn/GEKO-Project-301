@@ -1,12 +1,18 @@
 # GEKO Project Overview
 
 ## Quick Commands (Run these first)
-- Train both models:
-  - `python3 MVP/cli.py train-all`
-- Train with self-play cycle against previous best versions:
-  - `python3 MVP/cli.py train-cycle`
-- Play against the currently stable models:
-  - `python3 MVP/cli.py play`
+- **From repository root** (`GEKO-Project-301/`):
+  - Train both models: `python MVP/cli.py train-all`
+  - Train with self-play cycle against previous best versions: `python MVP/cli.py train-cycle`
+  - Play against the currently stable models: `python MVP/cli.py play`
+- **From inside the `MVP/` folder**:
+  - Train both models: `python cli.py train-all`
+  - Train with self-play cycle against previous best versions: `python cli.py train-cycle`
+  - Play against the currently stable models: `python cli.py play`
+
+### Windows notes
+- If `python3` points to a broken toolchain Python (for example `C:\iverilog\gtkwave\bin\python3.exe`), use `python` or `py -3.13` instead.
+- In PowerShell, `MVP/cli.py` is **not** directly executable. Run it through Python (`python MVP/cli.py ...` from repo root, or `python cli.py ...` from `MVP/`).
 
 ## Purpose of the Codebase
 This repository contains the MVP implementation for the **GEKO bridge coaching and play engine**. The code focuses on simulating and evaluating Contract Bridge gameplay with separate logic for bidding, card play, rules validation, and penalties.
@@ -41,3 +47,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/cli.py, MVP/train_cycle.py, MVP/model_registry.py, MVP/train_bidding.py, MVP/train_cardplay.py
 - Validation: Ran `python3 MVP/cli.py train-cycle`, `python3 MVP/cli.py train-all`, and `python3 MVP/cli.py --help`.
 - Follow-ups: Consider extending arena evaluation from context-match scoring to full hand-level simulated matches.
+
+## PR Update - 2026-04-08 - docs-windows-cli-path-fix
+- Summary: Clarified CLI usage for both repo-root and `MVP/` working directories, and added Windows-specific guidance for Python executable/path confusion.
+- Files touched: read.md
+- Validation: Ran `python --version` and `python MVP/cli.py --help`.
+- Follow-ups: Consider adding a tiny PowerShell helper script that auto-detects a working Python interpreter and runs `cli.py`.
