@@ -59,3 +59,10 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: run_this, read.md
 - Validation: Ran `python3 run_this` (with selections `4` and invalid `9`).
 - Follow-ups: Consider adding a fifth option to let users enter custom CLI subcommands directly.
+
+## PR Update - 2026-04-08 - self-play-generated-training-data
+- Summary: Updated CLI training commands to generate runner training/validation datasets from self-play before training, removing reliance on pre-existing external training data files.
+- Files touched: read.md, MVP/cli.py, MVP/self_play_data.py
+- Validation: Static inspection only (no command execution per task constraints).
+- Follow-ups: Consider replacing stochastic placeholder action sampling in self-play generation with fully legal game-loop simulation for stronger data quality.
+
