@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 import hashlib
 import json
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence
 
 from BiddingModel import BridgeBiddingModel
 from CardPlayModel import BridgeCardPlayModel
@@ -301,6 +301,18 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
             },
         }
 
+    # Function: _normalize_double_dummy_target.
+    def _normalize_double_dummy_target(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        normalized: Dict[str, Any] = {}
+        for key, value in payload.items():
+            if isinstance(value, bool):
+                normalized[key] = value
+            elif isinstance(value, (int, float)):
+                normalized[key] = float(value)
+            else:
+                normalized[key] = value
+        return normalized
+
     # Function: close_hand_and_learn.
     def close_hand_and_learn(
         self,
@@ -323,20 +335,30 @@ class CardPlayEpisodeRunner(BridgeCardPlayModel):
         episode = self.current_episode
         episode.observed_declarer_tricks = int(observed_declarer_tricks)
         episode.observed_score = float(observed_score)
-        episode.double_dummy_target = {k: float(v) for k, v in double_dummy_target.items()}
+        episode.double_dummy_target = self._normalize_double_dummy_target(double_dummy_target)
 
         dd_tricks = float(episode.double_dummy_target.get("expected_tricks", 0.0))
-        dd_score = float(episode.double_dummy_target.get("projected_score", 0.0))
+        dd_score = float(
+            episode.double_dummy_target.get(
+                "par_score",
+                episode.double_dummy_target.get("projected_score", 0.0),
+            )
+        )
+        solver_mode = str(episode.double_dummy_target.get("solver_mode", "unknown"))
+        is_heuristic = bool(episode.double_dummy_target.get("is_heuristic", False))
         trick_delta_vs_dd = float(observed_declarer_tricks) - dd_tricks
         score_delta_vs_dd = float(observed_score) - dd_score
 
         computed_reward_components: Dict[str, float] = {
             "trick_delta_vs_double_dummy": trick_delta_vs_dd,
-            "score_delta_vs_double_dummy": score_delta_vs_dd,
+            "score_delta_vs_true_solver_par": score_delta_vs_dd,
             "within_one_trick_of_dd": 1.0 if trick_delta_vs_dd >= -1.0 else 0.0,
+            "true_solver_signal_available": 0.0 if is_heuristic else 1.0,
+            "heuristic_mode_penalty": -0.25 if is_heuristic else 0.0,
         }
         if reward_components:
             computed_reward_components.update({k: float(v) for k, v in reward_components.items()})
+        computed_reward_components["solver_mode_flag"] = 1.0 if solver_mode == "solver" else 0.0
 
         episode.reward_components = computed_reward_components
         total_reward = sum(episode.reward_components.values())

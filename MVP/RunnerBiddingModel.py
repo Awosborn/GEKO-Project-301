@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 import hashlib
 import json
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence
 
 from BiddingModel import BID_VOCAB, BridgeBiddingModel
 from PenaltyConfig import ACBL_BREAK_PENALTY, STRAT_BREAK_PENALTY
@@ -296,6 +296,7 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         self,
         final_contract: str,
         reward_components: Dict[str, float],
+        double_dummy_target: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, object]:
         """Finalize auction and apply delayed episode-level learning update.
 
@@ -329,6 +330,22 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
             terminal_violation_component = -((strategy_breaks * STRAT_BREAK_PENALTY) + (acbl_breaks * ACBL_BREAK_PENALTY))
 
         episode.reward_components["terminal_violation_component"] = float(terminal_violation_component)
+        if double_dummy_target:
+            solver_mode = str(double_dummy_target.get("solver_mode", "unknown"))
+            is_heuristic = bool(double_dummy_target.get("is_heuristic", False))
+            alternatives = double_dummy_target.get("contract_alternatives", [])
+            dd_score_for_contract = float(double_dummy_target.get("projected_score", 0.0))
+            contract_upper = episode.final_contract
+            for alt in alternatives:
+                if str(alt.get("contract", "")).upper() == contract_upper:
+                    dd_score_for_contract = float(alt.get("projected_score", dd_score_for_contract))
+                    break
+
+            observed_score = float(reward_components.get("observed_score", 0.0))
+            episode.reward_components["score_delta_vs_true_solver_contract"] = observed_score - dd_score_for_contract
+            episode.reward_components["true_solver_signal_available"] = 0.0 if is_heuristic else 1.0
+            episode.reward_components["heuristic_mode_penalty"] = -0.25 if is_heuristic else 0.0
+            episode.reward_components["solver_mode_flag"] = 1.0 if solver_mode == "solver" else 0.0
 
         # Delayed credit-assignment target (single scalar), computed only at close.
         total_reward = sum(episode.reward_components.values())
