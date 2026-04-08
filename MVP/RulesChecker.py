@@ -58,6 +58,45 @@ def _opening_minimum_for_seat(strategy_answers: Sequence[int], seat: int) -> int
     return strategy_answers[seat_idx_map[seat]]
 
 
+def _acbl_open_chart_allows_bid(
+    bid: str,
+    hand: Sequence[str],
+    *,
+    is_opening_bid: bool,
+) -> Tuple[bool, str]:
+    """Coarse ACBL Open Chart guardrails that can be inferred from bid + hand alone.
+
+    The full ACBL Open Chart contains convention-specific requirements that require
+    auction history, partnership agreements, and alert/disclosure metadata. This
+    helper intentionally enforces only shape/strength constraints that are
+    consistently expected for simple natural preemptive openings.
+    """
+    normalized = _normalize_bid(bid)
+    if normalized in {"P", "X", "XX", "Q"}:
+        return True, "Non-contract action is chart-legal."
+
+    if len(normalized) < 2 or normalized[0] not in "1234567":
+        return False, "Invalid contract bid format for ACBL Open Chart evaluation."
+
+    if not is_opening_bid:
+        return True, "Chart check passed for non-opening call."
+
+    level = int(normalized[0])
+    strain = normalized[1:]
+    if strain not in {"C", "D", "H", "S", "NT"}:
+        return False, "Bid suit/strain must be C, D, H, S, or NT."
+
+    # Natural weak-two style preempts are expected to show a 6+ card suit.
+    if level == 2 and strain in {"D", "H", "S"} and _suit_length(hand, strain) < 6:
+        return False, f"{normalized} rejected by ACBL Open Chart check: weak-two style openings require 6+ cards."
+
+    # Natural three-level suit openings are expected to show a 7+ card suit.
+    if level == 3 and strain in SUITS and _suit_length(hand, strain) < 7:
+        return False, f"{normalized} rejected by ACBL Open Chart check: 3-level suit openings require 7+ cards."
+
+    return True, f"{normalized} passes coarse ACBL Open Chart checks."
+
+
 def bid_follows_strategy(
     bid: str,
     hand: Sequence[str],
@@ -98,6 +137,10 @@ def bid_follows_strategy(
         return False, "Bid suit/strain must be C, D, H, S, or NT."
 
     hcp = _hand_hcp(hand)
+
+    chart_ok, chart_msg = _acbl_open_chart_allows_bid(normalized, hand, is_opening_bid=is_opening_bid)
+    if not chart_ok:
+        return False, chart_msg
 
     if is_opening_bid:
         open_min = _opening_minimum_for_seat(strategy_answers, seat)
