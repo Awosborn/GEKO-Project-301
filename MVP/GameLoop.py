@@ -12,6 +12,7 @@ from typing import Any, Callable, Dict, List, Optional, Protocol, Sequence, Tupl
 
 from BidRecommender import recommend_bid as recommend_bids_for_player
 from CardPlayRecommender import recommend_card as recommend_card_for_player
+from Coach import Coach
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
 from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
 from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
@@ -369,6 +370,8 @@ def _validate_bid(
 def bid_function(
     data: GameData,
     start_order: Sequence[int],
+    coach: Coach,
+    decision_feedback: List[Dict[str, Any]],
     input_fn: Callable[[str], str] = input,
 ) -> Tuple[Optional[Tuple[int, str, int, int]], Optional[str]]:
     """Run bidding until contract is set or everyone passes out the hand."""
@@ -438,6 +441,25 @@ def bid_function(
 
         data.record_bid(player, raw)
         _display_recommendation_comparison(raw, recommendations)
+        bid_feedback = coach.explain_bid_decision(
+            user_bid=raw,
+            recommended_bids=recommendations,
+            context={
+                "player": player,
+                "auction_index": auction_index,
+                "auction_history": [list(row) for row in data.curr_bid_hist],
+                "double_dummy": None if data.double_dummy_outcome is None else {
+                    "contract": data.double_dummy_outcome.contract,
+                    "declarer": data.double_dummy_outcome.declarer,
+                    "expected_tricks": data.double_dummy_outcome.expected_tricks,
+                    "projected_score": data.double_dummy_outcome.projected_score,
+                },
+                "is_opening_bid": is_opening_bid,
+                "bid_infractions": list(data.bid_infractions),
+            },
+        )
+        decision_feedback.append(bid_feedback)
+        print(f"Coach: {bid_feedback['message']}")
         total_bids += 1
         auction_index += 1
 
@@ -484,6 +506,8 @@ def card_play_function(
     data: GameData,
     start_player: int,
     contract: Optional[Tuple[int, str, int, int]],
+    coach: Coach,
+    decision_feedback: List[Dict[str, Any]],
     input_fn: Callable[[str], str] = input,
 ) -> Dict[int, int]:
     """Play 13 tricks; trick winner starts next as in bridge."""
@@ -498,6 +522,14 @@ def card_play_function(
         lead_suit = None
 
         for player in order:
+            recommendations = recommend_card_for_player(
+                hand=hands[player],
+                trick_cards=trick,
+                contract=contract,
+                bid_history=data.curr_bid_hist,
+                strategy_answers=data.strat_dec.numeric_answers,
+                player=player,
+            )
             while True:
                 prompt = (
                     f"Player {player}, play a card from your hand {hands[player]} "
@@ -505,14 +537,6 @@ def card_play_function(
                 )
                 card = input_fn(prompt).strip().upper()
                 if card == "?":
-                    recommendations = recommend_card_for_player(
-                        hand=hands[player],
-                        trick_cards=trick,
-                        contract=contract,
-                        bid_history=data.curr_bid_hist,
-                        strategy_answers=data.strat_dec.numeric_answers,
-                        player=player,
-                    )
                     if recommendations:
                         top = recommendations[0]
                         print(
@@ -535,6 +559,21 @@ def card_play_function(
                 lead_suit = card[-1]
             hands[player].remove(card)
             trick.append((player, card))
+            card_feedback = coach.explain_card_play(
+                user_card=card,
+                recommended_cards=recommendations,
+                context={
+                    "player": player,
+                    "trick_number": sum(tricks.values()) + 1,
+                    "trick_cards": list(trick),
+                    "double_dummy": None if data.double_dummy_outcome is None else {
+                        "contract": data.double_dummy_outcome.contract,
+                        "expected_tricks": data.double_dummy_outcome.expected_tricks,
+                    },
+                },
+            )
+            decision_feedback.append(card_feedback)
+            print(f"Coach: {card_feedback['message']}")
 
         winner, winning_card = trick[0]
         for player, card in trick[1:]:
@@ -640,10 +679,12 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
     """Play one full hand in order: preset -> display -> bid -> card play -> point calc."""
     data = GameData()
     start_positions, opening_player = preset(data, rng=rng)
+    coach = Coach(strategy_profile=data.strat_dec.numeric_answers)
+    decision_feedback: List[Dict[str, Any]] = []
     print(f"Starting order for this hand: {start_positions}")
     display_cards(data)
 
-    contract, bid_state = bid_function(data, start_positions, input_fn=input_fn)
+    contract, bid_state = bid_function(data, start_positions, coach, decision_feedback, input_fn=input_fn)
     if bid_state == "quit":
         print("Game ended by user during bidding.")
         return data
@@ -651,11 +692,26 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         print("All four players passed. No play, no points.")
         return data
 
-    tricks = card_play_function(data, opening_player, contract, input_fn=input_fn)
+    tricks = card_play_function(data, opening_player, contract, coach, decision_feedback, input_fn=input_fn)
     round_points = calc_point_function(contract, tricks, data.vulnerability)
     adjusted_points = dict(round_points)
     for player, penalty in data.penalty_points_by_player.items():
         adjusted_points[player] = adjusted_points.get(player, 0) - penalty
+
+    hand_summary_feedback = coach.summarize_hand_feedback(
+        decision_feedback,
+        context={
+            "contract": contract,
+            "double_dummy": None if data.double_dummy_outcome is None else {
+                "contract": data.double_dummy_outcome.contract,
+                "declarer": data.double_dummy_outcome.declarer,
+                "expected_tricks": data.double_dummy_outcome.expected_tricks,
+                "projected_score": data.double_dummy_outcome.projected_score,
+            },
+            "bid_infractions": list(data.bid_infractions),
+        },
+    )
+    print(f"Coach hand summary: {hand_summary_feedback['message']}")
 
     data.round_result_payload = {
         "contract": contract,
@@ -677,6 +733,30 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         "cumulative_penalty_points": sum(data.penalty_points_by_player.values()),
         "penalty_reason_breakdown": dict(data.penalty_reason_breakdown),
         "infractions": list(data.bid_infractions),
+        "decision_feedback": decision_feedback,
+        "hand_summary_feedback": hand_summary_feedback,
+        "structured_feedback": [
+            {
+                "mistake_type": item.get("mistake_type"),
+                "severity": item.get("severity"),
+                "suggested_alternative": item.get("suggested_alternative"),
+                "learning_tip": item.get("learning_tip"),
+                "decision": item.get("decision"),
+                "player": item.get("player"),
+                "user_action": item.get("user_action"),
+            }
+            for item in decision_feedback
+        ] + [
+            {
+                "mistake_type": hand_summary_feedback.get("mistake_type"),
+                "severity": hand_summary_feedback.get("severity"),
+                "suggested_alternative": hand_summary_feedback.get("suggested_alternative"),
+                "learning_tip": hand_summary_feedback.get("learning_tip"),
+                "decision": hand_summary_feedback.get("decision"),
+                "player": hand_summary_feedback.get("player"),
+                "user_action": hand_summary_feedback.get("user_action"),
+            }
+        ],
         "adjusted_points": adjusted_points,
         "penalty_table": dict(MAJOR_INFRACTION_PENALTIES),
     }
