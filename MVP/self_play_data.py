@@ -108,7 +108,7 @@ def generate_self_play_datasets(*, hands: int = 200, seed: int = 301, train_rati
         for step_idx in range(52):
             player = 1 + (step_idx % 4)
             trick_index = step_idx // 4
-            rank = rng.choice(["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"])
+            rank = rng.choice(["A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"])
             suit = rng.choice(["C", "D", "H", "S"])
             card = f"{rank}{suit}"
             cardplay_runner.record_card_step(
