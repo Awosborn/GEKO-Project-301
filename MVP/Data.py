@@ -1,16 +1,45 @@
-#Data will store all the following data for each game 
+"""Core data storage for one contract bridge game loop."""
 
-#Define StratDec of partner player to use as rules for bidding stage in game loop
-#StratDec will be a matrix containing values corresponding to quesitions that are on a convention card
-#it will have defined values
-#ignore the Strat dec for now
+from __future__ import annotations
 
-#Curr_Card_Hold this will be an array 4 by 13 with the values meaning which card each user has been given 
-#the values will begin at 2 club index of [0,0] followed by 2 of diamonds then hearts then spades the next row will begin with 3 of Clubs [1,0] this patern continues with the order of the face cards being J,Q,K, A till the Ace of spades at [13,4]
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Tuple
 
-#Curr_Bid_Hist this will store the bids that each input made durring bidding stage this will be an array of (however many rows needed) by 4 coloums which correspond to the user 
-# the values will be integers starting at 0 = 1 Club followed by 1= 1 Diamond, 2= 1 Heart,3= 1 Spade, 4= 1 No Trump, 5= 2 Club and the patern continus till 7NT
+SUITS: Tuple[str, ...] = ("C", "D", "H", "S")
+RANKS: Tuple[str, ...] = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
+PLAYERS: Tuple[int, ...] = (1, 2, 3, 4)
 
-#Curr_Points will store how many points the users got in that round of game loop
 
-#Hist_Points will store how many points the users have in total
+def build_deck() -> List[str]:
+    """Create a standard ordered deck from 2C to AS."""
+    return [f"{rank}{suit}" for rank in RANKS for suit in SUITS]
+
+
+@dataclass
+class GameData:
+    """Stores all current and historical values used by the MVP game loop."""
+
+    # Ignoring StratDec matrix for now as requested.
+    curr_card_hold: List[List[str]] = field(default_factory=lambda: [[] for _ in PLAYERS])
+    curr_bid_hist: List[List[Optional[str]]] = field(default_factory=list)
+    curr_points: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
+    hist_points: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
+
+    def reset_round_state(self) -> None:
+        """Clear all hand-specific data before a new hand is dealt."""
+        self.curr_card_hold = [[] for _ in PLAYERS]
+        self.curr_bid_hist = []
+        self.curr_points = {player: 0 for player in PLAYERS}
+
+    def record_bid(self, player: int, bid: str) -> None:
+        """Append bids in rows of four columns that map to players 1-4."""
+        if not self.curr_bid_hist or all(cell is not None for cell in self.curr_bid_hist[-1]):
+            self.curr_bid_hist.append([None, None, None, None])
+        self.curr_bid_hist[-1][player - 1] = bid
+
+    def add_round_points(self, round_points: Dict[int, int]) -> None:
+        """Save points earned this round and update historical totals."""
+        for player in PLAYERS:
+            delta = round_points.get(player, 0)
+            self.curr_points[player] = delta
+            self.hist_points[player] += delta
