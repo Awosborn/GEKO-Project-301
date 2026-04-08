@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""MVP bridge hand loop based on the project comments."""
+"""bridge hand loop based on the project comments."""
 
 from __future__ import annotations
-
+#create a function that will find the double dummy result of the game that is most optimal
+#call it during preset and store in data
+#Do not simplify the ACBL scoring
+#update the vurnability and display it
 import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
