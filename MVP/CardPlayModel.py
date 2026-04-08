@@ -56,6 +56,8 @@ class BridgeCardPlayModel:
     # Function: _normalize_card.
     def _normalize_card(self, card: str) -> str:
         clean_card = card.strip().upper()
+        if len(clean_card) == 2 and clean_card[0] == "T" and clean_card[1] in SUITS:
+            clean_card = f"10{clean_card[1]}"
         if clean_card not in self.card_to_id:
             raise ValueError(f"Unsupported card symbol '{card}'.")
         return clean_card
