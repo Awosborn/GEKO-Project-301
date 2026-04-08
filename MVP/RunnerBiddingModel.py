@@ -14,6 +14,7 @@ Learning updates are intentionally delayed until auction close.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
 import json
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence
@@ -35,6 +36,8 @@ class BidStep:
     bid_token: int
     is_opponent_bid: bool
     is_partner_bid: bool
+    strategy_answers_hash: str
+    strategy_answers: List[float]
     context_features: Dict[str, float]
     latent_before: List[float]
     latent_after: List[float]
@@ -46,6 +49,10 @@ class AuctionEpisode:
 
     epoch_id: str
     board_hand_id: str
+    strategy_profile_name: str
+    strategy_profile_version: str
+    strategy_answers_hash: str
+    strategy_answers: List[float]
     strategy_snapshot: Dict[str, float]
     bid_steps: List[BidStep] = field(default_factory=list)
     latent_state: List[float] = field(default_factory=list)
@@ -111,6 +118,10 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
     def _encode_strategy_answers(self, strategy_answers: Sequence[float]) -> Dict[str, float]:
         return {f"strategy_q_{idx+1}": float(value) for idx, value in enumerate(strategy_answers)}
 
+    def _strategy_answers_hash(self, strategy_answers: Sequence[float]) -> str:
+        normalized = ",".join(str(float(value)) for value in strategy_answers)
+        return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
     def _update_latent(
         self,
         prev_latent: Sequence[float],
@@ -142,15 +153,25 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         epoch_id: str,
         strategy_answers: Sequence[float],
         board_hand_id: str,
+        strategy_profile_name: str,
+        strategy_profile_version: str,
     ) -> AuctionEpisode:
         """Start a new auction episode with epoch strategy declaration snapshot."""
         if self.current_episode is not None:
             raise RuntimeError("Current episode is still active. Close it before starting a new one.")
+        if not strategy_answers:
+            raise ValueError("strategy_answers must be explicitly provided and non-empty at epoch start.")
 
-        snapshot = self._encode_strategy_answers(strategy_answers)
+        strategy_answer_values = [float(value) for value in strategy_answers]
+        snapshot = self._encode_strategy_answers(strategy_answer_values)
+        answers_hash = self._strategy_answers_hash(strategy_answer_values)
         episode = AuctionEpisode(
             epoch_id=str(epoch_id),
             board_hand_id=str(board_hand_id),
+            strategy_profile_name=str(strategy_profile_name),
+            strategy_profile_version=str(strategy_profile_version),
+            strategy_answers_hash=answers_hash,
+            strategy_answers=strategy_answer_values,
             strategy_snapshot=snapshot,
             latent_state=self._zero_latent(),
         )
@@ -158,12 +179,28 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         self.current_episode = episode
         return episode
 
-    def record_bid_step(self, player: int, bid: str, context_features: Optional[Dict[str, float]] = None) -> BidStep:
+    def record_bid_step(
+        self,
+        player: int,
+        bid: str,
+        strategy_answers: Sequence[float],
+        context_features: Optional[Dict[str, float]] = None,
+    ) -> BidStep:
         """Append one bid event and update latent state for the active episode."""
         if self.current_episode is None:
             raise RuntimeError("No active episode. Call start_epoch(...) first.")
         if player not in (1, 2, 3, 4):
             raise ValueError("player must be one of 1, 2, 3, 4")
+        if not strategy_answers:
+            raise ValueError("strategy_answers must be explicitly provided on every bid step.")
+
+        incoming_answers = [float(value) for value in strategy_answers]
+        incoming_hash = self._strategy_answers_hash(incoming_answers)
+        if incoming_hash != self.current_episode.strategy_answers_hash:
+            raise RuntimeError(
+                "Strategy declaration changed mid-epoch. "
+                "Split the epoch before recording additional bid steps."
+            )
 
         context = context_features or {}
         clean_bid = self._normalize_bid(bid)
@@ -187,6 +224,8 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
             bid_token=bid_token,
             is_opponent_bid=is_opponent_bid,
             is_partner_bid=is_partner_bid,
+            strategy_answers_hash=incoming_hash,
+            strategy_answers=incoming_answers,
             context_features={k: float(v) for k, v in context.items()},
             latent_before=latent_before,
             latent_after=latent_after,
@@ -205,6 +244,8 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
                 "bidder_token": s.bidder - 1,
                 "is_opponent_bid": int(s.is_opponent_bid),
                 "is_partner_bid": int(s.is_partner_bid),
+                "strategy_answers_hash": s.strategy_answers_hash,
+                "strategy_answers": s.strategy_answers,
                 "context_features": s.context_features,
             }
             for s in episode.bid_steps
@@ -213,6 +254,15 @@ class AuctionEpisodeRunner(BridgeBiddingModel):
         return {
             "epoch_id": episode.epoch_id,
             "board_hand_id": episode.board_hand_id,
+            "epoch_strategy_metadata": {
+                "strategy_profile_name": episode.strategy_profile_name,
+                "strategy_profile_version": episode.strategy_profile_version,
+                "strategy_profile_identifier": (
+                    f"{episode.strategy_profile_name}@{episode.strategy_profile_version}"
+                ),
+                "strategy_answers_hash": episode.strategy_answers_hash,
+                "strategy_answers": episode.strategy_answers,
+            },
             "strategy_declaration_features": episode.strategy_snapshot,
             "encoded_sequence": encoded_sequence,
             "latent_trajectory": episode.latent_trajectory,

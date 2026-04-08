@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import hashlib
 import json
 from pathlib import Path
 import random
@@ -113,6 +114,7 @@ class StrategyDeclaration:
     )
     numeric_answers: List[int] = field(default_factory=list)
     loaded_profile_name: Optional[str] = None
+    loaded_profile_version: Optional[str] = None
 
     def Strat_define(self) -> List[int]:
         """Prompt user to define strategy and return numeric answer array."""
@@ -199,7 +201,25 @@ class StrategyDeclaration:
 
         self.numeric_answers = loaded_numeric_answers
         self.loaded_profile_name = profile.get("strategy_name")
+        self.loaded_profile_version = str(profile.get("version", f"profile-{profile_number}"))
         return self.numeric_answers
+
+
+def strategy_answers_hash(strategy_answers: List[int]) -> str:
+    """Build a deterministic hash for a full strategy answer declaration."""
+    normalized = ",".join(str(int(value)) for value in strategy_answers)
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
+@dataclass
+class EpochMetadata:
+    """Epoch-level strategy declaration metadata for reproducible training."""
+
+    epoch_id: str
+    strategy_profile_name: str
+    strategy_profile_version: str
+    strategy_answers_hash: str
+    strategy_answers_numeric: List[int]
 
 
 @dataclass
@@ -218,6 +238,7 @@ class GameData:
     penalty_points_by_player: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
     penalty_reason_breakdown: Dict[str, int] = field(default_factory=dict)
     round_result_payload: Dict[str, Any] = field(default_factory=dict)
+    epoch_metadata: Optional[EpochMetadata] = None
 
     def reset_round_state(self) -> None:
         """Clear all hand-specific data before a new hand is dealt."""
@@ -272,6 +293,21 @@ class GameData:
         if not self.curr_bid_hist or all(cell is not None for cell in self.curr_bid_hist[-1]):
             self.curr_bid_hist.append([None, None, None, None])
         self.curr_bid_hist[-1][player - 1] = bid
+
+    def set_epoch_metadata(self, epoch_id: str) -> EpochMetadata:
+        """Attach reproducible epoch strategy declaration metadata to this board."""
+        if not self.strat_dec.numeric_answers:
+            raise ValueError("Cannot set epoch metadata without strategy numeric_answers.")
+
+        metadata = EpochMetadata(
+            epoch_id=str(epoch_id),
+            strategy_profile_name=self.strat_dec.loaded_profile_name or "custom",
+            strategy_profile_version=self.strat_dec.loaded_profile_version or "unversioned",
+            strategy_answers_hash=strategy_answers_hash(self.strat_dec.numeric_answers),
+            strategy_answers_numeric=[int(value) for value in self.strat_dec.numeric_answers],
+        )
+        self.epoch_metadata = metadata
+        return metadata
 
     def record_infraction(
         self,

@@ -110,12 +110,23 @@ class BridgeTrainingPreprocessor:
 
     def encode_game_data(self, data: GameData) -> Dict[str, object]:
         strategy_tokens: List[Tuple[int, int]] = []
+        question_tokens: List[int] = []
+        numeric_answers: List[int] = [int(answer) for answer in data.strat_dec.numeric_answers]
         for index, ((question, _, _), answer) in enumerate(
             zip(data.strat_dec.question_bank, data.strat_dec.numeric_answers),
             start=1,
         ):
             q_token = self.store.token_for_strategy_question(index, question)
+            question_tokens.append(q_token)
             strategy_tokens.append((q_token, answer))
+
+        if data.epoch_metadata is None:
+            fallback_epoch_id = f"board-{data.board_number or 0}"
+            data.set_epoch_metadata(fallback_epoch_id)
+
+        strategy_profile_identifier = (
+            f"{data.epoch_metadata.strategy_profile_name}@{data.epoch_metadata.strategy_profile_version}"
+        )
 
         hands = [
             [self.store.token_for_card(card) for card in player_hand]
@@ -134,7 +145,17 @@ class BridgeTrainingPreprocessor:
         return {
             "board_number": data.board_number,
             "vulnerability": data.vulnerability,
+            "epoch_metadata": {
+                "epoch_id": data.epoch_metadata.epoch_id,
+                "strategy_profile_name": data.epoch_metadata.strategy_profile_name,
+                "strategy_profile_version": data.epoch_metadata.strategy_profile_version,
+                "strategy_profile_identifier": strategy_profile_identifier,
+                "strategy_answers_hash": data.epoch_metadata.strategy_answers_hash,
+                "strategy_answers_numeric": data.epoch_metadata.strategy_answers_numeric,
+            },
             "strategy_question_answer_pairs": strategy_tokens,
+            "strategy_question_tokens_fixed_order": question_tokens,
+            "strategy_answer_values_fixed_order": numeric_answers,
             "hand_card_tokens": hands,
             "bid_history_tokens": bid_history,
         }
