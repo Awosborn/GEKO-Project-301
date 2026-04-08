@@ -5,6 +5,7 @@ from __future__ import annotations
 import random
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
+from BidRecommender import recommend_bid as recommend_bids_for_player
 from Data import DoubleDummyOutcome, GameData, PLAYERS, RANKS, SUITS, build_deck
 from PenaltyConfig import MAJOR_INFRACTION_PENALTIES, penalty_for_rule
 from RulesChecker import acbl_open_chart_allows_bid, bid_follows_strategy
@@ -108,6 +109,45 @@ def _partnership(player: int) -> int:
 
 
 
+# Function: _display_bid_recommendations.
+def _display_bid_recommendations(recommendations: Sequence[Dict[str, object]], *, player: int) -> None:
+    if not recommendations:
+        print(f"System recommendations for Player {player}: unavailable.")
+        return
+
+    print(f"System top bid recommendations for Player {player}:")
+    for rec in recommendations:
+        print(
+            f"  #{rec.get('rank', '?')} {rec.get('bid')} "
+            f"(conf={rec.get('confidence', 0):.2f}) -> {rec.get('reason', '')}"
+        )
+
+
+# Function: _display_recommendation_comparison.
+def _display_recommendation_comparison(
+    player_bid: str,
+    recommendations: Sequence[Dict[str, object]],
+) -> None:
+    chosen = player_bid.strip().upper()
+    matches = [rec for rec in recommendations if str(rec.get("bid", "")).upper() == chosen]
+    if matches:
+        rec = matches[0]
+        print(
+            "Coaching comparison: your bid matched system recommendation "
+            f"(rank #{rec.get('rank', '?')}, conf={rec.get('confidence', 0):.2f})."
+        )
+        return
+
+    if recommendations:
+        best = recommendations[0]
+        print(
+            "Coaching comparison: your bid differed from top recommendation "
+            f"{best.get('bid')} (conf={best.get('confidence', 0):.2f})."
+        )
+    else:
+        print("Coaching comparison: recommendation unavailable for this action.")
+
+
 # Function: _is_opening_bid_for_player.
 def _is_opening_bid_for_player(data: GameData, player: int) -> bool:
     """Return True when player's side has not yet made any non-pass call."""
@@ -200,6 +240,14 @@ def bid_function(
     auction_index = 0
     while True:
         player = start_order[idx % 4]
+        recommendations = recommend_bids_for_player(
+            hand=data.curr_card_hold[player - 1],
+            bid_history=data.curr_bid_hist,
+            strategy_answers=data.strat_dec.numeric_answers,
+            seat=player,
+            vulnerability=data.vulnerability[player],
+        )
+        _display_bid_recommendations(recommendations, player=player)
         raw = input_fn(
             f"PLAYER {player} please make your bid "
             "(1C..7NT, P=pass, X=double, XX=redouble, Q=quit): "
@@ -248,6 +296,7 @@ def bid_function(
             continue
 
         data.record_bid(player, raw)
+        _display_recommendation_comparison(raw, recommendations)
         total_bids += 1
         auction_index += 1
 
