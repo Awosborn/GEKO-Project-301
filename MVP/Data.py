@@ -24,12 +24,21 @@ def build_deck() -> List[str]:
 @dataclass
 # Class: DoubleDummyOutcome.
 class DoubleDummyOutcome:
-    """Projected best contract and score from a double-dummy style estimate."""
+    """Best-known double-dummy outcome for a board.
+
+    The payload supports both true solver outputs and heuristic fallback mode.
+    """
 
     contract: str
     declarer: int
     expected_tricks: int
     projected_score: int
+    par_score: int = 0
+    contract_alternatives: List[Dict[str, Any]] = field(default_factory=list)
+    trick_table: Dict[str, Dict[int, int]] = field(default_factory=dict)
+    solver_mode: str = "solver"
+    solver_name: str = "unknown"
+    is_heuristic: bool = False
 
 
 # Data container: StrategyDeclaration.

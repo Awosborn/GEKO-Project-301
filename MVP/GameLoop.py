@@ -2,8 +2,13 @@
 """bridge hand loop based on the project comments."""
 
 from __future__ import annotations
+import json
+import os
 import random
-from typing import Callable, Dict, List, Optional, Sequence, Tuple
+import subprocess
+import urllib.error
+import urllib.request
+from typing import Any, Callable, Dict, List, Optional, Protocol, Sequence, Tuple
 
 from BidRecommender import recommend_bid as recommend_bids_for_player
 from CardPlayRecommender import recommend_card as recommend_card_for_player
@@ -23,6 +28,118 @@ def _hand_hcp(hand: Sequence[str]) -> int:
 
 # Function: _find_optimal_double_dummy_result.
 def _find_optimal_double_dummy_result(data: GameData) -> DoubleDummyOutcome:
+    """Resolve board double-dummy outcome through adapter, with heuristic fallback."""
+    adapter = _build_double_dummy_adapter()
+    try:
+        return adapter.solve(data)
+    except Exception as exc:
+        print(f"Double-dummy solver unavailable ({exc}); using heuristic mode.")
+        return _heuristic_double_dummy_outcome(data, solver_mode="heuristic_fallback", solver_name=type(adapter).__name__)
+
+
+class _DoubleDummyAdapter(Protocol):
+    def solve(self, data: GameData) -> DoubleDummyOutcome:
+        ...
+
+
+def _build_double_dummy_adapter() -> _DoubleDummyAdapter:
+    solver_cmd = os.getenv("BRIDGE_DD_SOLVER_CMD", "").strip()
+    if solver_cmd:
+        return _CommandDoubleDummyAdapter(command=solver_cmd)
+
+    solver_url = os.getenv("BRIDGE_DD_SOLVER_URL", "").strip()
+    if solver_url:
+        return _ServiceDoubleDummyAdapter(url=solver_url)
+
+    return _HeuristicDoubleDummyAdapter()
+
+
+class _HeuristicDoubleDummyAdapter:
+    def solve(self, data: GameData) -> DoubleDummyOutcome:
+        return _heuristic_double_dummy_outcome(data, solver_mode="heuristic", solver_name="heuristic_adapter")
+
+
+class _CommandDoubleDummyAdapter:
+    def __init__(self, command: str) -> None:
+        self.command = command
+
+    def solve(self, data: GameData) -> DoubleDummyOutcome:
+        payload = _build_solver_payload(data)
+        proc = subprocess.run(
+            self.command.split(),
+            input=json.dumps(payload),
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        response = json.loads(proc.stdout)
+        return _outcome_from_solver_response(data, response, solver_name="command_adapter")
+
+
+class _ServiceDoubleDummyAdapter:
+    def __init__(self, url: str) -> None:
+        self.url = url
+
+    def solve(self, data: GameData) -> DoubleDummyOutcome:
+        payload = _build_solver_payload(data)
+        req = urllib.request.Request(
+            self.url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=5.0) as resp:
+                body = resp.read().decode("utf-8")
+        except urllib.error.URLError as exc:
+            raise RuntimeError(f"solver service error: {exc}") from exc
+
+        response = json.loads(body)
+        return _outcome_from_solver_response(data, response, solver_name="service_adapter")
+
+
+def _build_solver_payload(data: GameData) -> Dict[str, Any]:
+    return {
+        "hands": {str(player): list(data.curr_card_hold[player - 1]) for player in PLAYERS},
+        "vulnerability": {str(player): bool(data.vulnerability[player]) for player in PLAYERS},
+        "board_number": int(data.board_number),
+    }
+
+
+def _outcome_from_solver_response(
+    data: GameData,
+    response: Dict[str, Any],
+    *,
+    solver_name: str,
+) -> DoubleDummyOutcome:
+    contract = str(response["contract"]).upper()
+    declarer = int(response["declarer"])
+    expected_tricks = int(response["expected_tricks"])
+    projected_score = int(response["projected_score"])
+    par_score = int(response.get("par_score", projected_score))
+    contract_alternatives = list(response.get("contract_alternatives", []))
+    trick_table = dict(response.get("trick_table", {}))
+
+    return DoubleDummyOutcome(
+        contract=contract,
+        declarer=declarer,
+        expected_tricks=expected_tricks,
+        projected_score=projected_score,
+        par_score=par_score,
+        contract_alternatives=contract_alternatives,
+        trick_table=trick_table,
+        solver_mode="solver",
+        solver_name=solver_name,
+        is_heuristic=False,
+    )
+
+
+def _heuristic_double_dummy_outcome(
+    data: GameData,
+    *,
+    solver_mode: str,
+    solver_name: str,
+) -> DoubleDummyOutcome:
     """Estimate a best contract/trick result and projected score from current hands."""
     side_hcp = {
         "NS": _hand_hcp(data.curr_card_hold[0]) + _hand_hcp(data.curr_card_hold[2]),
@@ -47,11 +164,33 @@ def _find_optimal_double_dummy_result(data: GameData) -> DoubleDummyOutcome:
     tricks[winners[1]] = expected_tricks - tricks[winners[0]]
     projected = calc_point_function(contract, tricks, data.vulnerability)
     projected_score = projected[winners[0]]
+    trick_table: Dict[str, Dict[int, int]] = {
+        "C": {1: 6, 2: 6, 3: 6, 4: 6},
+        "D": {1: 6, 2: 6, 3: 6, 4: 6},
+        "H": {1: 6, 2: 6, 3: 6, 4: 6},
+        "S": {1: 6, 2: 6, 3: 6, 4: 6},
+        "NT": {1: 6, 2: 6, 3: 6, 4: 6},
+    }
+    trick_table[denomination][declarer] = expected_tricks
+
     return DoubleDummyOutcome(
         contract=f"{level}{denomination}",
         declarer=declarer,
         expected_tricks=expected_tricks,
         projected_score=projected_score,
+        par_score=projected_score,
+        contract_alternatives=[
+            {
+                "contract": f"{level}{denomination}",
+                "declarer": declarer,
+                "expected_tricks": expected_tricks,
+                "projected_score": projected_score,
+            }
+        ],
+        trick_table=trick_table,
+        solver_mode=solver_mode,
+        solver_name=solver_name,
+        is_heuristic=True,
     )
 
 
@@ -87,7 +226,8 @@ def display_cards(data: GameData) -> None:
         print(
             "Estimated best double-dummy line: "
             f"{dd.contract} by Player {dd.declarer}, {dd.expected_tricks} tricks, "
-            f"projected score {dd.projected_score}"
+            f"projected score {dd.projected_score} "
+            f"[mode={dd.solver_mode}, solver={dd.solver_name}]"
         )
     for i, hand in enumerate(data.curr_card_hold, start=1):
         print(f"Player {i} cards: {' '.join(hand)}")
@@ -521,6 +661,18 @@ def game(input_fn: Callable[[str], str] = input, rng: random.Random | None = Non
         "contract": contract,
         "tricks": tricks,
         "base_points": round_points,
+        "double_dummy_outcome": None if data.double_dummy_outcome is None else {
+            "contract": data.double_dummy_outcome.contract,
+            "declarer": data.double_dummy_outcome.declarer,
+            "expected_tricks": data.double_dummy_outcome.expected_tricks,
+            "projected_score": data.double_dummy_outcome.projected_score,
+            "par_score": data.double_dummy_outcome.par_score,
+            "contract_alternatives": data.double_dummy_outcome.contract_alternatives,
+            "trick_table": data.double_dummy_outcome.trick_table,
+            "solver_mode": data.double_dummy_outcome.solver_mode,
+            "solver_name": data.double_dummy_outcome.solver_name,
+            "is_heuristic": data.double_dummy_outcome.is_heuristic,
+        },
         "penalty_points_by_player": dict(data.penalty_points_by_player),
         "cumulative_penalty_points": sum(data.penalty_points_by_player.values()),
         "penalty_reason_breakdown": dict(data.penalty_reason_breakdown),
