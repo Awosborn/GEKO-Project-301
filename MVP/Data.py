@@ -43,3 +43,5 @@ class GameData:
             delta = round_points.get(player, 0)
             self.curr_points[player] = delta
             self.hist_points[player] += delta
+#create a class that will hold the outcome of the game with given double dummy and the associated point value
+#Update the class game data to also include vunerability.
