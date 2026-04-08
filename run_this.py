@@ -21,8 +21,8 @@ COMMANDS = {
 
 def main() -> int:
     print("Choose a command by number:")
-    print("  1) Train both models (train-all)")
-    print("  2) Train with self-play cycle (train-cycle)")
+    print("  1) Generate self-play data + train both models (train-all)")
+    print("  2) Generate self-play data + run self-play cycle (train-cycle)")
     print("  3) Play against stable models (play)")
     print("  4) Show CLI help")
 
