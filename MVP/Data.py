@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 import json
 from pathlib import Path
 import random
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 SUITS: Tuple[str, ...] = ("C", "D", "H", "S")
 RANKS: Tuple[str, ...] = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
@@ -214,6 +214,10 @@ class GameData:
     board_number: int = 0
     vulnerability: Dict[int, bool] = field(default_factory=lambda: {player: False for player in PLAYERS})
     double_dummy_outcome: Optional[DoubleDummyOutcome] = None
+    bid_infractions: List[Dict[str, Any]] = field(default_factory=list)
+    penalty_points_by_player: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
+    penalty_reason_breakdown: Dict[str, int] = field(default_factory=dict)
+    round_result_payload: Dict[str, Any] = field(default_factory=dict)
 
     def reset_round_state(self) -> None:
         """Clear all hand-specific data before a new hand is dealt."""
@@ -221,6 +225,10 @@ class GameData:
         self.curr_bid_hist = []
         self.curr_points = {player: 0 for player in PLAYERS}
         self.double_dummy_outcome = None
+        self.bid_infractions = []
+        self.penalty_points_by_player = {player: 0 for player in PLAYERS}
+        self.penalty_reason_breakdown = {}
+        self.round_result_payload = {}
 
     def set_board_vulnerability(self) -> None:
         """Apply duplicate-bridge vulnerability pattern based on board number."""
@@ -264,6 +272,30 @@ class GameData:
         if not self.curr_bid_hist or all(cell is not None for cell in self.curr_bid_hist[-1]):
             self.curr_bid_hist.append([None, None, None, None])
         self.curr_bid_hist[-1][player - 1] = bid
+
+    def record_infraction(
+        self,
+        *,
+        player: int,
+        bid: str,
+        rule_type: str,
+        message: str,
+        auction_index: int,
+        penalty_points: int,
+    ) -> None:
+        """Store a normalized infraction record and accumulate penalties."""
+        self.bid_infractions.append(
+            {
+                "player": player,
+                "bid": bid,
+                "rule_type": rule_type,
+                "message": message,
+                "auction_index": auction_index,
+                "penalty_points": penalty_points,
+            }
+        )
+        self.penalty_points_by_player[player] += penalty_points
+        self.penalty_reason_breakdown[rule_type] = self.penalty_reason_breakdown.get(rule_type, 0) + penalty_points
 
     def add_round_points(self, round_points: Dict[int, int]) -> None:
         """Save points earned this round and update historical totals."""
