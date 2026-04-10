@@ -250,6 +250,7 @@ class GameData:
     strat_dec: StrategyDeclaration = field(default_factory=StrategyDeclaration)
     curr_card_hold: List[List[str]] = field(default_factory=lambda: [[] for _ in PLAYERS])
     curr_bid_hist: List[List[Optional[str]]] = field(default_factory=list)
+    curr_card_play_hist: List[Dict[str, Any]] = field(default_factory=list)
     curr_points: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
     hist_points: Dict[int, int] = field(default_factory=lambda: {player: 0 for player in PLAYERS})
     board_number: int = 0
@@ -266,6 +267,7 @@ class GameData:
         """Clear all hand-specific data before a new hand is dealt."""
         self.curr_card_hold = [[] for _ in PLAYERS]
         self.curr_bid_hist = []
+        self.curr_card_play_hist = []
         self.curr_points = {player: 0 for player in PLAYERS}
         self.double_dummy_outcome = None
         self.bid_infractions = []
@@ -319,6 +321,27 @@ class GameData:
         if not self.curr_bid_hist or all(cell is not None for cell in self.curr_bid_hist[-1]):
             self.curr_bid_hist.append([None, None, None, None])
         self.curr_bid_hist[-1][player - 1] = bid
+
+    # Function: record_card_play.
+    def record_card_play(
+        self,
+        *,
+        trick_number: int,
+        position_in_trick: int,
+        player: int,
+        card: str,
+        leader: int,
+    ) -> None:
+        """Store each played card with player/trick context in play order."""
+        self.curr_card_play_hist.append(
+            {
+                "trick_number": trick_number,
+                "position_in_trick": position_in_trick,
+                "player": player,
+                "card": card,
+                "leader": leader,
+            }
+        )
 
     # Function: set_epoch_metadata.
     def set_epoch_metadata(self, epoch_id: str) -> EpochMetadata:
