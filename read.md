@@ -66,9 +66,3 @@ For each PR, append a short section at the bottom using this template:
 - Validation: Static inspection only (no command execution per task constraints).
 - Follow-ups: Consider replacing stochastic placeholder action sampling in self-play generation with fully legal game-loop simulation for stronger data quality.
 
-
-## PR Update - 2026-04-10 - prune-to-game-loop-ruleschecker
-- Summary: Removed training/data-ingestion launcher and proposal files, leaving the repository focused on the game loop and rules-checker runtime path.
-- Files touched: read.md, run_this.py, proposal/idea.md, MVP/cli.py, MVP/self_play_data.py, MVP/train_bidding.py, MVP/train_cardplay.py, MVP/train_cycle.py, MVP/evaluation_metrics.py, MVP/ingest_hands.py, MVP/ingest_auctions.py, MVP/ingest_plays.py, MVP/dataset_ingestion.py, MVP/dataset_schema.py, MVP/Training Setup.py
-- Validation: Ran `python -m py_compile` across the retained game-loop/rules-checker dependency modules.
-- Follow-ups: If desired, we can also trim model/training artifacts to only a single baseline registry artifact set.
