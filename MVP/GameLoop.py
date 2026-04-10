@@ -548,12 +548,12 @@ def card_play_function(
     leader = start_player
     trump = None if not contract or contract[1] == "NT" else contract[1]
 
-    for _ in range(13):
+    for trick_number in range(1, 14):
         order = [((leader - 1 + i) % 4) + 1 for i in range(4)]
         trick: List[Tuple[int, str]] = []
         lead_suit = None
 
-        for player in order:
+        for position_in_trick, player in enumerate(order, start=1):
             recommendations = recommend_card_for_player(
                 hand=hands[player],
                 trick_cards=trick,
@@ -591,6 +591,13 @@ def card_play_function(
                 lead_suit = card[-1]
             hands[player].remove(card)
             trick.append((player, card))
+            data.record_card_play(
+                trick_number=trick_number,
+                position_in_trick=position_in_trick,
+                player=player,
+                card=card,
+                leader=order[0],
+            )
             _immediate_deviation_feedback("card", card, recommendations)
             card_feedback = coach.explain_card_play(
                 user_card=card,
@@ -860,6 +867,7 @@ def _run_mode(
     data.round_result_payload = {
         "contract": contract,
         "tricks": tricks,
+        "card_play_history": list(data.curr_card_play_hist),
         "base_points": round_points,
         "double_dummy_outcome": None if data.double_dummy_outcome is None else {
             "contract": data.double_dummy_outcome.contract,
