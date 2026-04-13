@@ -1,18 +1,54 @@
 # GEKO Project Overview
 
-## Quick Commands (Run these first)
-- **From repository root** (`GEKO-Project-301/`):
-  - Train both models: `python MVP/cli.py train-all`
-  - Train with self-play cycle against previous best versions: `python MVP/cli.py train-cycle`
-  - Play against the currently stable models: `python MVP/cli.py play`
-- **From inside the `MVP/` folder**:
-  - Train both models: `python cli.py train-all`
-  - Train with self-play cycle against previous best versions: `python cli.py train-cycle`
-  - Play against the currently stable models: `python cli.py play`
+## Quick Commands (Verified against files in this snapshot)
+- **Run tests:** `python -m pytest -q`
+- **Build supervised datasets from snapshot JSONL:** `python -m MVP.ml.build_dataset_cli <path/to/snapshots.jsonl> --output-dir <artifacts/datasets> --formats jsonl parquet`
+- **Train next-bid model:** `python -m MVP.ml.train_next_bid <artifacts/datasets/bidding_examples.jsonl> --output-dir <artifacts/models/bid> --apply-legality-mask-training`
+- **Train next-card model:** `python -m MVP.ml.train_next_card <artifacts/datasets/cardplay_examples.jsonl> --output-dir <artifacts/models/card> --apply-legality-mask-training`
+- **Inspect generated eval report (produced during training):** `python -c "import json, pathlib; p=pathlib.Path('<artifacts/models/bid/evaluation_report.json>'); print(json.dumps(json.loads(p.read_text()), indent=2)[:4000])"`
 
-### Windows notes
-- If `python3` points to a broken toolchain Python (for example `C:\iverilog\gtkwave\bin\python3.exe`), use `python` or `py -3.13` instead.
-- In PowerShell, `MVP/cli.py` is **not** directly executable. Run it through Python (`python MVP/cli.py ...` from repo root, or `python cli.py ...` from `MVP/`).
+> Note: legacy commands that reference `MVP/cli.py` are currently stale in this repository snapshot because `MVP/cli.py` is not present.
+
+### ML quickstart (dataset build → train → eval → serve)
+1. **Build datasets** from raw snapshot rows:
+   - `python -m MVP.ml.build_dataset_cli data/snapshots.jsonl --output-dir artifacts/datasets --formats jsonl parquet`
+2. **Train bidding model** (writes baseline + transformer artifacts + eval report):
+   - `python -m MVP.ml.train_next_bid artifacts/datasets/bidding_examples.jsonl --output-dir artifacts/models/bid --epochs 3 --batch-size 16 --apply-legality-mask-training`
+3. **Train card-play model**:
+   - `python -m MVP.ml.train_next_card artifacts/datasets/cardplay_examples.jsonl --output-dir artifacts/models/card --epochs 3 --batch-size 16 --apply-legality-mask-training`
+4. **Evaluate** by reading generated reports:
+   - `python -c "import json, pathlib; print(json.dumps(json.loads(pathlib.Path('artifacts/models/bid/evaluation_report.json').read_text()), indent=2))"`
+   - `python -c "import json, pathlib; print(json.dumps(json.loads(pathlib.Path('artifacts/models/card/evaluation_report.json').read_text()), indent=2))"`
+5. **Serve predictions** via FastAPI:
+   - `python -c "import uvicorn; from MVP.ml.inference_service import create_inference_app; uvicorn.run(create_inference_app('artifacts/models/bid','artifacts/models/card'), host='0.0.0.0', port=8000)"`
+
+### Artifact locations
+- Dataset export outputs (`build_dataset_cli`):
+  - `artifacts/datasets/bidding_examples.jsonl`
+  - `artifacts/datasets/cardplay_examples.jsonl`
+  - `artifacts/datasets/bidding_examples.parquet` (if parquet requested)
+  - `artifacts/datasets/cardplay_examples.parquet` (if parquet requested)
+- Training outputs (each model output dir):
+  - `baseline.json`
+  - `tokenizer_artifact.json`
+  - `label_map.json`
+  - `checkpoint_epoch_<N>.pt`
+  - `checkpoint_best.pt`
+  - `transformer_metrics.json`
+  - `evaluation_report.json`
+  - `inference_guardrails.json`
+
+### Troubleshooting
+- **`ModuleNotFoundError: No module named 'MVP'`**
+  - Run commands from the repo root (`GEKO-Project-301/`) so `python -m MVP...` resolves packages correctly.
+- **Parquet write errors** (e.g., missing engine)
+  - Re-run with JSONL only: `--formats jsonl`.
+- **`Dataset is empty; cannot train.`**
+  - Confirm `build_dataset_cli` produced non-empty `bidding_examples.jsonl` / `cardplay_examples.jsonl`.
+- **FastAPI serve import/runtime errors**
+  - Install runtime deps (`fastapi`, `uvicorn`) in your environment before running the serve command.
+- **No GPU detected**
+  - Training auto-falls back to CPU; expect slower epochs.
 
 ## Purpose of the Codebase
 This repository contains the MVP implementation for the **GEKO bridge coaching and play engine**. The code focuses on simulating and evaluating Contract Bridge gameplay with separate logic for bidding, card play, rules validation, and penalties.
@@ -120,3 +156,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/inference_service.py, MVP/ml/__init__.py, MVP/tests/test_inference_service.py
 - Validation: Ran `python -m pytest -q MVP/tests/test_inference_service.py` and `python -m pytest -q`.
 - Follow-ups: Add deployment/runtime config docs (env vars and uvicorn command) once serving infrastructure is finalized.
+
+## PR Update - 2026-04-13 - week6-step7-docs-command-wiring
+- Summary: Replaced stale top-level quick commands with verified module-based commands, and added an end-to-end ML quickstart covering dataset build, training, evaluation report inspection, serving, artifact paths, and troubleshooting guidance.
+- Files touched: read.md
+- Validation: Ran `python -m MVP.ml.build_dataset_cli --help`, `python -m MVP.ml.train_next_bid --help`, `python -m MVP.ml.train_next_card --help`, and `python -m pytest -q MVP/tests/test_build_dataset_cli.py MVP/tests/test_train_entrypoints.py MVP/tests/test_inference_service.py`.
+- Follow-ups: Add a dedicated serving CLI entrypoint (for direct `uvicorn module:app`) and a standalone evaluation CLI to avoid inline `python -c` report inspection commands.
