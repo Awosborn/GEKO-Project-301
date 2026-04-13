@@ -66,3 +66,9 @@ For each PR, append a short section at the bottom using this template:
 - Validation: Static inspection only (no command execution per task constraints).
 - Follow-ups: Consider replacing stochastic placeholder action sampling in self-play generation with fully legal game-loop simulation for stronger data quality.
 
+
+## PR Update - 2026-04-13 - week1-priority-steps-1-4
+- Summary: Implemented a Week-1 preprocessing module covering deal-id derivation, bid normalization, full-hand reconstruction from snapshot play history, and corruption checks, with pytest coverage for these flows.
+- Files touched: read.md, MVP/ml/preprocess.py, MVP/ml/__init__.py, MVP/__init__.py, MVP/tests/test_preprocess.py
+- Validation: Ran `python -m pytest -q` (5 tests passed).
+- Follow-ups: Wire these preprocessing helpers into a dataset-export CLI once source snapshot JSONL files are added to this repository.
