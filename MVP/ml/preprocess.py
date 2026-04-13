@@ -10,7 +10,9 @@ Implements the first four data-pipeline priorities from the project report:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Mapping, MutableMapping, Sequence, Tuple
+from typing import Dict, Iterable, List, Mapping, MutableMapping, Tuple
+
+from .normalize import normalize_bid, normalize_bid_history, normalize_card
 
 PLAYERS: Tuple[int, ...] = (1, 2, 3, 4)
 
@@ -29,32 +31,6 @@ def compute_deal_id(snapshot: Mapping[str, object]) -> str:
     return f"{snapshot['game_id']}:{snapshot['board_number']}"
 
 
-def normalize_bid(raw: str) -> str:
-    """Normalize a raw bid token into a canonical bridge token."""
-    token = raw.strip()
-    if not token:
-        return "UNK"
-
-    lower = token.lower()
-    if lower == "pass":
-        return "P"
-    if lower == "d":
-        return "X"
-    if lower == "r":
-        return "XX"
-
-    token = token.upper()
-    if len(token) == 2 and token[0] in "1234567" and token[1] == "N":
-        return f"{token[0]}NT"
-
-    return token
-
-
-def normalize_bid_history(raw_bids: Iterable[str]) -> List[str]:
-    """Normalize an iterable of bids."""
-    return [normalize_bid(bid) for bid in raw_bids]
-
-
 def reconstruct_full_hands(snapshot: Mapping[str, object]) -> ReconstructionResult:
     """Reconstruct each player's pre-play hand from snapshot state.
 
@@ -70,7 +46,7 @@ def reconstruct_full_hands(snapshot: Mapping[str, object]) -> ReconstructionResu
     for idx, cards in enumerate(raw_holds, start=1):
         if not isinstance(cards, list):
             return ReconstructionResult(hands={}, is_corrupted=True, reason=f"hand {idx} is not a list")
-        hands[idx] = [str(card).upper() for card in cards]
+        hands[idx] = [normalize_card(str(card)) for card in cards]
 
     raw_play_hist = snapshot.get("curr_card_play_hist", [])
     if not isinstance(raw_play_hist, list):
@@ -80,8 +56,8 @@ def reconstruct_full_hands(snapshot: Mapping[str, object]) -> ReconstructionResu
         if not isinstance(event, Mapping):
             return ReconstructionResult(hands=hands, is_corrupted=True, reason="play event is not an object")
         player = int(event.get("player", 0))
-        card = str(event.get("card", "")).upper()
-        if player not in PLAYERS or not card:
+        card = normalize_card(str(event.get("card", "")))
+        if player not in PLAYERS or card == "UNK":
             return ReconstructionResult(hands=hands, is_corrupted=True, reason="play event has invalid player/card")
         hands[player].append(card)
 

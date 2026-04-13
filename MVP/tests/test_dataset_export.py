@@ -87,3 +87,4 @@ def test_build_cardplay_example_inverts_post_action_snapshot():
     assert len(example.play_prefix) == 3
     assert example.hand_cards[-1] == "2C"
     assert example.auction_bids == ["1C", "P", "1H", "P"]
+    assert example.derived_contract == {"level": 1, "strain": "H", "multiplier": "", "declarer": None, "dummy": None}

@@ -1,9 +1,5 @@
-from MVP.ml.preprocess import (
-    compute_deal_id,
-    normalize_bid,
-    normalize_bid_history,
-    reconstruct_full_hands,
-)
+from MVP.ml.normalize import normalize_bid, normalize_bid_history
+from MVP.ml.preprocess import compute_deal_id, reconstruct_full_hands
 
 
 def test_compute_deal_id():
@@ -13,6 +9,7 @@ def test_compute_deal_id():
 
 def test_normalize_bid_variants():
     assert normalize_bid("pass") == "P"
+    assert normalize_bid("p") == "P"
     assert normalize_bid("d") == "X"
     assert normalize_bid("r") == "XX"
     assert normalize_bid("1n") == "1NT"
