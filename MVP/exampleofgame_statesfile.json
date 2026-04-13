@@ -1,0 +1,10365 @@
+[
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 1,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 4,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 3,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 2,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 5,
+    "current_leader": 1,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 5,
+    "current_leader": 1,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 5,
+    "current_leader": 1,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 5,
+    "current_leader": 1,
+    "next_player": 1,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 6,
+    "current_leader": 4,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 6,
+    "current_leader": 4,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 6,
+    "current_leader": 4,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 6,
+    "current_leader": 4,
+    "next_player": 4,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 7,
+    "current_leader": 3,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 7,
+    "current_leader": 3,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 7,
+    "current_leader": 3,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 7,
+    "current_leader": 3,
+    "next_player": 3,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 8,
+    "current_leader": 2,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 8,
+    "current_leader": 2,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 8,
+    "current_leader": 2,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "3C",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 8,
+    "current_leader": 2,
+    "next_player": 2,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "3C",
+        "leader": 2
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "9C",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 9,
+    "current_leader": 1,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "3C",
+        "leader": 2
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "9C",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "6C",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 9,
+    "current_leader": 1,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "3C",
+        "leader": 2
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "9C",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "6C",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "8H",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 9,
+    "current_leader": 1,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "o1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1S",
+        "Pass",
+        "2H"
+      ],
+      [
+        "Pass",
+        "3H",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "4D",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "AD",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "7D",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "8D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "6D",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "KD",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "QD",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "6S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "AS",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "4S",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "QS",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "AH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "6H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "2H",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "4H",
+        "leader": 2
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "3H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "9H",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KH",
+        "leader": 1
+      },
+      {
+        "trick_number": 5,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "5D",
+        "leader": 1
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "JD",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "2D",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "4C",
+        "leader": 4
+      },
+      {
+        "trick_number": 6,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "9D",
+        "leader": 4
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "7C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "2C",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "KC",
+        "leader": 3
+      },
+      {
+        "trick_number": 7,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "8C",
+        "leader": 3
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "5C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "10C",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 3,
+        "player": 4,
+        "card": "AC",
+        "leader": 2
+      },
+      {
+        "trick_number": 8,
+        "position_in_trick": 4,
+        "player": 1,
+        "card": "3C",
+        "leader": 2
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "9C",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "6C",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "8H",
+        "leader": 1
+      },
+      {
+        "trick_number": 9,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "QC",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 9,
+    "current_leader": 1,
+    "next_player": 1,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 1,
+    "current_leader": 1,
+    "next_player": 1,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 2,
+    "current_leader": 4,
+    "next_player": 4,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 4,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "4H",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 1,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "4H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "3H",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 2,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "4H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "3H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "6H",
+        "leader": 3
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 3,
+    "current_leader": 3,
+    "next_player": 3,
+    "trick_complete": true
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "4H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "3H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "6H",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "QH",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 3,
+    "trick_complete": false
+  },
+  {
+    "game_id": "83928",
+    "board_number": "c1",
+    "curr_card_hold": [
+      [
+        "10S",
+        "8S",
+        "4S",
+        "10H",
+        "9H",
+        "6H",
+        "AD",
+        "10D",
+        "9D",
+        "8D",
+        "QC",
+        "10C",
+        "8C"
+      ],
+      [
+        "KS",
+        "9S",
+        "6S",
+        "3S",
+        "4H",
+        "KD",
+        "5D",
+        "3D",
+        "2D",
+        "JC",
+        "6C",
+        "3C",
+        "2C"
+      ],
+      [
+        "QS",
+        "KH",
+        "QH",
+        "JH",
+        "7H",
+        "5H",
+        "2H",
+        "JD",
+        "7D",
+        "6D",
+        "AC",
+        "9C",
+        "7C"
+      ],
+      [
+        "AS",
+        "JS",
+        "7S",
+        "5S",
+        "2S",
+        "AH",
+        "8H",
+        "3H",
+        "QD",
+        "4D",
+        "KC",
+        "5C",
+        "4C"
+      ]
+    ],
+    "curr_bid_hist": [
+      [
+        "Pass",
+        "1N",
+        "Pass",
+        "4C"
+      ],
+      [
+        "Pass",
+        "4H",
+        "Pass",
+        "Pass"
+      ],
+      [
+        "Pass"
+      ]
+    ],
+    "curr_card_play_hist": [
+      {
+        "trick_number": 1,
+        "position_in_trick": 1,
+        "player": 1,
+        "card": "4S",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 2,
+        "player": 2,
+        "card": "QS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 3,
+        "player": 3,
+        "card": "KS",
+        "leader": 1
+      },
+      {
+        "trick_number": 1,
+        "position_in_trick": 4,
+        "player": 4,
+        "card": "AS",
+        "leader": 1
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 1,
+        "player": 4,
+        "card": "2S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 2,
+        "player": 1,
+        "card": "8S",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 3,
+        "player": 2,
+        "card": "7H",
+        "leader": 4
+      },
+      {
+        "trick_number": 2,
+        "position_in_trick": 4,
+        "player": 3,
+        "card": "6S",
+        "leader": 4
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 1,
+        "player": 3,
+        "card": "KH",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 2,
+        "player": 4,
+        "card": "4H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 3,
+        "player": 1,
+        "card": "3H",
+        "leader": 3
+      },
+      {
+        "trick_number": 3,
+        "position_in_trick": 4,
+        "player": 2,
+        "card": "6H",
+        "leader": 3
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 1,
+        "player": 2,
+        "card": "QH",
+        "leader": 2
+      },
+      {
+        "trick_number": 4,
+        "position_in_trick": 2,
+        "player": 3,
+        "card": "3S",
+        "leader": 2
+      }
+    ],
+    "vulnerability": {
+      "1": true,
+      "2": false,
+      "3": true,
+      "4": false
+    },
+    "current_trick": 4,
+    "current_leader": 2,
+    "next_player": 4,
+    "trick_complete": false
+  }
+]
