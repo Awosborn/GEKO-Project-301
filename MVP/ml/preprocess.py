@@ -52,6 +52,15 @@ def reconstruct_full_hands(snapshot: Mapping[str, object]) -> ReconstructionResu
     if not isinstance(raw_play_hist, list):
         return ReconstructionResult(hands=hands, is_corrupted=True, reason="curr_card_play_hist must be a list")
 
+    # Two snapshot variants exist in project data:
+    # 1) curr_card_hold is the *remaining* hand (needs played cards added back)
+    # 2) curr_card_hold already stores each player's full original 13 cards
+    #
+    # If all seats already have 13 cards, keep them as-is and only validate shape.
+    # Otherwise, treat holds as remaining cards and add each player's played cards.
+    starting_counts = {player: len(hands[player]) for player in PLAYERS}
+    should_add_played_cards = not all(count == 13 for count in starting_counts.values())
+
     for event in raw_play_hist:
         if not isinstance(event, Mapping):
             return ReconstructionResult(hands=hands, is_corrupted=True, reason="play event is not an object")
@@ -59,7 +68,8 @@ def reconstruct_full_hands(snapshot: Mapping[str, object]) -> ReconstructionResu
         card = normalize_card(str(event.get("card", "")))
         if player not in PLAYERS or card == "UNK":
             return ReconstructionResult(hands=hands, is_corrupted=True, reason="play event has invalid player/card")
-        hands[player].append(card)
+        if should_add_played_cards:
+            hands[player].append(card)
 
     counts = {player: len(hands[player]) for player in PLAYERS}
     if any(count != 13 for count in counts.values()):
