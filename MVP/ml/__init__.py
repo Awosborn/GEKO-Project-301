@@ -13,6 +13,15 @@ from .dataset_export import (
 from .derive_contract import ContractMeaning, derive_contract_from_auction
 from .masks import bid_legality_mask, card_legality_mask, is_legal_bid, legal_bids, legal_cards
 from .normalize import normalize_bid, normalize_bid_history, normalize_card
+from .problem_definition import (
+    COMPASS_TO_SEAT_ID,
+    LOCKED_PROBLEM_DEFINITION,
+    SEAT_ID_TO_COMPASS,
+    LabelSource,
+    ProblemDefinition,
+    VisibilityPolicy,
+    auction_seat_to_act,
+)
 from .preprocess import ReconstructionResult, compute_deal_id, reconstruct_full_hands
 from .splits import split_by_deal
 from .tokenizer import Tokenizer
@@ -28,6 +37,13 @@ __all__ = [
     "ContractMeaning",
     "ReconstructionResult",
     "Tokenizer",
+    "ProblemDefinition",
+    "VisibilityPolicy",
+    "LabelSource",
+    "LOCKED_PROBLEM_DEFINITION",
+    "SEAT_ID_TO_COMPASS",
+    "COMPASS_TO_SEAT_ID",
+    "auction_seat_to_act",
     "build_bidding_examples",
     "build_bidding_examples_from_snapshot",
     "build_cardplay_examples_from_snapshot",
