@@ -59,3 +59,22 @@ def test_reconstruct_full_hands_detects_bad_count():
     result = reconstruct_full_hands(snapshot)
     assert result.is_corrupted is True
     assert "expected 13 cards" in result.reason
+
+
+def test_reconstruct_full_hands_accepts_already_full_hands_with_play_history():
+    snapshot = {
+        "curr_card_hold": [
+            ["AS", "KS", "QS", "JS", "10S", "9S", "8S", "7S", "6S", "5S", "4S", "3S", "2S"],
+            ["AH", "KH", "QH", "JH", "10H", "9H", "8H", "7H", "6H", "5H", "4H", "3H", "2H"],
+            ["AD", "KD", "QD", "JD", "10D", "9D", "8D", "7D", "6D", "5D", "4D", "3D", "2D"],
+            ["AC", "KC", "QC", "JC", "10C", "9C", "8C", "7C", "6C", "5C", "4C", "3C", "2C"],
+        ],
+        "curr_card_play_hist": [
+            {"player": 1, "card": "2S"},
+            {"player": 2, "card": "2H"},
+        ],
+    }
+
+    result = reconstruct_full_hands(snapshot)
+    assert result.is_corrupted is False
+    assert all(len(cards) == 13 for cards in result.hands.values())
