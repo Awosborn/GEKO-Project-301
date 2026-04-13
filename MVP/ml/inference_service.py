@@ -10,8 +10,6 @@ from typing import Any, Dict, List, Mapping, Sequence
 
 from .masks import bid_legality_mask, card_legality_mask
 from .tokenizer import Tokenizer
-from .train_next_bid import _tokens_from_bid_row
-from .train_next_card import _tokens_from_card_row
 
 
 @dataclass
@@ -141,6 +139,8 @@ def predict_bid(
     hand_cards: Sequence[str],
     top_k: int,
 ) -> Dict[str, object]:
+    from .train_next_bid import _tokens_from_bid_row
+
     token_ids = artifacts.tokenizer.encode(
         _tokens_from_bid_row({"seat_to_act": seat_to_act, "bid_prefix": bid_prefix, "hand_cards": hand_cards})
     )
@@ -164,6 +164,8 @@ def predict_card(
     trick_cards: Sequence[str],
     top_k: int,
 ) -> Dict[str, object]:
+    from .train_next_card import _tokens_from_card_row
+
     token_ids = artifacts.tokenizer.encode(
         _tokens_from_card_row(
             {

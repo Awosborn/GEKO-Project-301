@@ -33,8 +33,22 @@ from .preprocess import ReconstructionResult, compute_deal_id, reconstruct_full_
 from .splits import split_by_deal
 from .tokenizer import Tokenizer
 from .train_common import MajorityClassifier
-from .train_next_bid import main as train_next_bid_main
-from .train_next_card import main as train_next_card_main
+
+
+def train_next_bid_main(*args, **kwargs):
+    """Run the next-bid training entrypoint with lazy import."""
+
+    from .train_next_bid import main
+
+    return main(*args, **kwargs)
+
+
+def train_next_card_main(*args, **kwargs):
+    """Run the next-card training entrypoint with lazy import."""
+
+    from .train_next_card import main
+
+    return main(*args, **kwargs)
 
 __all__ = [
     "bid_legality_mask",
