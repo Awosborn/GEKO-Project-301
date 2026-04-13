@@ -112,10 +112,15 @@ def _run_transformer(
 
     best_loss = float("inf")
     history: List[Dict[str, float]] = []
+    total_batches = max(1, (len(x_padded) + batch_size - 1) // batch_size)
+    log_every_n_batches = 1 if total_batches <= 5 else max(1, total_batches // 10)
     for epoch in range(1, epochs + 1):
+        print(f"[train] Epoch {epoch}/{epochs} start ({total_batches} batches)")
         model.train()
         total_loss = 0.0
+        running_loss = 0.0
         for start in range(0, len(x_padded), batch_size):
+            batch_index = (start // batch_size) + 1
             xb = x_tensor[start : start + batch_size].to(device)
             yb = y_tensor[start : start + batch_size].to(device)
             optimizer.zero_grad()
@@ -127,14 +132,25 @@ def _run_transformer(
             loss.backward()
             optimizer.step()
             total_loss += float(loss.item()) * len(xb)
+            running_loss += float(loss.item())
+            running_avg_loss = running_loss / float(batch_index)
+
+            if batch_index % log_every_n_batches == 0 or batch_index == total_batches:
+                print(
+                    f"[train] Epoch {epoch}/{epochs} batch {batch_index}/{total_batches} "
+                    f"loss={float(loss.item()):.4f} running_avg={running_avg_loss:.4f}"
+                )
 
         epoch_loss = total_loss / float(len(x_padded))
         history.append({"epoch": float(epoch), "train_loss": epoch_loss})
         ckpt = {"epoch": epoch, "model_state_dict": model.state_dict(), "optimizer_state_dict": optimizer.state_dict()}
         torch.save(ckpt, out_dir / f"checkpoint_epoch_{epoch}.pt")
+        updated_best = False
         if epoch_loss < best_loss:
             best_loss = epoch_loss
             torch.save(ckpt, out_dir / "checkpoint_best.pt")
+            updated_best = True
+        print(f"[train] Epoch {epoch}/{epochs} end epoch_loss={epoch_loss:.4f} checkpoint_best_updated={updated_best}")
 
     result = {"epochs": epochs, "batch_size": batch_size, "learning_rate": lr, "best_train_loss": best_loss, "history": history}
     save_json(out_dir / "transformer_metrics.json", result)
