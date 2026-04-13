@@ -11,8 +11,11 @@ into ML-ready examples:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Dict, Iterable, List, Mapping, Sequence
+import json
+from collections import Counter
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 from .derive_contract import derive_contract_from_auction
 from .normalize import normalize_bid, normalize_card
@@ -45,6 +48,19 @@ class CardPlayExample:
     play_prefix: List[Dict[str, object]]
     label_next_card: str
     derived_contract: Dict[str, object]
+
+
+@dataclass(frozen=True)
+class DatasetBuildStats:
+    """Reproducibility stats captured while exporting datasets."""
+
+    total_snapshots: int
+    unique_deals: int
+    bidding_examples: int
+    cardplay_examples: int
+    bidding_corrupted_deals: int
+    cardplay_corrupted_snapshots: int
+    corruption_reasons: Dict[str, int]
 
 
 def _count_present_bids(curr_bid_hist: object) -> int:
@@ -133,6 +149,14 @@ def build_bidding_examples(snapshots: Iterable[Mapping[str, object]]) -> List[Bi
     return examples
 
 
+def build_cardplay_examples(snapshots: Iterable[Mapping[str, object]]) -> List[CardPlayExample]:
+    """Build card-play examples from all snapshots."""
+    examples: List[CardPlayExample] = []
+    for snapshot in snapshots:
+        examples.extend(build_cardplay_examples_from_snapshot(snapshot))
+    return examples
+
+
 def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> List[CardPlayExample]:
     """Build one prefix -> next-card example from a post-action snapshot.
 
@@ -141,6 +165,10 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
     - pre-state hand = current hand + label card returned to actor
     - pre-state prefix = full play history without the last action
     """
+    reconstruction = reconstruct_full_hands(snapshot)
+    if reconstruction.is_corrupted:
+        return []
+
     raw_play_hist = snapshot.get("curr_card_play_hist")
     if not isinstance(raw_play_hist, list) or not raw_play_hist:
         return []
@@ -157,11 +185,7 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
     if label_next_card == "UNK":
         return []
 
-    raw_hands = snapshot.get("curr_card_hold")
-    if not isinstance(raw_hands, list) or len(raw_hands) != 4:
-        return []
-
-    hand_cards = [normalize_card(str(card)) for card in raw_hands[seat_to_act - 1] if str(card).strip()]
+    hand_cards = [normalize_card(str(card)) for card in snapshot["curr_card_hold"][seat_to_act - 1] if str(card).strip()]
     hand_cards.append(label_next_card)
 
     auction_bids = [event["bid"] for event in flatten_bid_history(snapshot.get("curr_bid_hist"))]
@@ -188,3 +212,105 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
             derived_contract=derived_contract,
         )
     ]
+
+
+def _read_jsonl(path: Path) -> List[Dict[str, Any]]:
+    snapshots: List[Dict[str, Any]] = []
+    with path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            snapshots.append(json.loads(line))
+    return snapshots
+
+
+def _as_dict_rows(examples: Iterable[object]) -> List[Dict[str, Any]]:
+    return [asdict(example) for example in examples]
+
+
+def write_jsonl(path: Path, rows: Iterable[Mapping[str, Any]]) -> int:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    count = 0
+    with path.open("w", encoding="utf-8") as handle:
+        for row in rows:
+            handle.write(json.dumps(dict(row), ensure_ascii=False) + "\n")
+            count += 1
+    return count
+
+
+def write_parquet(path: Path, rows: Iterable[Mapping[str, Any]]) -> int:
+    data = [dict(row) for row in rows]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        import pandas as pd
+    except ImportError as exc:  # pragma: no cover - dependency may be absent by environment
+        raise RuntimeError("Parquet export requires pandas (and a parquet engine such as pyarrow).") from exc
+    pd.DataFrame(data).to_parquet(path, index=False)
+    return len(data)
+
+
+def build_datasets_from_snapshot_jsonl(
+    snapshot_jsonl_path: Path,
+    output_dir: Path,
+    formats: Sequence[str] = ("jsonl",),
+) -> Tuple[DatasetBuildStats, Dict[str, Dict[str, Optional[Path]]]]:
+    """Build and persist bidding/card-play datasets from snapshot JSONL."""
+    snapshots = _read_jsonl(snapshot_jsonl_path)
+    grouped = group_snapshots_by_deal_id(snapshots)
+    corruption_reasons: Counter[str] = Counter()
+
+    bidding_examples: List[BiddingExample] = []
+    for deal_snapshots in grouped.values():
+        representative = select_representative_bidding_snapshot(deal_snapshots)
+        reconstruction = reconstruct_full_hands(representative)
+        if reconstruction.is_corrupted:
+            corruption_reasons[f"bidding:{reconstruction.reason}"] += 1
+            continue
+        bidding_examples.extend(build_bidding_examples_from_snapshot(representative))
+
+    cardplay_examples: List[CardPlayExample] = []
+    cardplay_corrupted = 0
+    for snapshot in snapshots:
+        examples = build_cardplay_examples_from_snapshot(snapshot)
+        if not examples:
+            cardplay_corrupted += 1
+            corruption_reasons["cardplay:invalid_or_incomplete_snapshot"] += 1
+            continue
+        cardplay_examples.extend(examples)
+
+    persisted: Dict[str, Dict[str, Optional[Path]]] = {
+        "bidding": {"jsonl": None, "parquet": None},
+        "cardplay": {"jsonl": None, "parquet": None},
+    }
+    bidding_rows = _as_dict_rows(bidding_examples)
+    cardplay_rows = _as_dict_rows(cardplay_examples)
+    for fmt in formats:
+        normalized = fmt.lower()
+        if normalized == "jsonl":
+            bidding_path = output_dir / "bidding_examples.jsonl"
+            cardplay_path = output_dir / "cardplay_examples.jsonl"
+            write_jsonl(bidding_path, bidding_rows)
+            write_jsonl(cardplay_path, cardplay_rows)
+            persisted["bidding"]["jsonl"] = bidding_path
+            persisted["cardplay"]["jsonl"] = cardplay_path
+        elif normalized == "parquet":
+            bidding_path = output_dir / "bidding_examples.parquet"
+            cardplay_path = output_dir / "cardplay_examples.parquet"
+            write_parquet(bidding_path, bidding_rows)
+            write_parquet(cardplay_path, cardplay_rows)
+            persisted["bidding"]["parquet"] = bidding_path
+            persisted["cardplay"]["parquet"] = cardplay_path
+        else:
+            raise ValueError(f"Unsupported dataset format: {fmt}")
+
+    stats = DatasetBuildStats(
+        total_snapshots=len(snapshots),
+        unique_deals=len(grouped),
+        bidding_examples=len(bidding_examples),
+        cardplay_examples=len(cardplay_examples),
+        bidding_corrupted_deals=sum(v for k, v in corruption_reasons.items() if k.startswith("bidding:")),
+        cardplay_corrupted_snapshots=cardplay_corrupted,
+        corruption_reasons=dict(corruption_reasons),
+    )
+    return stats, persisted

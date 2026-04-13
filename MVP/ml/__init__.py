@@ -3,12 +3,17 @@
 from .dataset_export import (
     BiddingExample,
     CardPlayExample,
+    DatasetBuildStats,
+    build_cardplay_examples,
     build_bidding_examples,
     build_bidding_examples_from_snapshot,
+    build_datasets_from_snapshot_jsonl,
     build_cardplay_examples_from_snapshot,
     flatten_bid_history,
     group_snapshots_by_deal_id,
     select_representative_bidding_snapshot,
+    write_jsonl,
+    write_parquet,
 )
 from .derive_contract import ContractMeaning, derive_contract_from_auction
 from .masks import bid_legality_mask, card_legality_mask, is_legal_bid, legal_bids, legal_cards
@@ -34,6 +39,7 @@ __all__ = [
     "legal_cards",
     "BiddingExample",
     "CardPlayExample",
+    "DatasetBuildStats",
     "ContractMeaning",
     "ReconstructionResult",
     "Tokenizer",
@@ -46,7 +52,9 @@ __all__ = [
     "auction_seat_to_act",
     "build_bidding_examples",
     "build_bidding_examples_from_snapshot",
+    "build_cardplay_examples",
     "build_cardplay_examples_from_snapshot",
+    "build_datasets_from_snapshot_jsonl",
     "compute_deal_id",
     "derive_contract_from_auction",
     "flatten_bid_history",
@@ -57,4 +65,6 @@ __all__ = [
     "reconstruct_full_hands",
     "select_representative_bidding_snapshot",
     "split_by_deal",
+    "write_jsonl",
+    "write_parquet",
 ]

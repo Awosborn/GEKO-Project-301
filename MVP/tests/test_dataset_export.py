@@ -1,8 +1,12 @@
+import json
+
 from MVP.ml.dataset_export import (
+    build_datasets_from_snapshot_jsonl,
     build_bidding_examples,
     build_cardplay_examples_from_snapshot,
     flatten_bid_history,
     select_representative_bidding_snapshot,
+    write_jsonl,
 )
 
 
@@ -88,3 +92,46 @@ def test_build_cardplay_example_inverts_post_action_snapshot():
     assert example.hand_cards[-1] == "2C"
     assert example.auction_bids == ["1C", "P", "1H", "P"]
     assert example.derived_contract == {"level": 1, "strain": "H", "multiplier": "", "declarer": None, "dummy": None}
+
+
+def test_write_jsonl_writes_all_rows(tmp_path):
+    rows = [{"a": 1}, {"a": 2, "b": "x"}]
+    out = tmp_path / "examples.jsonl"
+    count = write_jsonl(out, rows)
+    assert count == 2
+    lines = out.read_text(encoding="utf-8").strip().splitlines()
+    assert [json.loads(line) for line in lines] == rows
+
+
+def test_build_datasets_from_snapshot_jsonl_emits_stats_and_outputs(tmp_path):
+    valid_snapshot = {
+        "game_id": "g9",
+        "board_number": "c23",
+        "curr_card_hold": _valid_hands_with_one_played_card_per_player(),
+        "curr_bid_hist": [["1C", "p", "1h", "p"]],
+        "curr_card_play_hist": _play_hist_one_card_each(),
+    }
+    corrupted_snapshot = {
+        "game_id": "g10",
+        "board_number": "c24",
+        "curr_card_hold": [["AS"], ["AH"], ["AD"], ["AC"]],
+        "curr_bid_hist": [["1C", None, None, None]],
+        "curr_card_play_hist": [{"player": 1, "card": "2S"}],
+    }
+    input_path = tmp_path / "snapshots.jsonl"
+    write_jsonl(input_path, [valid_snapshot, corrupted_snapshot])
+
+    stats, outputs = build_datasets_from_snapshot_jsonl(
+        snapshot_jsonl_path=input_path,
+        output_dir=tmp_path / "datasets",
+        formats=("jsonl",),
+    )
+
+    assert stats.total_snapshots == 2
+    assert stats.unique_deals == 2
+    assert stats.bidding_examples == 4
+    assert stats.cardplay_examples == 1
+    assert stats.bidding_corrupted_deals == 1
+    assert stats.cardplay_corrupted_snapshots == 1
+    assert outputs["bidding"]["jsonl"].exists()
+    assert outputs["cardplay"]["jsonl"].exists()

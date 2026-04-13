@@ -96,3 +96,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/problem_definition.py, MVP/ml/problem_definition_decisions.md, MVP/ml/__init__.py, MVP/tests/test_problem_definition.py
 - Validation: Ran `python -m pytest -q` (20 tests passed).
 - Follow-ups: Thread `dealer_seat` explicitly into auction flattening/export paths so seat-to-act reconstruction can support partial-auction snapshots sourced from alternate schemas.
+
+## PR Update - 2026-04-13 - week5-step2-dataset-persistence-cli
+- Summary: Added end-to-end dataset persistence for bidding/card-play examples with JSONL and Parquet writers, plus a CLI that builds datasets from snapshot JSONL and emits reproducibility stats including corruption counts.
+- Files touched: read.md, MVP/ml/dataset_export.py, MVP/ml/build_dataset_cli.py, MVP/ml/__init__.py, MVP/tests/test_dataset_export.py, MVP/tests/test_build_dataset_cli.py
+- Validation: Ran `python -m pytest -q` (23 tests passed).
+- Follow-ups: Consider adding schema-version metadata files and deterministic split manifests alongside dataset outputs.
