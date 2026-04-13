@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from MVP.ml.inference_service import InferenceArtifacts, predict_bid, predict_card
 
 
@@ -73,3 +75,53 @@ def test_predict_card_returns_follow_suit_masked_output(tmp_path):
     )
     assert out["top_k_probabilities"][0]["label"] == "KC"
     assert [row["label"] for row in out["masked_top_k_probabilities"]] == ["AH", "2H"]
+
+
+def test_predict_api_endpoints_smoke(tmp_path):
+    fastapi = pytest.importorskip("fastapi")
+    pytest.importorskip("fastapi.testclient")
+
+    model_bid_dir = tmp_path / "bid"
+    model_card_dir = tmp_path / "card"
+    _write_artifacts(model_bid_dir)
+    _write_artifacts(model_card_dir)
+    model_card_dir.joinpath("label_map.json").write_text(
+        json.dumps(
+            {
+                "label_to_id": {"KC": 0, "AH": 1, "2H": 2},
+                "id_to_label": {"0": "KC", "1": "AH", "2": "2H"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    from fastapi.testclient import TestClient
+
+    from MVP.ml.inference_service import create_inference_app
+
+    app = create_inference_app(model_bid_dir, model_card_dir)
+    client = TestClient(app)
+
+    bid_resp = client.post(
+        "/predict_bid",
+        json={"seat_to_act": 1, "bid_prefix": [], "hand_cards": ["AS"], "top_k": 2},
+    )
+    assert bid_resp.status_code == 200
+    bid_payload = bid_resp.json()
+    assert "masked_top_k_probabilities" in bid_payload
+    assert bid_payload["masked_top_k_probabilities"][0]["label"] == "1C"
+
+    card_resp = client.post(
+        "/predict_card",
+        json={
+            "seat_to_act": 1,
+            "auction_bids": ["1C", "P"],
+            "play_prefix": [{"player": 2, "card": "9H"}],
+            "hand_cards": ["KC", "AH", "2H"],
+            "trick_cards": ["9H"],
+            "top_k": 2,
+        },
+    )
+    assert card_resp.status_code == 200
+    card_payload = card_resp.json()
+    assert [row["label"] for row in card_payload["masked_top_k_probabilities"]] == ["AH", "2H"]

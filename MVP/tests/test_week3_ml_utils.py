@@ -43,3 +43,14 @@ def test_tokenizer_loads_training_tokens_and_adds_specials():
     assert "PHASE_BID" in tokenizer.token_to_id
     assert encoded[-1] == tokenizer.token_to_id["UNK"]
     assert decoded[0] == "P"
+
+
+def test_tokenizer_roundtrip_preserves_known_tokens_and_maps_unknowns_to_unk():
+    tokenizer = Tokenizer.from_training_tokens("MVP/training_tokens.json")
+    tokens = ["PHASE_BID", "TO_ACT_P2", "BIDS", "1C", "P", "HAND", "AS", "NOT_REAL"]
+
+    encoded = tokenizer.encode(tokens)
+    decoded = tokenizer.decode(encoded)
+
+    assert decoded[:-1] == tokens[:-1]
+    assert decoded[-1] == "UNK"

@@ -108,3 +108,21 @@ def test_train_next_card_cli_writes_artifacts(tmp_path):
     assert out_dir.joinpath("evaluation_report.json").exists()
     report = json.loads(out_dir.joinpath("evaluation_report.json").read_text(encoding="utf-8"))
     assert set(report["metrics"]) >= {"top_1_accuracy", "top_3_accuracy", "nll", "cross_entropy"}
+
+
+def test_train_commands_expose_help_smoke():
+    bid_help = subprocess.run(
+        [sys.executable, "-m", "MVP.ml.train_next_bid", "--help"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    card_help = subprocess.run(
+        [sys.executable, "-m", "MVP.ml.train_next_card", "--help"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert "Train next-bid models" in bid_help.stdout
+    assert "Train next-card models" in card_help.stdout

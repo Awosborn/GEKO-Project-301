@@ -135,3 +135,46 @@ def test_build_datasets_from_snapshot_jsonl_emits_stats_and_outputs(tmp_path):
     assert stats.cardplay_corrupted_snapshots == 1
     assert outputs["bidding"]["jsonl"].exists()
     assert outputs["cardplay"]["jsonl"].exists()
+
+
+def test_dataset_rows_respect_core_invariants(tmp_path):
+    snapshot = {
+        "game_id": "g12",
+        "board_number": "c26",
+        "curr_card_hold": _valid_hands_with_one_played_card_per_player(),
+        "curr_bid_hist": [["1C", "p", "1h", "p"]],
+        "curr_card_play_hist": _play_hist_one_card_each(),
+    }
+    input_path = tmp_path / "snapshots.jsonl"
+    out_dir = tmp_path / "datasets"
+    write_jsonl(input_path, [snapshot])
+
+    _, outputs = build_datasets_from_snapshot_jsonl(
+        snapshot_jsonl_path=input_path,
+        output_dir=out_dir,
+        formats=("jsonl",),
+    )
+
+    bidding_rows = [
+        json.loads(line)
+        for line in outputs["bidding"]["jsonl"].read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    card_rows = [
+        json.loads(line)
+        for line in outputs["cardplay"]["jsonl"].read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+    assert bidding_rows
+    assert card_rows
+    assert all(row["deal_id"] == "g12:c26" for row in bidding_rows)
+    assert all(1 <= int(row["seat_to_act"]) <= 4 for row in bidding_rows)
+    assert all(len(row["bid_prefix"]) == i for i, row in enumerate(bidding_rows))
+    assert all(row["label_next_bid"] != "UNK" for row in bidding_rows)
+
+    card_row = card_rows[0]
+    assert card_row["deal_id"] == "g12:c26"
+    assert 1 <= int(card_row["seat_to_act"]) <= 4
+    assert card_row["label_next_card"] in card_row["hand_cards"]
+    assert card_row["derived_contract"]["strain"] == "H"
