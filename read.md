@@ -114,3 +114,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/inference.py, MVP/ml/train_next_bid.py, MVP/ml/train_next_card.py, MVP/ml/__init__.py, MVP/tests/test_train_entrypoints.py, MVP/tests/test_week6_legality_inference.py
 - Validation: Ran `python -m pytest -q` (27 tests passed).
 - Follow-ups: Replace placeholder score sources in guardrail report generation with saved model logits once standalone eval/inference entrypoints are added.
+
+## PR Update - 2026-04-13 - week6-step6-inference-service-endpoints
+- Summary: Added inference-service utilities plus FastAPI endpoint wiring for `/predict_bid` and `/predict_card`, loading saved tokenizer/model artifacts and returning both raw top-k and legality-masked top-k probabilities.
+- Files touched: read.md, MVP/ml/inference_service.py, MVP/ml/__init__.py, MVP/tests/test_inference_service.py
+- Validation: Ran `python -m pytest -q MVP/tests/test_inference_service.py` and `python -m pytest -q`.
+- Follow-ups: Add deployment/runtime config docs (env vars and uvicorn command) once serving infrastructure is finalized.
