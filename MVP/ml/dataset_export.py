@@ -14,7 +14,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Mapping, Sequence
 
-from .preprocess import compute_deal_id, normalize_bid, reconstruct_full_hands
+from .derive_contract import derive_contract_from_auction
+from .normalize import normalize_bid, normalize_card
+from .preprocess import compute_deal_id, reconstruct_full_hands
 
 PLAYERS: Sequence[int] = (1, 2, 3, 4)
 
@@ -42,6 +44,7 @@ class CardPlayExample:
     auction_bids: List[str]
     play_prefix: List[Dict[str, object]]
     label_next_card: str
+    derived_contract: Dict[str, object]
 
 
 def _count_present_bids(curr_bid_hist: object) -> int:
@@ -150,15 +153,15 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
     if seat_to_act not in PLAYERS:
         return []
 
-    label_next_card = str(last_event.get("card", "")).strip().upper()
-    if not label_next_card:
+    label_next_card = normalize_card(str(last_event.get("card", "")))
+    if label_next_card == "UNK":
         return []
 
     raw_hands = snapshot.get("curr_card_hold")
     if not isinstance(raw_hands, list) or len(raw_hands) != 4:
         return []
 
-    hand_cards = [str(card).strip().upper() for card in raw_hands[seat_to_act - 1] if str(card).strip()]
+    hand_cards = [normalize_card(str(card)) for card in raw_hands[seat_to_act - 1] if str(card).strip()]
     hand_cards.append(label_next_card)
 
     auction_bids = [event["bid"] for event in flatten_bid_history(snapshot.get("curr_bid_hist"))]
@@ -168,8 +171,10 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
             continue
         normalized_event = dict(event)
         if "card" in normalized_event:
-            normalized_event["card"] = str(normalized_event["card"]).strip().upper()
+            normalized_event["card"] = normalize_card(str(normalized_event["card"]))
         play_prefix.append(normalized_event)
+
+    derived_contract = derive_contract_from_auction(auction_bids).to_dict()
 
     return [
         CardPlayExample(
@@ -180,5 +185,6 @@ def build_cardplay_examples_from_snapshot(snapshot: Mapping[str, object]) -> Lis
             auction_bids=auction_bids,
             play_prefix=play_prefix,
             label_next_card=label_next_card,
+            derived_contract=derived_contract,
         )
     ]

@@ -78,3 +78,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/__init__.py, MVP/ml/dataset_export.py, MVP/tests/test_dataset_export.py
 - Validation: Ran `python -m pytest -q` (9 tests passed).
 - Follow-ups: Add JSONL/parquet writers and split-by-deal utilities so these in-memory examples can be persisted for training loops.
+
+## PR Update - 2026-04-13 - week3-priority-steps-9-12
+- Summary: Added Week-3 ML utilities by introducing centralized token normalization, training-token-backed tokenizer helpers, auction contract-meaning derivation for card-play examples, and deal-group split helpers to prevent train/val/test leakage.
+- Files touched: read.md, MVP/ml/preprocess.py, MVP/ml/dataset_export.py, MVP/ml/__init__.py, MVP/ml/normalize.py, MVP/ml/tokenizer.py, MVP/ml/derive_contract.py, MVP/ml/splits.py, MVP/tests/test_preprocess.py, MVP/tests/test_dataset_export.py, MVP/tests/test_week3_ml_utils.py
+- Validation: Ran `python -m pytest -q` (12 tests passed).
+- Follow-ups: Add bid/card legality-mask builders and wire these utilities into model training/evaluation scripts under `MVP/ml/train` and `MVP/ml/eval`.
