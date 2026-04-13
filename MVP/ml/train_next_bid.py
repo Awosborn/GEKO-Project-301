@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Dict, List, Sequence
 
 from .tokenizer import Tokenizer
+from .evaluation import bid_confusion_report, bid_legality_error_buckets, classification_metrics
+from .splits import split_by_deal
 from .train_common import (
     MajorityClassifier,
     encode_dataset,
@@ -42,6 +44,15 @@ def _run_baseline(out_dir: Path, x: List[List[int]], y: List[int], id_to_label: 
     }
     save_json(out_dir / "baseline.json", payload)
     return payload
+
+
+def _baseline_probs(majority_label_id: int, n_classes: int, n_rows: int) -> List[List[float]]:
+    probs: List[List[float]] = []
+    for _ in range(n_rows):
+        row = [0.0 for _ in range(n_classes)]
+        row[int(majority_label_id)] = 1.0
+        probs.append(row)
+    return probs
 
 
 def _run_transformer(
@@ -138,6 +149,9 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=5e-4)
+    parser.add_argument("--train-ratio", type=float, default=0.8)
+    parser.add_argument("--val-ratio", type=float, default=0.1)
+    parser.add_argument("--split-seed", type=int, default=1337)
     parser.add_argument(
         "--apply-legality-mask-training",
         action="store_true",
@@ -169,16 +183,24 @@ def main() -> int:
     rows = read_jsonl_rows(args.dataset_jsonl)
     if not rows:
         raise ValueError("Dataset is empty; cannot train.")
+    train_rows, val_rows, test_rows = split_by_deal(
+        rows,
+        train_ratio=args.train_ratio,
+        val_ratio=args.val_ratio,
+        seed=args.split_seed,
+    )
+    if not train_rows:
+        raise ValueError("Training split is empty; adjust split ratios.")
     tokenizer = Tokenizer.from_training_tokens(args.training_tokens)
-    token_sequences = [_tokens_from_bid_row(row) for row in rows]
-    labels = _labels_from_rows(rows)
+    token_sequences = [_tokens_from_bid_row(row) for row in train_rows]
+    labels = _labels_from_rows(train_rows)
     encoded = encode_dataset(token_sequences, labels, tokenizer)
 
     out_dir = args.output_dir
     out_dir.mkdir(parents=True, exist_ok=True)
     save_tokenizer_artifact(out_dir / "tokenizer_artifact.json", tokenizer)
     save_json(out_dir / "label_map.json", {"label_to_id": encoded.label_to_id, "id_to_label": encoded.id_to_label})
-    _run_baseline(out_dir, encoded.features, encoded.labels, encoded.id_to_label)
+    baseline = _run_baseline(out_dir, encoded.features, encoded.labels, encoded.id_to_label)
     label_vocab = [encoded.id_to_label[idx] for idx in range(len(encoded.id_to_label))]
     legality_masks = [
         bid_legality_mask(
@@ -186,7 +208,7 @@ def main() -> int:
             seat_to_act=int(row.get("seat_to_act", 0)),
             bid_prefix=[str(x) for x in row.get("bid_prefix", [])],
         )
-        for row in rows
+        for row in train_rows
     ]
     _run_transformer(
         out_dir=out_dir,
@@ -200,6 +222,22 @@ def main() -> int:
         legality_masks=legality_masks if args.apply_legality_mask_training else None,
     )
     _write_inference_guardrail_report(out_dir, rows, label_vocab)
+
+    eval_rows = list(val_rows) + list(test_rows)
+    eval_rows = [row for row in eval_rows if str(row.get("label_next_bid", "")) in encoded.label_to_id]
+    eval_labels = [encoded.label_to_id[str(row["label_next_bid"])] for row in eval_rows]
+    majority_id = int(baseline["majority_label_id"])
+    baseline_probs = _baseline_probs(majority_id, len(label_vocab), len(eval_rows))
+    baseline_preds = [majority_id for _ in eval_rows]
+    eval_payload = {
+        "split_summary": {"train": len(train_rows), "val": len(val_rows), "test": len(test_rows), "evaluated": len(eval_rows)},
+        "metrics": classification_metrics(baseline_probs, eval_labels, top_k_values=(1, 3, 5)),
+        "error_analysis": {
+            "bid_confusion": bid_confusion_report(eval_labels, baseline_preds, encoded.id_to_label),
+            "buckets": bid_legality_error_buckets(eval_rows, eval_labels, baseline_preds, encoded.id_to_label),
+        },
+    }
+    save_json(out_dir / "evaluation_report.json", eval_payload)
     return 0
 
 
