@@ -7,11 +7,12 @@ Our product is a Bridge-Coach model that plays against players, learns strategy,
 
 ----
 ## Current Structure and Progress
-The current structure is set up with the capabilities to train our preliminary model, which will be able to both bid and play contract bridge. This current stage of the project is set up with two submodels: latent learning model and a supervised model. 
+The current structure is set up with the capabilities to train our preliminary model, which will be able to both bid and play contract bridge.
+This current stage of the project is set up with two submodels: latent learning model and a supervised model. 
 
 
 * **read.md-** includes generic documentation of how to start running program
-* **Run_this.py -** entry point to begin
+* **Run_this.py -** entry point to begin to run the program
 * **MVP/Data.py -** Defines main Bridge objectives data Structures as well as tracking state data
 * **MVP/GameLoop.py -** Simulates one round of bridge
 * **MVP/RukesChecker.py -**  Checks if everything works under compliance of rules
