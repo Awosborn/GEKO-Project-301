@@ -75,8 +75,12 @@ def test_train_next_bid_cli_writes_artifacts(tmp_path):
     assert out_dir.joinpath("tokenizer_artifact.json").exists()
     assert out_dir.joinpath("checkpoint_epoch_1.pt").exists()
     assert out_dir.joinpath("inference_guardrails.json").exists()
+    assert out_dir.joinpath("evaluation_report.json").exists()
     baseline = json.loads(out_dir.joinpath("baseline.json").read_text(encoding="utf-8"))
     assert baseline["model_type"] == "majority_classifier"
+    report = json.loads(out_dir.joinpath("evaluation_report.json").read_text(encoding="utf-8"))
+    assert set(report["metrics"]) >= {"top_1_accuracy", "top_3_accuracy", "nll", "cross_entropy"}
+    assert report["split_summary"]["train"] >= 1
 
 
 def test_train_next_card_cli_writes_artifacts(tmp_path):
@@ -101,3 +105,6 @@ def test_train_next_card_cli_writes_artifacts(tmp_path):
     assert out_dir.joinpath("tokenizer_artifact.json").exists()
     assert out_dir.joinpath("checkpoint_epoch_1.pt").exists()
     assert out_dir.joinpath("inference_guardrails.json").exists()
+    assert out_dir.joinpath("evaluation_report.json").exists()
+    report = json.loads(out_dir.joinpath("evaluation_report.json").read_text(encoding="utf-8"))
+    assert set(report["metrics"]) >= {"top_1_accuracy", "top_3_accuracy", "nll", "cross_entropy"}
