@@ -14,6 +14,8 @@ from .train_common import (
     save_json,
     save_tokenizer_artifact,
 )
+from .inference import recommend_next_card
+from .masks import card_legality_mask
 from .train_next_bid import _run_transformer
 
 
@@ -56,7 +58,37 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=5e-4)
+    parser.add_argument(
+        "--apply-legality-mask-training",
+        action="store_true",
+        help="Apply card legality masks to transformer logits during training.",
+    )
     return parser
+
+
+def _trick_cards_from_play_prefix(play_prefix: object) -> List[str]:
+    events = play_prefix if isinstance(play_prefix, list) else []
+    cards = [str(event.get("card", "")) for event in events if isinstance(event, dict)]
+    trick_len = len(cards) % 4
+    return cards[-trick_len:] if trick_len else []
+
+
+def _write_inference_guardrail_report(out_dir: Path, rows: Sequence[Dict[str, object]], labels: Sequence[str]) -> None:
+    report: List[Dict[str, object]] = []
+    for row in rows:
+        label_scores = {label: float(1.0 if idx == 0 else 0.0) for idx, label in enumerate(labels)}
+        guarded = recommend_next_card(
+            label_scores,
+            hand_cards=[str(x) for x in row.get("hand_cards", [])],
+            trick_cards=_trick_cards_from_play_prefix(row.get("play_prefix", [])),
+            top_k=1,
+        )
+        report.append({
+            "deal_id": str(row.get("deal_id", "")),
+            "seat_to_act": int(row.get("seat_to_act", 0)),
+            "guarded_top_card": guarded[0]["card"] if guarded else None,
+        })
+    save_json(out_dir / "inference_guardrails.json", {"phase": "card", "examples": report})
 
 
 def main() -> int:
@@ -74,6 +106,15 @@ def main() -> int:
     save_tokenizer_artifact(out_dir / "tokenizer_artifact.json", tokenizer)
     save_json(out_dir / "label_map.json", {"label_to_id": encoded.label_to_id, "id_to_label": encoded.id_to_label})
     _run_baseline(out_dir, encoded.features, encoded.labels, encoded.id_to_label)
+    label_vocab = [encoded.id_to_label[idx] for idx in range(len(encoded.id_to_label))]
+    legality_masks = [
+        card_legality_mask(
+            label_vocab,
+            hand_cards=[str(x) for x in row.get("hand_cards", [])],
+            trick_cards=_trick_cards_from_play_prefix(row.get("play_prefix", [])),
+        )
+        for row in rows
+    ]
     _run_transformer(
         out_dir=out_dir,
         x=encoded.features,
@@ -83,7 +124,9 @@ def main() -> int:
         epochs=args.epochs,
         batch_size=args.batch_size,
         lr=args.lr,
+        legality_masks=legality_masks if args.apply_legality_mask_training else None,
     )
+    _write_inference_guardrail_report(out_dir, rows, label_vocab)
     return 0
 
 

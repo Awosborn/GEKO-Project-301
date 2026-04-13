@@ -108,3 +108,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/train_common.py, MVP/ml/train_next_bid.py, MVP/ml/train_next_card.py, MVP/ml/__init__.py, MVP/tests/test_train_entrypoints.py
 - Validation: Ran `python -m pytest -q` (25 tests passed).
 - Follow-ups: Add train/val split support, evaluation metrics (top-k/legality-aware), and stable model registry integration for promotion workflows.
+
+## PR Update - 2026-04-13 - week5-step4-legality-masks-integration
+- Summary: Integrated bid/card legality masks into supervised train/eval/inference paths by adding legality-constrained inference helpers, optional legality-masked transformer training flags, and guardrail artifact generation to prevent illegal recommendations.
+- Files touched: read.md, MVP/ml/inference.py, MVP/ml/train_next_bid.py, MVP/ml/train_next_card.py, MVP/ml/__init__.py, MVP/tests/test_train_entrypoints.py, MVP/tests/test_week6_legality_inference.py
+- Validation: Ran `python -m pytest -q` (27 tests passed).
+- Follow-ups: Replace placeholder score sources in guardrail report generation with saved model logits once standalone eval/inference entrypoints are added.
