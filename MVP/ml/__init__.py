@@ -16,6 +16,7 @@ from .dataset_export import (
     write_parquet,
 )
 from .derive_contract import ContractMeaning, derive_contract_from_auction
+from .inference import recommend_next_bid, recommend_next_card
 from .masks import bid_legality_mask, card_legality_mask, is_legal_bid, legal_bids, legal_cards
 from .normalize import normalize_bid, normalize_bid_history, normalize_card
 from .problem_definition import (
@@ -37,6 +38,8 @@ from .train_next_card import main as train_next_card_main
 __all__ = [
     "bid_legality_mask",
     "card_legality_mask",
+    "recommend_next_bid",
+    "recommend_next_card",
     "is_legal_bid",
     "legal_bids",
     "legal_cards",

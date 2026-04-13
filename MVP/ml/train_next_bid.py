@@ -14,6 +14,8 @@ from .train_common import (
     save_json,
     save_tokenizer_artifact,
 )
+from .inference import recommend_next_bid
+from .masks import bid_legality_mask
 
 
 def _tokens_from_bid_row(row: Dict[str, object]) -> List[str]:
@@ -51,6 +53,7 @@ def _run_transformer(
     epochs: int,
     batch_size: int,
     lr: float,
+    legality_masks: List[List[float]] | None = None,
 ) -> Dict[str, object]:
     try:
         import torch
@@ -94,6 +97,7 @@ def _run_transformer(
     criterion = nn.CrossEntropyLoss()
     x_tensor = torch.tensor(x_padded, dtype=torch.long)
     y_tensor = torch.tensor(y, dtype=torch.long)
+    legality_mask_tensor = torch.tensor(legality_masks, dtype=torch.float32) if legality_masks is not None else None
 
     best_loss = float("inf")
     history: List[Dict[str, float]] = []
@@ -105,6 +109,9 @@ def _run_transformer(
             yb = y_tensor[start : start + batch_size].to(device)
             optimizer.zero_grad()
             logits = model(xb)
+            if legality_mask_tensor is not None:
+                mb = legality_mask_tensor[start : start + batch_size].to(device)
+                logits = logits + mb
             loss = criterion(logits, yb)
             loss.backward()
             optimizer.step()
@@ -131,7 +138,30 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=5e-4)
+    parser.add_argument(
+        "--apply-legality-mask-training",
+        action="store_true",
+        help="Apply bid legality masks to transformer logits during training.",
+    )
     return parser
+
+
+def _write_inference_guardrail_report(out_dir: Path, rows: Sequence[Dict[str, object]], labels: Sequence[str]) -> None:
+    report: List[Dict[str, object]] = []
+    for row in rows:
+        label_scores = {label: float(1.0 if idx == 0 else 0.0) for idx, label in enumerate(labels)}
+        guarded = recommend_next_bid(
+            label_scores,
+            seat_to_act=int(row.get("seat_to_act", 0)),
+            bid_prefix=[str(x) for x in row.get("bid_prefix", [])],
+            top_k=1,
+        )
+        report.append({
+            "deal_id": str(row.get("deal_id", "")),
+            "seat_to_act": int(row.get("seat_to_act", 0)),
+            "guarded_top_bid": guarded[0]["bid"] if guarded else None,
+        })
+    save_json(out_dir / "inference_guardrails.json", {"phase": "bid", "examples": report})
 
 
 def main() -> int:
@@ -149,6 +179,15 @@ def main() -> int:
     save_tokenizer_artifact(out_dir / "tokenizer_artifact.json", tokenizer)
     save_json(out_dir / "label_map.json", {"label_to_id": encoded.label_to_id, "id_to_label": encoded.id_to_label})
     _run_baseline(out_dir, encoded.features, encoded.labels, encoded.id_to_label)
+    label_vocab = [encoded.id_to_label[idx] for idx in range(len(encoded.id_to_label))]
+    legality_masks = [
+        bid_legality_mask(
+            label_vocab,
+            seat_to_act=int(row.get("seat_to_act", 0)),
+            bid_prefix=[str(x) for x in row.get("bid_prefix", [])],
+        )
+        for row in rows
+    ]
     _run_transformer(
         out_dir=out_dir,
         x=encoded.features,
@@ -158,7 +197,9 @@ def main() -> int:
         epochs=args.epochs,
         batch_size=args.batch_size,
         lr=args.lr,
+        legality_masks=legality_masks if args.apply_legality_mask_training else None,
     )
+    _write_inference_guardrail_report(out_dir, rows, label_vocab)
     return 0
 
 

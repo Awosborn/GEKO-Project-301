@@ -74,6 +74,7 @@ def test_train_next_bid_cli_writes_artifacts(tmp_path):
     assert out_dir.joinpath("baseline.json").exists()
     assert out_dir.joinpath("tokenizer_artifact.json").exists()
     assert out_dir.joinpath("checkpoint_epoch_1.pt").exists()
+    assert out_dir.joinpath("inference_guardrails.json").exists()
     baseline = json.loads(out_dir.joinpath("baseline.json").read_text(encoding="utf-8"))
     assert baseline["model_type"] == "majority_classifier"
 
@@ -99,3 +100,4 @@ def test_train_next_card_cli_writes_artifacts(tmp_path):
     assert out_dir.joinpath("baseline.json").exists()
     assert out_dir.joinpath("tokenizer_artifact.json").exists()
     assert out_dir.joinpath("checkpoint_epoch_1.pt").exists()
+    assert out_dir.joinpath("inference_guardrails.json").exists()
