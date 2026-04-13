@@ -84,3 +84,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/preprocess.py, MVP/ml/dataset_export.py, MVP/ml/__init__.py, MVP/ml/normalize.py, MVP/ml/tokenizer.py, MVP/ml/derive_contract.py, MVP/ml/splits.py, MVP/tests/test_preprocess.py, MVP/tests/test_dataset_export.py, MVP/tests/test_week3_ml_utils.py
 - Validation: Ran `python -m pytest -q` (12 tests passed).
 - Follow-ups: Add bid/card legality-mask builders and wire these utilities into model training/evaluation scripts under `MVP/ml/train` and `MVP/ml/eval`.
+
+## PR Update - 2026-04-13 - week4-priority-steps-13-16
+- Summary: Implemented Week-4 legality-mask utilities for supervised bidding and card-play workflows, including bid/card mask builders that mirror game legality constraints, with dedicated unit tests.
+- Files touched: read.md, MVP/ml/__init__.py, MVP/ml/masks.py, MVP/tests/test_week4_masks.py
+- Validation: Ran `python -m pytest -q` (17 tests passed).
+- Follow-ups: Wire these masks directly into the training/evaluation loops once `MVP/ml/train` modules are added.
