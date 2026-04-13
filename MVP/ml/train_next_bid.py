@@ -202,14 +202,20 @@ def main() -> int:
     save_json(out_dir / "label_map.json", {"label_to_id": encoded.label_to_id, "id_to_label": encoded.id_to_label})
     baseline = _run_baseline(out_dir, encoded.features, encoded.labels, encoded.id_to_label)
     label_vocab = [encoded.id_to_label[idx] for idx in range(len(encoded.id_to_label))]
-    legality_masks = [
-        bid_legality_mask(
-            label_vocab,
-            seat_to_act=int(row.get("seat_to_act", 0)),
-            bid_prefix=[str(x) for x in row.get("bid_prefix", [])],
+    legality_masks = []
+    total_train_rows = len(train_rows)
+    five_percent_step = max(1, total_train_rows // 20)
+    for i, row in enumerate(train_rows, start=1):
+        legality_masks.append(
+            bid_legality_mask(
+                label_vocab,
+                seat_to_act=int(row.get("seat_to_act", 0)),
+                bid_prefix=[str(x) for x in row.get("bid_prefix", [])],
+            )
         )
-        for row in train_rows
-    ]
+        if i % 100 == 0 or i % five_percent_step == 0:
+            print(f"Computing legality masks: {i}/{total_train_rows} ({(100.0 * i / total_train_rows):.1f}%)")
+    print(f"Completed legality mask computation: {total_train_rows}/{total_train_rows} (100.0%)")
     _run_transformer(
         out_dir=out_dir,
         x=encoded.features,
