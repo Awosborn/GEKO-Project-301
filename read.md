@@ -102,3 +102,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/dataset_export.py, MVP/ml/build_dataset_cli.py, MVP/ml/__init__.py, MVP/tests/test_dataset_export.py, MVP/tests/test_build_dataset_cli.py
 - Validation: Ran `python -m pytest -q` (23 tests passed).
 - Follow-ups: Consider adding schema-version metadata files and deterministic split manifests alongside dataset outputs.
+
+## PR Update - 2026-04-13 - week5-step3-training-entrypoints
+- Summary: Added supervised next-bid and next-card training entrypoints with a baseline majority classifier and a transformer training loop, including epoch/best checkpoint artifacts and tokenizer/label-map persistence.
+- Files touched: read.md, MVP/ml/train_common.py, MVP/ml/train_next_bid.py, MVP/ml/train_next_card.py, MVP/ml/__init__.py, MVP/tests/test_train_entrypoints.py
+- Validation: Ran `python -m pytest -q` (25 tests passed).
+- Follow-ups: Add train/val split support, evaluation metrics (top-k/legality-aware), and stable model registry integration for promotion workflows.

@@ -30,6 +30,9 @@ from .problem_definition import (
 from .preprocess import ReconstructionResult, compute_deal_id, reconstruct_full_hands
 from .splits import split_by_deal
 from .tokenizer import Tokenizer
+from .train_common import MajorityClassifier
+from .train_next_bid import main as train_next_bid_main
+from .train_next_card import main as train_next_card_main
 
 __all__ = [
     "bid_legality_mask",
@@ -43,6 +46,9 @@ __all__ = [
     "ContractMeaning",
     "ReconstructionResult",
     "Tokenizer",
+    "MajorityClassifier",
+    "train_next_bid_main",
+    "train_next_card_main",
     "ProblemDefinition",
     "VisibilityPolicy",
     "LabelSource",
