@@ -72,3 +72,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/preprocess.py, MVP/ml/__init__.py, MVP/__init__.py, MVP/tests/test_preprocess.py
 - Validation: Ran `python -m pytest -q` (5 tests passed).
 - Follow-ups: Wire these preprocessing helpers into a dataset-export CLI once source snapshot JSONL files are added to this repository.
+
+## PR Update - 2026-04-13 - week2-priority-steps-5-8
+- Summary: Implemented Week-2 supervised dataset-export helpers to group snapshot rows by deal, select the representative bidding snapshot, flatten/normalize auctions into temporal events, and emit prefix→next examples for both bidding and card-play (post-action inversion).
+- Files touched: read.md, MVP/ml/__init__.py, MVP/ml/dataset_export.py, MVP/tests/test_dataset_export.py
+- Validation: Ran `python -m pytest -q` (9 tests passed).
+- Follow-ups: Add JSONL/parquet writers and split-by-deal utilities so these in-memory examples can be persisted for training loops.
