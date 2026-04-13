@@ -90,3 +90,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, MVP/ml/__init__.py, MVP/ml/masks.py, MVP/tests/test_week4_masks.py
 - Validation: Ran `python -m pytest -q` (17 tests passed).
 - Follow-ups: Wire these masks directly into the training/evaluation loops once `MVP/ml/train` modules are added.
+
+## PR Update - 2026-04-13 - week5-step1-problem-definition-lock
+- Summary: Locked unresolved problem-definition decisions for supervised bridge learning (seat/dealer mapping, inference/training visibility, solver-based labels, and deriving declarer/dummy at dataset build time), and encoded them in a reusable ML module with tests.
+- Files touched: read.md, MVP/ml/problem_definition.py, MVP/ml/problem_definition_decisions.md, MVP/ml/__init__.py, MVP/tests/test_problem_definition.py
+- Validation: Ran `python -m pytest -q` (20 tests passed).
+- Follow-ups: Thread `dealer_seat` explicitly into auction flattening/export paths so seat-to-act reconstruction can support partial-auction snapshots sourced from alternate schemas.
