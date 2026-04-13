@@ -1,4 +1,4 @@
-from MVP.ml.normalize import normalize_bid, normalize_bid_history
+from MVP.ml.normalize import normalize_bid, normalize_bid_history, normalize_card
 from MVP.ml.preprocess import compute_deal_id, reconstruct_full_hands
 
 
@@ -18,6 +18,15 @@ def test_normalize_bid_variants():
 
 def test_normalize_bid_history():
     assert normalize_bid_history(["pass", "1n", "r", "2h"]) == ["P", "1NT", "XX", "2H"]
+
+
+def test_normalization_mappings_cover_empty_aliases_and_case():
+    assert normalize_bid(" ") == "UNK"
+    assert normalize_bid("x") == "X"
+    assert normalize_bid("xx") == "XX"
+    assert normalize_bid("7n") == "7NT"
+    assert normalize_card(" as ") == "AS"
+    assert normalize_card("") == "UNK"
 
 
 def test_reconstruct_full_hands_success():
