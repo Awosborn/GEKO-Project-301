@@ -17,6 +17,7 @@ from .dataset_export import (
 )
 from .derive_contract import ContractMeaning, derive_contract_from_auction
 from .inference import recommend_next_bid, recommend_next_card
+from .inference_service import InferenceArtifacts, create_inference_app, predict_bid, predict_card
 from .masks import bid_legality_mask, card_legality_mask, is_legal_bid, legal_bids, legal_cards
 from .normalize import normalize_bid, normalize_bid_history, normalize_card
 from .problem_definition import (
@@ -40,6 +41,10 @@ __all__ = [
     "card_legality_mask",
     "recommend_next_bid",
     "recommend_next_card",
+    "InferenceArtifacts",
+    "predict_bid",
+    "predict_card",
+    "create_inference_app",
     "is_legal_bid",
     "legal_bids",
     "legal_cards",
