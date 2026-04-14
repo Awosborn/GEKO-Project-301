@@ -9,22 +9,29 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
-CLI_PATH = REPO_ROOT / "MVP" / "cli.py"
 
 COMMANDS = {
-    "1": [sys.executable, str(CLI_PATH), "train-all"],
-    "2": [sys.executable, str(CLI_PATH), "train-cycle"],
-    "3": [sys.executable, str(CLI_PATH), "play"],
-    "4": [sys.executable, str(CLI_PATH), "--help"],
+    "1": [sys.executable, "-m", "pytest", "-q"],
+    "2": [sys.executable, "-m", "MVP.ml.train_next_bid", "--help"],
+    "3": [sys.executable, "-m", "MVP.ml.train_next_card", "--help"],
+    "4": [
+        sys.executable,
+        "-m",
+        "MVP.ml.play_vs_ai",
+        "--model-dir",
+        "artifacts/models/bid",
+        "--boards",
+        "1",
+    ],
 }
 
 
 def main() -> int:
     print("Choose a command by number:")
-    print("  1) Generate self-play data + train both models (train-all)")
-    print("  2) Generate self-play data + run self-play cycle (train-cycle)")
-    print("  3) Play against stable models (play)")
-    print("  4) Show CLI help")
+    print("  1) Run tests (pytest -q)")
+    print("  2) Show next-bid training CLI help")
+    print("  3) Show next-card training CLI help")
+    print("  4) Play random deals (AI players 1-3, you are player 4)")
 
     choice = input("Enter a number (1-4): ").strip()
 

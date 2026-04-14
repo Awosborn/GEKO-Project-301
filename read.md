@@ -5,6 +5,7 @@
 - **Build supervised datasets from snapshot JSONL:** `python -m MVP.ml.build_dataset_cli <path/to/snapshots.jsonl> --output-dir <artifacts/datasets> --formats jsonl parquet`
 - **Train next-bid model:** `python -m MVP.ml.train_next_bid <artifacts/datasets/bidding_examples.jsonl> --output-dir <artifacts/models/bid> --apply-legality-mask-training`
 - **Train next-card model:** `python -m MVP.ml.train_next_card <artifacts/datasets/cardplay_examples.jsonl> --output-dir <artifacts/models/card> --apply-legality-mask-training`
+- **Play random deals vs trained bidding AI (AI = players 1-3, you = player 4):** `python -m MVP.ml.play_vs_ai --model-dir <artifacts/models/bid> --boards 3 --seed 7`
 - **Inspect generated eval report (produced during training):** `python -c "import json, pathlib; p=pathlib.Path('<artifacts/models/bid/evaluation_report.json>'); print(json.dumps(json.loads(p.read_text()), indent=2)[:4000])"`
 
 > Note: legacy commands that reference `MVP/cli.py` are currently stale in this repository snapshot because `MVP/cli.py` is not present.
@@ -162,3 +163,10 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md
 - Validation: Ran `python -m MVP.ml.build_dataset_cli --help`, `python -m MVP.ml.train_next_bid --help`, `python -m MVP.ml.train_next_card --help`, and `python -m pytest -q MVP/tests/test_build_dataset_cli.py MVP/tests/test_train_entrypoints.py MVP/tests/test_inference_service.py`.
 - Follow-ups: Add a dedicated serving CLI entrypoint (for direct `uvicorn module:app`) and a standalone evaluation CLI to avoid inline `python -c` report inspection commands.
+
+
+## PR Update - 2026-04-14 - play-vs-ai-seat4-random-deals
+- Summary: Added an interactive random-deal play mode that loads trained bidding artifacts so AI controls players 1-3 while the user plays as player 4, plus launcher/docs updates for the new workflow.
+- Files touched: read.md, run_this.py, MVP/ml/play_vs_ai.py, MVP/tests/test_play_vs_ai.py
+- Validation: Ran `python -m pytest -q MVP/tests/test_play_vs_ai.py`.
+- Follow-ups: Extend this from bidding-only interaction into full trick-play progression using trained card model artifacts.
