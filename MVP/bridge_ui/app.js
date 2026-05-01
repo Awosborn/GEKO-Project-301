@@ -9,6 +9,11 @@ const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 
 let currentHand = "";
 
+function countWords(text) {
+  if (!text || !text.trim()) return 0;
+  return text.trim().split(/\s+/).length;
+}
+
 function shuffledDeck() {
   const deck = [];
   for (const suit of SUITS) for (const rank of RANKS) deck.push(`${rank}${suit}`);
@@ -105,12 +110,19 @@ document.getElementById("play-btn").addEventListener("click", () => {
   document.getElementById("recommended").textContent = coached.recommendedBid;
 
   const explanationBox = document.getElementById("explanation");
+  const llmWordCount = document.getElementById("llm-word-count");
+  const llmOutputText = document.getElementById("llm-output-text");
+
   if (coached.verdict === "outside_top_3") {
     explanationBox.textContent = coached.explanation;
     explanationBox.hidden = false;
+    llmWordCount.textContent = String(countWords(coached.explanation));
+    llmOutputText.textContent = coached.explanation;
   } else {
     explanationBox.hidden = true;
     explanationBox.textContent = "";
+    llmWordCount.textContent = "0";
+    llmOutputText.textContent = "Not available in this UI state (no generated LLM text for top-3-aligned bid).";
   }
 
   document.getElementById("results").hidden = false;
