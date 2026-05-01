@@ -27,13 +27,13 @@ py -m venv .venv
 python -m pip install --upgrade pip
 pip install -r MVP\GEKO_PLAYABLE_MODEL\requirements.txt
 pip install -r MVP\StreamLine\requirements.txt
-python -m http.server 8080
+python MVP\bridge_ui\server.py
 ```
 
 After the last command starts the local server, open this URL in your browser:
 
 ```text
-http://localhost:8080/MVP/bridge_ui/index.html
+http://localhost:8000
 ```
 
 ---
@@ -45,13 +45,13 @@ If you only want the UI and do **not** need model dependencies yet:
 ```bat
 git clone https://github.com/Awosborn/GEKO-Project-301.git
 cd GEKO-Project-301
-python -m http.server 8080
+python MVP\bridge_ui\server.py
 ```
 
 Then open:
 
 ```text
-http://localhost:8080/MVP/bridge_ui/index.html
+http://localhost:8000
 ```
 
 ---
@@ -74,10 +74,10 @@ No output usually means syntax is valid.
 - **Port 8080 already in use**:
 
 ```bat
-python -m http.server 9090
+set PORT=9090 && python MVP\bridge_ui\server.py
 ```
 
-Then use `http://localhost:9090/MVP/bridge_ui/index.html`.
+Then use `http://localhost:9090`.
 
 - **Changes not showing**: hard refresh browser (`Ctrl+Shift+R`).
 - **Dependency install errors**: ensure Python is 3.10+ and pip is upgraded (`python -m pip install --upgrade pip`).
