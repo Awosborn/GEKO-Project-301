@@ -3,75 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GEKO + StreamLine Bridge Coach (Offline MVP)</title>
+  <title>GEKO Playable Bridge Table</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app">
-    <h1>GEKO Bridge Coach (Standalone MVP)</h1>
-    <p class="subtitle">Offline UI that combines predictive top-3 bidding suggestions with LLM-style coaching.</p>
+    <h1>GEKO Playable Bridge Table</h1>
+    <p class="subtitle">Pick your seat, receive a random hand, then bid against the GEKO playable model.</p>
 
     <section class="panel">
-      <h2>Hand + Auction Input</h2>
-      <form id="coach-form">
-        <div class="grid">
-          <label>
-            Seat
-            <select id="seat">
-              <option value="north">North</option>
-              <option value="east">East</option>
-              <option value="south" selected>South</option>
-              <option value="west">West</option>
-            </select>
-          </label>
-
-          <label>
-            Dealer
-            <select id="dealer">
-              <option value="north" selected>North</option>
-              <option value="east">East</option>
-              <option value="south">South</option>
-              <option value="west">West</option>
-            </select>
-          </label>
-
-          <label>
-            Vulnerability
-            <select id="vuln">
-              <option value="none" selected>None</option>
-              <option value="NS">NS</option>
-              <option value="EW">EW</option>
-              <option value="both">Both</option>
-            </select>
-          </label>
-        </div>
-
+      <h2>1) Seat + Deal</h2>
+      <div class="grid">
         <label>
-          Hand (example: <code>S AKQ H J94 D T862 C K73</code>)
-          <input id="hand" type="text" required />
+          Seat
+          <select id="seat">
+            <option value="north">North</option>
+            <option value="east">East</option>
+            <option value="south" selected>South</option>
+            <option value="west">West</option>
+          </select>
         </label>
 
         <label>
-          Auction so far (space-separated, example: <code>1NT Pass 2D</code>)
-          <input id="auction" type="text" />
+          Dealer
+          <select id="dealer">
+            <option value="north" selected>North</option>
+            <option value="east">East</option>
+            <option value="south">South</option>
+            <option value="west">West</option>
+          </select>
         </label>
 
         <label>
-          Your bid
-          <input id="user-bid" type="text" required />
+          Vulnerability
+          <select id="vuln">
+            <option value="none" selected>None</option>
+            <option value="NS">NS</option>
+            <option value="EW">EW</option>
+            <option value="both">Both</option>
+          </select>
         </label>
+      </div>
+      <button id="deal-btn" type="button">Deal Random Hand</button>
+    </section>
 
-        <button type="submit">Run Bridge Coach</button>
-      </form>
+    <section class="panel" id="play-panel" hidden>
+      <h2>2) Play Hand vs AI</h2>
+      <p><strong>Your seat:</strong> <span id="seat-display"></span></p>
+      <div class="hand" id="hand-view"></div>
+
+      <label>
+        Auction so far
+        <input id="auction" type="text" placeholder="Example: 1NT Pass 2D" />
+      </label>
+
+      <label>
+        Your bid
+        <input id="user-bid" type="text" required placeholder="Example: 1H" />
+      </label>
+
+      <button id="play-btn" type="button">Play Bid vs GEKO AI</button>
     </section>
 
     <section class="panel" id="results" hidden>
-      <h2>Result</h2>
-      <p><strong>Predictive top-3:</strong> <span id="top3"></span></p>
+      <h2>Round Result</h2>
+      <p><strong>GEKO model top-3:</strong> <span id="top3"></span></p>
       <p><strong>Verdict:</strong> <span id="verdict"></span></p>
       <p><strong>Recommended bid:</strong> <span id="recommended"></span></p>
-      <p><strong>Explanation:</strong></p>
-      <p id="explanation" class="explanation"></p>
+      <p id="explanation" class="explanation" hidden></p>
     </section>
   </main>
 
