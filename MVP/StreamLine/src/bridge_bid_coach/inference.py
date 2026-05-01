@@ -80,7 +80,7 @@ def generate_text(
     *,
     model_dir: str | Path,
     device: str = "auto",
-    max_new_tokens: int = 40,
+    max_new_tokens: int = 220,
     temperature: float = 0.1,
     top_p: float = 0.95,
     repetition_penalty: float = 1.1,
@@ -116,6 +116,11 @@ def generate_text(
         prompt_text = "\n".join(
             f"{m.get('role', 'user')}: {m.get('content', '')}" for m in messages
         ) + "\nassistant:"
+
+    # Avoid conflicts with any model-level `max_length` in generation_config by
+    # setting an explicit total limit from prompt length + requested new tokens.
+    prompt_token_count = len(tokenizer(prompt_text, add_special_tokens=False)["input_ids"])
+    generation_kwargs["max_length"] = prompt_token_count + max_new_tokens
 
     output = pipe(prompt_text, **generation_kwargs)
     generated = output[0]["generated_text"]
