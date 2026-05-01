@@ -170,3 +170,9 @@ For each PR, append a short section at the bottom using this template:
 - Files touched: read.md, run_this.py, MVP/ml/play_vs_ai.py, MVP/tests/test_play_vs_ai.py
 - Validation: Ran `python -m pytest -q MVP/tests/test_play_vs_ai.py`.
 - Follow-ups: Extend this from bidding-only interaction into full trick-play progression using trained card model artifacts.
+
+## PR Update - 2026-05-01 - standalone-bridge-ui-integration
+- Summary: Added a standalone offline web UI that integrates a local predictive top-3 bidding module with an LLM-style coaching layer that auto-corrects bids outside the top-3 and explains why.
+- Files touched: MVP/bridge_ui/index.html, MVP/bridge_ui/styles.css, MVP/bridge_ui/app.js, ReadMe.md
+- Validation: Ran `node --check MVP/bridge_ui/app.js` and `git status --short`.
+- Follow-ups: Replace heuristic predictive logic with direct bindings to packaged StreamLine + GEKO model runners once a shared local execution interface is finalized.

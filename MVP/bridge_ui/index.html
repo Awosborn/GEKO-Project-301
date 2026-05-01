@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GEKO + StreamLine Bridge Coach (Offline MVP)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>GEKO Bridge Coach (Standalone MVP)</h1>
+    <p class="subtitle">Offline UI that combines predictive top-3 bidding suggestions with LLM-style coaching.</p>
+
+    <section class="panel">
+      <h2>Hand + Auction Input</h2>
+      <form id="coach-form">
+        <div class="grid">
+          <label>
+            Seat
+            <select id="seat">
+              <option value="north">North</option>
+              <option value="east">East</option>
+              <option value="south" selected>South</option>
+              <option value="west">West</option>
+            </select>
+          </label>
+
+          <label>
+            Dealer
+            <select id="dealer">
+              <option value="north" selected>North</option>
+              <option value="east">East</option>
+              <option value="south">South</option>
+              <option value="west">West</option>
+            </select>
+          </label>
+
+          <label>
+            Vulnerability
+            <select id="vuln">
+              <option value="none" selected>None</option>
+              <option value="NS">NS</option>
+              <option value="EW">EW</option>
+              <option value="both">Both</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Hand (example: <code>S AKQ H J94 D T862 C K73</code>)
+          <input id="hand" type="text" required />
+        </label>
+
+        <label>
+          Auction so far (space-separated, example: <code>1NT Pass 2D</code>)
+          <input id="auction" type="text" />
+        </label>
+
+        <label>
+          Your bid
+          <input id="user-bid" type="text" required />
+        </label>
+
+        <button type="submit">Run Bridge Coach</button>
+      </form>
+    </section>
+
+    <section class="panel" id="results" hidden>
+      <h2>Result</h2>
+      <p><strong>Predictive top-3:</strong> <span id="top3"></span></p>
+      <p><strong>Verdict:</strong> <span id="verdict"></span></p>
+      <p><strong>Recommended bid:</strong> <span id="recommended"></span></p>
+      <p><strong>Explanation:</strong></p>
+      <p id="explanation" class="explanation"></p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
