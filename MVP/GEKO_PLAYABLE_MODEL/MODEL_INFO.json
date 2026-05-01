@@ -1,0 +1,18 @@
+{
+  "name": "GEKO_PLAYABLE_MODEL",
+  "created_date": "2026-04-30",
+  "purpose": "Streamlined playable Bridge AI package for bidding and card play.",
+  "card_play_source_model": "artifacts\\mvp_card_self_play_policy_3hr_01_model",
+  "bidding_source_model": "artifacts\\mvp_bid_cardplay_outcome_all_strategies_model",
+  "strategy_profile_count": 30,
+  "runtime_dependency": "torch",
+  "entrypoint": "playable_bridge_ai.py",
+  "included_components": [
+    "BEST_CARD_PLAY",
+    "BEST_BIDDING",
+    "strategy_profiles_numeric.json",
+    "bridge_strategy_profiles.json",
+    "playable_bridge_ai.py"
+  ]
+}
+

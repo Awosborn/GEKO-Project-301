@@ -1,0 +1,32 @@
+{
+  "feature_groups": [
+    "seat_one_hot",
+    "card_presence_52",
+    "hcp",
+    "suit_lengths",
+    "suit_hcp",
+    "sorted_shape",
+    "balanced_flag",
+    "auction_length",
+    "trailing_passes",
+    "last_action",
+    "last_contract",
+    "legal_bid_summary",
+    "dealer_context",
+    "vulnerability_context",
+    "bidding_phase",
+    "auction_index",
+    "strategy_declaration"
+  ],
+  "hidden_dim": 512,
+  "input_dim": 191,
+  "model_type": "bid_feature_mlp",
+  "schema_version": 1,
+  "uses_bidding_phase": true,
+  "uses_dealer_context": true,
+  "uses_explicit_hand_features": true,
+  "uses_final_contract_or_result_as_input": false,
+  "uses_hard_bidding_guardrails": true,
+  "uses_strategy_declaration": true,
+  "uses_vulnerability": true
+}
