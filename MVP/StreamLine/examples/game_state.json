@@ -1,0 +1,42 @@
+{
+  "dealer": "north",
+  "vulnerability": "none",
+  "current_seat": "south",
+  "scoring": "matchpoints",
+  "auction_history": [
+    {
+      "seat": "north",
+      "call": "1NT",
+      "alert": false,
+      "explanation": "15-17 balanced"
+    },
+    {
+      "seat": "east",
+      "call": "Pass"
+    },
+    {
+      "seat": "south",
+      "call": "2H",
+      "alert": true,
+      "explanation": "transfer to spades"
+    }
+  ],
+  "legal_bids": ["Pass", "2S", "2NT", "3C", "3D", "3H", "3S", "3NT", "Double"],
+  "user_bid": "3NT",
+  "top_3_model_bids": ["2S", "Pass", "2NT"],
+  "hand": "S KQ984 H 72 D A83 C Q94",
+  "known_cards": {},
+  "convention_card": {
+    "system_name": "2/1 Game Force",
+    "nt_range": "15-17",
+    "five_card_majors": true,
+    "two_over_one": true,
+    "strong_2c": true,
+    "stayman": true,
+    "transfers": true,
+    "weak_twos": true,
+    "special_agreements": ["Jacoby transfers over 1NT"]
+  },
+  "alerts": [],
+  "explanations": []
+}

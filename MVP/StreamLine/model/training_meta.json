@@ -1,0 +1,4 @@
+{
+  "base_model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+  "config": "C:\\LLMdev\\bridge_bid_coach_nano\\sft\\config_sft_cpu.yaml"
+}

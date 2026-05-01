@@ -1,0 +1,46 @@
+{
+  "dealer": "south",
+  "vulnerability": "none",
+  "current_seat": "south",
+  "scoring": "matchpoints",
+  "auction_history": [],
+  "legal_bids": [
+    "Pass",
+    "1C",
+    "1D",
+    "1H",
+    "1S",
+    "1NT",
+    "2C",
+    "2D",
+    "2H",
+    "2S",
+    "2NT",
+    "3C",
+    "3D",
+    "3H",
+    "3S",
+    "3NT"
+  ],
+  "user_bid": "1NT",
+  "top_3_model_bids": ["1H", "Pass", "1D"],
+  "hand": "S 7 H AQJ84 D KQ92 C 963",
+  "known_cards": {},
+  "convention_card": {
+    "system_name": "2/1 Game Force",
+    "nt_range": "15-17",
+    "one_nt_shape": "balanced only",
+    "five_card_majors": true,
+    "two_over_one": true,
+    "strong_2c": true,
+    "stayman": true,
+    "transfers": true,
+    "weak_twos": true,
+    "special_agreements": [
+      "Open five-card majors before minors when appropriate.",
+      "Opening 1NT shows 15-17 HCP and a balanced hand."
+    ]
+  },
+  "alerts": [],
+  "explanations": []
+}
