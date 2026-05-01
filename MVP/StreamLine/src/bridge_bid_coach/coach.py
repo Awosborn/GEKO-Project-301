@@ -74,6 +74,77 @@ def model_failure_response(
     )
 
 
+def deterministic_fallback_response(
+    state: GameState, raw_model_text: Optional[str] = None
+) -> CoachResponse:
+    """Always-returnable non-LLM fallback to avoid hard model_error outcomes."""
+    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
+    recommended = _recover_recommended_bid(raw_model_text or "", state)
+    if recommended is None and top_3:
+        recommended = top_3[0]
+    return CoachResponse(
+        user_bid=state.user_bid,
+        verdict="improve",
+        recommended_bid=recommended,
+        top_3_bids=top_3,
+        explanation="Using deterministic fallback because model JSON was invalid.",
+        convention_card_reasoning="Fallback uses legal bids and top candidate ranking.",
+        risk_of_user_bid="User bid was outside top model candidates in this context.",
+        partner_likely_inference="A higher-ranked legal call should better match expected auction meaning.",
+        confidence=0.5,
+        raw_model_text=raw_model_text,
+    )
+
+
+def deterministic_coach_response(state: GameState) -> CoachResponse:
+    """Primary non-LLM coach path: stable, schema-safe recommendation."""
+    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
+    recommended = None
+    legal = [str(b) for b in state.legal_bids if isinstance(b, str)]
+    for bid in top_3:
+        if not legal or bid in legal:
+            recommended = bid
+            break
+    if recommended is None and legal:
+        recommended = legal[0]
+
+    return CoachResponse(
+        user_bid=state.user_bid,
+        verdict="improve",
+        recommended_bid=recommended,
+        top_3_bids=top_3,
+        explanation="Deterministic recommendation chosen from legal bids and model-ranked candidates.",
+        convention_card_reasoning="This path avoids LLM JSON-output instability by using rule-safe selection.",
+        risk_of_user_bid="User bid is outside top ranked candidates for the current auction context.",
+        partner_likely_inference="A top-ranked legal call should be easier for partner to interpret.",
+        confidence=0.7,
+        raw_model_text=None,
+    )
+
+
+def _response_from_raw_text(raw_text: str, state: GameState) -> CoachResponse:
+    """Build a valid CoachResponse from free-form model text (no JSON required)."""
+    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
+    recommended = _recover_recommended_bid(raw_text, state)
+    if recommended is None and top_3:
+        recommended = top_3[0]
+    explanation = raw_text.strip().splitlines()[0].strip() if raw_text.strip() else ""
+    if not explanation:
+        explanation = "Recommended bid selected from model output and legal bids."
+    return CoachResponse(
+        user_bid=state.user_bid,
+        verdict="improve",
+        recommended_bid=recommended,
+        top_3_bids=top_3,
+        explanation=explanation[:400],
+        convention_card_reasoning="Response derived from free-form model output.",
+        risk_of_user_bid="User bid is outside top ranked candidates in this auction context.",
+        partner_likely_inference="Partner is likely to infer more from a top-ranked legal call.",
+        confidence=0.65,
+        raw_model_text=raw_text,
+    )
+
+
 def _parse_and_validate_response(
     raw_text: str, state: GameState
 ) -> Optional[CoachResponse]:
@@ -85,6 +156,30 @@ def _parse_and_validate_response(
     # Fill in fields the model sometimes omits
     parsed.setdefault("user_bid", state.user_bid)
     parsed.setdefault("top_3_bids", top_candidate_bids(state.top_3_model_bids, 3))
+    parsed.setdefault("verdict", "incorrect")
+    parsed.setdefault("recommended_bid", _recover_recommended_bid(raw_text, state))
+    parsed.setdefault(
+        "explanation",
+        "Suggested improvement based on legal bids and model candidates.",
+    )
+    parsed.setdefault(
+        "convention_card_reasoning",
+        "Recommendation recovered from partial model output.",
+    )
+    parsed.setdefault(
+        "risk_of_user_bid",
+        "Current user bid appears weaker than the recovered recommendation.",
+    )
+    parsed.setdefault(
+        "partner_likely_inference",
+        "Partner likely expects a call aligned with the recovered recommendation.",
+    )
+    parsed.setdefault("confidence", 0.55)
+    # Common alias normalization from loosely formatted outputs.
+    if "recommended" in parsed and "recommended_bid" not in parsed:
+        parsed["recommended_bid"] = parsed.get("recommended")
+    if "reasoning" in parsed and "convention_card_reasoning" not in parsed:
+        parsed["convention_card_reasoning"] = parsed.get("reasoning")
 
     try:
         return pydantic_model_validate(CoachResponse, parsed)
@@ -107,12 +202,32 @@ def _retry_message(attempt: int) -> str:
 
 
 _HCP_PATTERN = re.compile(r"(\d+)(\s*HCP)", re.IGNORECASE)
+_RECOVERY_BID_PATTERN = re.compile(
+    r"\b(?:[1-7](?:C|D|H|S|NT)|PASS|DOUBLE|REDOUBLE|X|XX|P)\b", re.IGNORECASE
+)
 _HCP_TEXT_FIELDS = (
     "explanation",
     "convention_card_reasoning",
     "risk_of_user_bid",
     "partner_likely_inference",
 )
+
+
+def _recover_recommended_bid(raw_text: str, state: GameState) -> Optional[str]:
+    """Recover a likely recommended bid when the model omits the schema field."""
+    legal = [str(b) for b in state.legal_bids if isinstance(b, str)]
+    if legal:
+        legal_set = {b.upper(): b for b in legal}
+        for token in _RECOVERY_BID_PATTERN.findall(raw_text.upper()):
+            norm = {"P": "PASS", "X": "DOUBLE", "XX": "REDOUBLE"}.get(token, token)
+            if norm in legal_set:
+                return legal_set[norm]
+
+    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
+    for bid in top_3:
+        if not legal or bid in legal:
+            return bid
+    return legal[0] if legal else None
 
 
 def _correct_hcp(response: CoachResponse, hand: str) -> CoachResponse:
@@ -159,6 +274,7 @@ def coach_game_state(
     system_prompt: Optional[str] = None,
     device: str = "auto",
     max_new_tokens: int = 220,
+    use_llm: bool = True,
 ) -> CoachResponse:
     """Coach one game state with the SFT model.
 
@@ -169,6 +285,9 @@ def coach_game_state(
     """
     if user_bid_in_top_n(state.user_bid, state.top_3_model_bids, 3):
         return reasonable_bid_response(state)
+
+    if not use_llm:
+        raise RuntimeError("Deterministic fallback is disabled; set use_llm=True.")
 
     if model_dir is None:
         raise RuntimeError("model_dir is required for LLM coaching")
