@@ -158,7 +158,7 @@ def coach_game_state(
     model_dir: Optional[str | Path] = None,
     system_prompt: Optional[str] = None,
     device: str = "auto",
-    max_new_tokens: int = 40,
+    max_new_tokens: int = 220,
 ) -> CoachResponse:
     """Coach one game state with the SFT model.
 

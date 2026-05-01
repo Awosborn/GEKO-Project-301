@@ -94,11 +94,11 @@ def generate_text(
 
     generation_kwargs: Dict[str, Any] = {
         "max_new_tokens": max_new_tokens,
-        "max_length": None,  # prevent conflict with generation_config.max_length
         "repetition_penalty": repetition_penalty,
         "do_sample": do_sample,
         "return_full_text": False,
         "pad_token_id": pipe.tokenizer.eos_token_id,
+        "clean_up_tokenization_spaces": False,
     }
     # These are only meaningful when sampling is enabled.
     if do_sample:
