@@ -14,7 +14,7 @@ input, select, button { width: 100%; box-sizing: border-box; padding: .6rem; mar
 button { margin-top: 1rem; background: #2563eb; color: white; border: none; cursor: pointer; font-weight: 700; }
 button:hover { background: #1d4ed8; }
 
-.hand { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0; }
+.hand { display: flex; flex-wrap: nowrap; gap: .4rem; margin: .75rem 0; overflow-x: auto; padding-bottom: .25rem; }
 .card { display: inline-flex; align-items: center; justify-content: center; min-width: 52px; padding: .6rem .4rem; border: 1px solid #dbeafe; border-radius: 8px; background: #eff6ff; font-weight: 700; }
 .card.red { color: #b91c1c; }
 .card.black { color: #111827; }
