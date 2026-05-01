@@ -137,16 +137,22 @@ def generate_text(
 
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
-    """Extract and return the first complete JSON object found in *text*.
+    """Extract and return the first valid JSON object found in *text*.
 
-    Returns None if no valid JSON object is present.
+    This is robust to extra prose before/after JSON and to multiple brace
+    blocks in the same generation. Returns None if no valid object is found.
     """
-    start = text.find("{")
-    end = text.rfind("}")
-    if start == -1 or end == -1 or end <= start:
-        return None
-    try:
-        parsed = json.loads(text[start : end + 1])
-    except json.JSONDecodeError:
-        return None
-    return parsed if isinstance(parsed, dict) else None
+    decoder = json.JSONDecoder()
+    start = 0
+    while True:
+        start = text.find("{", start)
+        if start == -1:
+            return None
+        try:
+            parsed, _ = decoder.raw_decode(text[start:])
+        except json.JSONDecodeError:
+            start += 1
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+        start += 1
