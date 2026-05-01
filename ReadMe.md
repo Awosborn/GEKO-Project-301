@@ -1,5 +1,7 @@
 # GEKO Bridge UI — Windows Command Prompt Quick Start
 
+video
+- https://youtu.be/xgHZAECAaWM
 This guide is designed for **first-time setup on Windows** with copy/paste commands for **Command Prompt (cmd.exe)**.
 
 ---
