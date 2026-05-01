@@ -1,31 +1,51 @@
-# GEKO Bridge UI — Quick Start
+# GEKO Bridge UI — Windows Command Prompt Quick Start
 
-This README is focused on one goal: running the **Bridge UI** smoothly with the local project components:
-- `MVP/bridge_ui` (frontend UI)
-- `MVP/GEKO_PLAYABLE_MODEL` (playable bridge AI assets)
-- `MVP/StreamLine` (bridge bid coach/model package)
-
-For PR-style progress notes, see **`MVPwork/part2/PULL_REQUEST.md`**.
+This guide is designed for **first-time setup on Windows** with copy/paste commands for **Command Prompt (cmd.exe)**.
 
 ---
 
-## 1) What you run
+## 1) One-time prerequisites (install these first)
 
-The Bridge UI is a static web app:
-- `MVP/bridge_ui/index.html`
-- `MVP/bridge_ui/styles.css`
-- `MVP/bridge_ui/app.js`
+Install before running commands below:
+- **Git for Windows** (includes `git` command)
+- **Python 3.10+** (make sure “Add Python to PATH” is checked)
 
-It currently runs offline in-browser and is structured to support GEKO/StreamLine-backed decision logic.
+Optional (only for extra checks):
+- **Node.js** (for JavaScript syntax check)
 
 ---
 
-## 2) Fastest way to launch Bridge UI
+## 2) Copy/paste setup + run commands (from scratch)
 
-From repo root (`GEKO-Project-301`):
+Open **Command Prompt** and paste these commands **one by one**:
 
-```bash
-python3 -m http.server 8080
+```bat
+git clone https://github.com/Awosborn/GEKO-Project-301.git
+cd GEKO-Project-301
+py -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r MVP\GEKO_PLAYABLE_MODEL\requirements.txt
+pip install -r MVP\StreamLine\requirements.txt
+python -m http.server 8080
+```
+
+After the last command starts the local server, open this URL in your browser:
+
+```text
+http://localhost:8080/MVP/bridge_ui/index.html
+```
+
+---
+
+## 3) Minimal run path (UI only)
+
+If you only want the UI and do **not** need model dependencies yet:
+
+```bat
+git clone https://github.com/Awosborn/GEKO-Project-301.git
+cd GEKO-Project-301
+python -m http.server 8080
 ```
 
 Then open:
@@ -34,46 +54,37 @@ Then open:
 http://localhost:8080/MVP/bridge_ui/index.html
 ```
 
-That is the most reliable local workflow because browser security restrictions can block features when opening `index.html` directly from disk.
-
 ---
 
-## 3) Optional environment setup (for model-side work)
+## 4) Verify UI script syntax (optional)
 
-If you plan to work with model code (not required just to open UI), install dependencies for each module:
+If Node.js is installed:
 
-```bash
-pip install -r MVP/GEKO_PLAYABLE_MODEL/requirements.txt
-pip install -r MVP/StreamLine/requirements.txt
+```bat
+node --check MVP\bridge_ui\app.js
 ```
 
-You can also review model-specific docs:
-- `MVP/GEKO_PLAYABLE_MODEL/README.md`
-- `MVP/StreamLine/README.md`
-
----
-
-## 4) Verify Bridge UI files
-
-Quick syntax check for the main UI script:
-
-```bash
-node --check MVP/bridge_ui/app.js
-```
-
-If this passes, your Bridge UI JavaScript is syntactically valid.
+No output usually means syntax is valid.
 
 ---
 
 ## 5) Troubleshooting
 
-- **Port already in use**: run server on another port, e.g. `python3 -m http.server 9090` and use `http://localhost:9090/MVP/bridge_ui/index.html`.
-- **Page opens but UI logic seems stale**: hard refresh browser cache (`Ctrl+Shift+R` / `Cmd+Shift+R`).
-- **Model integration expectations**: UI is runnable standalone; deeper GEKO/StreamLine runtime binding can be layered in via backend/API wiring.
+- **`py` not recognized**: use `python` instead of `py` for venv creation.
+- **Port 8080 already in use**:
+
+```bat
+python -m http.server 9090
+```
+
+Then use `http://localhost:9090/MVP/bridge_ui/index.html`.
+
+- **Changes not showing**: hard refresh browser (`Ctrl+Shift+R`).
+- **Dependency install errors**: ensure Python is 3.10+ and pip is upgraded (`python -m pip install --upgrade pip`).
 
 ---
 
-## 6) Documentation split (requested structure)
+## 6) Project docs split
 
-- **Part A (PR notes / MVP Part 2)**: `MVPwork/part2/PULL_REQUEST.md`
-- **Part B (run instructions / Bridge UI)**: `ReadMe.md` (this file)
+- PR/MVP Part 2 notes: `MVPwork/part2/PULL_REQUEST.md`
+- Run instructions for Bridge UI: `ReadMe.md` (this file)
