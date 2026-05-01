@@ -43,8 +43,21 @@ function ruleBasedCoach({ hand, userBid, top3, seat, dealer, vulnerability, auct
   return { verdict: "outside_top_3", recommendedBid: best, explanation: `Rule-based review: Bid ${normalized} is outside top-3 (${top3.join(", ")}). Hand=${hand}; HCP=${hcp}; Seat=${seat}; Dealer=${dealer}; Vuln=${vulnerability}; Auction=${auction || "(empty)"}. Recommend ${best}.` };
 }
 
+async function postCoach(url, payload) {
+  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  return response;
+}
+
 async function llmCoachViaApi(payload) {
-  const response = await fetch("/api/coach", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+  let response = await postCoach("/api/coach", payload);
+
+  if (!response.ok && (response.status === 404 || response.status === 501)) {
+    const runningOnPort8000 = window.location.port === "8000";
+    if (!runningOnPort8000) {
+      response = await postCoach("http://localhost:8000/api/coach", payload);
+    }
+  }
+
   if (!response.ok) throw new Error(`Coach API failed: ${response.status}`);
   return response.json();
 }
