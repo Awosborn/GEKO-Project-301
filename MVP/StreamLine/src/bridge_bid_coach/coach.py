@@ -156,6 +156,7 @@ def _parse_and_validate_response(
     # Fill in fields the model sometimes omits
     parsed.setdefault("user_bid", state.user_bid)
     parsed.setdefault("top_3_bids", top_candidate_bids(state.top_3_model_bids, 3))
+    parsed.setdefault("raw_model_text", raw_text)
     parsed.setdefault("verdict", "incorrect")
     parsed.setdefault("recommended_bid", _recover_recommended_bid(raw_text, state))
     parsed.setdefault(
