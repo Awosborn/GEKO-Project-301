@@ -38,6 +38,11 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
             length = int(self.headers.get("Content-Length", "0"))
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
             top3 = payload.get("top3", [])
+            legal_bids = payload.get("legalBids") or []
+            if not isinstance(legal_bids, list):
+                legal_bids = []
+            if not legal_bids:
+                legal_bids = [b for b in top3 if isinstance(b, str) and b]
             auction_text = (payload.get("auction") or "").strip()
             auction_history = [
                 AuctionCall(call=call)
@@ -53,7 +58,7 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
                 top_3_model_bids=top3,
                 hand=payload.get("hand", ""),
                 auction_history=auction_history,
-                legal_bids=[],
+                legal_bids=legal_bids,
             )
             llm_response = coach_game_state(state, model_dir=STREAMLINE_MODEL)
             body = {
