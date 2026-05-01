@@ -1,0 +1,10 @@
+{
+  "advantage_temperature": 0.15,
+  "advantage_weight_clip": 5.0,
+  "hidden_dim": 512,
+  "input_dim": 482,
+  "label_smoothing": 0.02,
+  "model_type": "card_outcome_policy_mlp",
+  "reward_signal": "actor_side_tricks",
+  "training_objective": "advantage_weighted_actor_side_tricks"
+}

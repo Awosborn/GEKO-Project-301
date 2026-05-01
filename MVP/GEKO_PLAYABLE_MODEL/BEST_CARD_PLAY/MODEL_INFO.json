@@ -1,0 +1,21 @@
+{
+  "name": "BEST_CARD_PLAY",
+  "created_date": "2026-04-30",
+  "source_model_dir": "artifacts\\mvp_card_self_play_policy_3hr_01_model",
+  "selected_as": "best current card-play model",
+  "runtime": "standalone card-play policy MLP",
+  "model_type": "card_outcome_policy_mlp",
+  "input_dim": 482,
+  "hidden_dim": 512,
+  "required_dependency": "torch",
+  "included_files": [
+    "best_card_play.py",
+    "__init__.py",
+    "README.md",
+    "requirements.txt",
+    "model\\card_feature_checkpoint_best.pt",
+    "model\\card_feature_config.json",
+    "model\\label_map.json"
+  ]
+}
+
