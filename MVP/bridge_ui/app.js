@@ -4,6 +4,7 @@ const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 const SEATS = ["north", "east", "south", "west"];
 
 const game = { hands: {}, humanSeat: "south", dealer: "north", auction: [], turn: "north", contract: null, playTurn: null, trick: [], tricksWon: { ns: 0, ew: 0 } };
+let uiInitialized = false;
 
 function countWords(text) { return text?.trim() ? text.trim().split(/\s+/).length : 0; }
 function nextSeat(seat) { return window.bridgeRules.nextSeat(seat); }
@@ -73,18 +74,27 @@ function renderAuction() {
 }
 
 async function processAiBiddingUntilHuman() {
-  while (!auctionDone() && game.turn !== game.humanSeat) {
-    const seat = game.turn;
-    const hand = handToText(game.hands[seat]);
-    const prefs = predictiveTop3(hand, game.auction.map((a) => a.call).join(" "));
-    const choices = [...prefs, ...BID_ORDER, "Pass"];
-    const call = choices.find((c) => window.bridgeRules.isLegalCall(game.auction, seat, c).ok) || "Pass";
-    game.auction.push({ seat, call: call.toUpperCase() });
-    game.turn = nextSeat(game.turn);
+  try {
+    while (!auctionDone() && game.turn !== game.humanSeat) {
+      const seat = game.turn;
+      const hand = handToText(game.hands[seat]);
+      const prefs = predictiveTop3(hand, game.auction.map((a) => a.call).join(" "));
+      const choices = [...prefs, ...BID_ORDER, "Pass"];
+      const call = choices.find((c) => window.bridgeRules.isLegalCall(game.auction, seat, c).ok) || "Pass";
+      game.auction.push({ seat, call: call.toUpperCase() });
+      game.turn = nextSeat(game.turn);
+    }
+    renderAuction();
+    document.getElementById("bid-controls").hidden = auctionDone();
+    if (auctionDone()) startCardplay();
+  } catch (error) {
+    renderAuction();
+    document.getElementById("results").hidden = false;
+    document.getElementById("verdict").textContent = "bidding_error";
+    document.getElementById("recommended").textContent = "";
+    document.getElementById("llm-output-text").textContent = `Bidding loop failed: ${String(error)}`;
+    document.getElementById("llm-word-count").textContent = String(countWords(String(error)));
   }
-  renderAuction();
-  document.getElementById("bid-controls").hidden = auctionDone();
-  if (auctionDone()) startCardplay();
 }
 
 async function submitHumanBid() {
@@ -184,10 +194,12 @@ async function startNewDeal() {
 }
 
 function initUi() {
+  if (uiInitialized) return;
   const dealButton = document.getElementById("deal-btn");
   const playButton = document.getElementById("play-btn");
   const handView = document.getElementById("hand-view");
   if (!dealButton || !playButton || !handView) return;
+  uiInitialized = true;
 
   dealButton.addEventListener("click", async () => {
     try {
@@ -217,3 +229,4 @@ if (document.readyState === "loading") {
 } else {
   initUi();
 }
+window.addEventListener("load", initUi);
