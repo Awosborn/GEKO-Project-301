@@ -1,7 +1,7 @@
 const BID_ORDER = window.bridgeRules.CONTRACT_ORDER;
 const SUITS = ["S", "H", "D", "C"];
 const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
-const SEATS = ["north", "east", "south", "west"];
+const TABLE_SEATS = ["north", "east", "south", "west"];
 
 const game = { hands: {}, humanSeat: "south", dealer: "north", auction: [], turn: "north", contract: null, playTurn: null, trick: [], tricksWon: { ns: 0, ew: 0 } };
 let uiInitialized = false;
@@ -20,7 +20,7 @@ function shuffledDeck() {
 function dealHands() {
   const deck = shuffledDeck();
   const hands = { north: [], east: [], south: [], west: [] };
-  for (let i = 0; i < 52; i++) hands[SEATS[i % 4]].push(deck[i]);
+  for (let i = 0; i < 52; i++) hands[TABLE_SEATS[i % 4]].push(deck[i]);
   return hands;
 }
 
