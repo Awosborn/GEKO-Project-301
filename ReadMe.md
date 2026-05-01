@@ -96,3 +96,6 @@ Then use `http://localhost:9090`.
 
 - PR/MVP Part 2 notes: `MVPwork/part2/PULL_REQUEST.md`
 - Run instructions for Bridge UI: `ReadMe.md` (this file)
+## 7) Example of all the iterations of trained models and training data
+- <img width="1919" height="992" alt="image" src="https://github.com/user-attachments/assets/284046bc-8d8f-4810-835b-d784b9e655a8" />
+
