@@ -42,7 +42,7 @@ def _load_pipeline(model_dir: Path, device: str) -> Any:
         tokenizer = AutoTokenizer.from_pretrained(str(model_dir), trust_remote_code=True)
         base_model = AutoModelForCausalLM.from_pretrained(
             base_name,
-            torch_dtype=dtype,
+            dtype=dtype,
             device_map=device_map,
             trust_remote_code=True,
         )
@@ -52,7 +52,7 @@ def _load_pipeline(model_dir: Path, device: str) -> Any:
         tokenizer = AutoTokenizer.from_pretrained(str(model_dir), trust_remote_code=True)
         model = AutoModelForCausalLM.from_pretrained(
             str(model_dir),
-            torch_dtype=dtype,
+            dtype=dtype,
             device_map=device_map,
             trust_remote_code=True,
         )
@@ -105,9 +105,29 @@ def generate_text(
         generation_kwargs["temperature"] = temperature
         generation_kwargs["top_p"] = top_p
 
-    output = pipe(messages, **generation_kwargs)
-    # transformers pipeline returns [{"generated_text": ...}] for a single input
-    return output[0]["generated_text"]
+    tokenizer = pipe.tokenizer
+    try:
+        prompt_text = tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
+        )
+    except Exception:
+        prompt_text = "\n".join(
+            f"{m.get('role', 'user')}: {m.get('content', '')}" for m in messages
+        ) + "\nassistant:"
+
+    output = pipe(prompt_text, **generation_kwargs)
+    generated = output[0]["generated_text"]
+    if isinstance(generated, str):
+        return generated
+    if isinstance(generated, list):
+        # Some chat pipelines return a message list; extract assistant text.
+        for item in reversed(generated):
+            if isinstance(item, dict) and item.get("role") == "assistant":
+                return str(item.get("content", ""))
+        return str(generated[-1]) if generated else ""
+    return str(generated)
 
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
