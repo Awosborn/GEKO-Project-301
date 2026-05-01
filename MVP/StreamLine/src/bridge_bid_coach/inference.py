@@ -26,8 +26,11 @@ def _load_pipeline(model_dir: Path, device: str) -> Any:
     from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline  # type: ignore[import-untyped]
 
     adapter_config = model_dir / "adapter_config.json"
-    dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-    device_map = device if device != "auto" else "auto"
+    has_cuda = torch.cuda.is_available()
+    dtype = torch.float16 if has_cuda else torch.float32
+    # Avoid forcing Accelerate device mapping on CPU; this can leave some
+    # tensors on `meta` in constrained environments and break generation.
+    device_map = (device if device != "auto" else "auto") if has_cuda else None
 
     if adapter_config.exists():
         from peft import PeftModel  # type: ignore[import-untyped]
@@ -77,7 +80,7 @@ def generate_text(
     *,
     model_dir: str | Path,
     device: str = "auto",
-    max_new_tokens: int = 512,
+    max_new_tokens: int = 40,
     temperature: float = 0.1,
     top_p: float = 0.95,
     repetition_penalty: float = 1.1,
@@ -89,16 +92,20 @@ def generate_text(
     """
     pipe = load_pipeline(model_dir, device=device)
 
-    output = pipe(
-        messages,
-        max_new_tokens=max_new_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        repetition_penalty=repetition_penalty,
-        do_sample=do_sample,
-        return_full_text=False,
-        pad_token_id=pipe.tokenizer.eos_token_id,
-    )
+    generation_kwargs: Dict[str, Any] = {
+        "max_new_tokens": max_new_tokens,
+        "max_length": None,  # prevent conflict with generation_config.max_length
+        "repetition_penalty": repetition_penalty,
+        "do_sample": do_sample,
+        "return_full_text": False,
+        "pad_token_id": pipe.tokenizer.eos_token_id,
+    }
+    # These are only meaningful when sampling is enabled.
+    if do_sample:
+        generation_kwargs["temperature"] = temperature
+        generation_kwargs["top_p"] = top_p
+
+    output = pipe(messages, **generation_kwargs)
     # transformers pipeline returns [{"generated_text": ...}] for a single input
     return output[0]["generated_text"]
 
