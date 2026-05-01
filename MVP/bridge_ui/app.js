@@ -175,19 +175,25 @@ async function submitHumanBid() {
 
     // Get top3 from GEKO bidding model, filtered to legal calls; heuristic fallback
     let top3 = [];
+    let gekoRecommendedBid = "";
     try {
       const result = await gekoAiBid(game.humanSeat, hand, game.dealer, vuln, auctionCalls);
+      if (result.recommendedBid && legalBids.some((lb) => lb.toUpperCase() === result.recommendedBid.toUpperCase())) {
+        gekoRecommendedBid = result.recommendedBid;
+      }
       top3 = (result.top3 || []).filter((c) => legalBids.some((lb) => lb.toUpperCase() === c.toUpperCase()));
     } catch (_) { /* fallback below */ }
     if (!top3.length) {
       top3 = predictiveTop3(hand, auctionText).filter((c) => legalBids.some((lb) => lb.toUpperCase() === c.toUpperCase()));
     }
     if (!top3.length) top3 = legalBids.slice(0, 3);
+    if (!gekoRecommendedBid) gekoRecommendedBid = top3[0] || "";
 
     const coached = await llmCoachViaApi({
       hand,
       userBid: bid,
       top3,
+      recommendedBid: gekoRecommendedBid,
       seat: game.humanSeat,
       dealer: game.dealer,
       vulnerability: vuln,
@@ -198,7 +204,7 @@ async function submitHumanBid() {
 
     document.getElementById("top3").textContent = top3.join(", ");
     document.getElementById("verdict").textContent = coached.verdict;
-    document.getElementById("recommended").textContent = coached.recommendedBid || "";
+    document.getElementById("recommended").textContent = gekoRecommendedBid || coached.recommendedBid || "";
     const llmText = coached.reviewText || coached.explanation || "Not available";
     document.getElementById("llm-word-count").textContent = String(countWords(llmText));
     document.getElementById("llm-output-text").textContent = llmText;

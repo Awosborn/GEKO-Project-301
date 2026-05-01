@@ -91,6 +91,42 @@ _REVIEW_FIELD_LABELS = {
     "explanation": "Explanation",
     "convention_card_reasoning": "Convention card reasoning",
 }
+_REVIEW_FIELD_ALIASES = {
+    "explanation": ("explanation", "explination"),
+    "convention_card_reasoning": (
+        "convention_card_reasoning",
+        "convention_card_reasioning",
+        "convention_card_reasiong",
+        "convention card reasoning",
+    ),
+}
+_RAW_FIELD_STOPS = (
+    "alerts",
+    "auction_history",
+    "convention_card",
+    "user_bid",
+    "verdict",
+    "recommended_bid",
+    "top_3_bids",
+    "top_3_model_bids",
+    "explanation",
+    "explination",
+    "convention_card_reasoning",
+    "convention_card_reasioning",
+    "convention_card_reasiong",
+    "convention card reasoning",
+    "dealer",
+    "hand",
+    "hand_shape",
+    "known_cards",
+    "legal_bids",
+    "risk_of_user_bid",
+    "partner_likely_inference",
+    "confidence",
+    "current_seat",
+    "raw_model_text",
+    "vulnerability",
+)
 
 
 def _clean_review_text(value: object) -> str:
@@ -99,10 +135,18 @@ def _clean_review_text(value: object) -> str:
     return text.strip(" \t\r\n,")
 
 
+def _alias_pattern(field: str) -> str:
+    return "|".join(re.escape(alias) for alias in _REVIEW_FIELD_ALIASES.get(field, (field,)))
+
+
+def _field_key_pattern(field: str, separator: str = r"[:=]") -> str:
+    return rf'["\']?(?:{_alias_pattern(field)})["\']?\s*{separator}'
+
+
 def _extract_json_string_field(raw_text: str, field: str) -> Optional[str]:
     """Extract one string field from loose JSON-ish model text."""
     decoder = json.JSONDecoder()
-    key_re = re.compile(rf'"{re.escape(field)}"\s*:')
+    key_re = re.compile(_field_key_pattern(field, ":"), re.IGNORECASE)
     for match in key_re.finditer(raw_text):
         index = match.end()
         while index < len(raw_text) and raw_text[index].isspace():
@@ -116,6 +160,54 @@ def _extract_json_string_field(raw_text: str, field: str) -> Optional[str]:
         if isinstance(parsed, str):
             return parsed
     return None
+
+
+def _extract_quoted_text_field(raw_text: str, field: str) -> Optional[str]:
+    """Extract a quoted field value without requiring valid JSON."""
+    key_re = re.compile(rf'{_field_key_pattern(field)}\s*(["\'])', re.IGNORECASE)
+    for match in key_re.finditer(raw_text):
+        quote = match.group(1)
+        chars: List[str] = []
+        escaped = False
+        for ch in raw_text[match.end():]:
+            if escaped:
+                chars.append(ch)
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                value = _clean_review_text("".join(chars))
+                if value:
+                    return value
+                break
+            else:
+                chars.append(ch)
+    return None
+
+
+def _extract_unquoted_text_field(raw_text: str, field: str) -> Optional[str]:
+    """Extract a field up to the next known JSON-ish key."""
+    key_re = re.compile(rf'{_field_key_pattern(field)}\s*', re.IGNORECASE)
+    stop_pattern = "|".join(re.escape(key) for key in _RAW_FIELD_STOPS)
+    stop_re = re.compile(rf',?\s*["\']?(?:{stop_pattern})["\']?\s*[:=]', re.IGNORECASE)
+
+    for match in key_re.finditer(raw_text):
+        start = match.end()
+        stop = stop_re.search(raw_text, start)
+        end = stop.start() if stop else len(raw_text)
+        value = raw_text[start:end].strip().strip("{}[] \t\r\n,\"'")
+        value = _clean_review_text(value)
+        if value:
+            return value
+    return None
+
+
+def _extract_text_field(raw_text: str, field: str) -> Optional[str]:
+    return (
+        _extract_json_string_field(raw_text, field)
+        or _extract_quoted_text_field(raw_text, field)
+        or _extract_unquoted_text_field(raw_text, field)
+    )
 
 
 def _extract_review_fields(raw_text: Optional[str]) -> Dict[str, str]:
@@ -133,7 +225,7 @@ def _extract_review_fields(raw_text: Optional[str]) -> Dict[str, str]:
 
     for field in _REVIEW_FIELD_LABELS:
         if field not in fields:
-            value = _clean_review_text(_extract_json_string_field(raw_text, field))
+            value = _clean_review_text(_extract_text_field(raw_text, field))
             if value:
                 fields[field] = value
 
@@ -154,19 +246,30 @@ def _build_review_text(
     raw_fields = _extract_review_fields(raw_model_text)
 
     for field, value in raw_fields.items():
-        if not fields.get(field) or verdict == "model_error":
-            fields[field] = value
+        fields[field] = value
 
     review_parts = [
         f"{label}: {fields[field]}"
         for field, label in _REVIEW_FIELD_LABELS.items()
         if fields.get(field)
     ]
-    raw_debug = _clean_review_text(raw_model_text)
-    if verdict == "model_error" and raw_debug:
-        review_parts.append(f"Raw model text: {raw_debug}")
     fields["review_text"] = "\n\n".join(review_parts) or "Not available"
     return fields
+
+
+def _select_geko_recommended_bid(
+    payload_recommended: object,
+    top3: List[str],
+    legal_bids: List[str],
+) -> Optional[str]:
+    """Use GEKO's bid, not the LLM's, as the displayed proper bid."""
+    legal_set = {bid.upper() for bid in legal_bids}
+    candidates = [payload_recommended, *(top3 or [])]
+    for candidate in candidates:
+        bid = normalize_call(str(candidate or "").strip())
+        if bid and (not legal_set or bid.upper() in legal_set):
+            return bid
+    return None
 
 
 # ── GEKO model globals ────────────────────────────────────────────────────────
@@ -269,6 +372,11 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
             legal_bids=legal_bids,
         )
         llm_response = coach_game_state(state, model_dir=STREAMLINE_MODEL)
+        geko_recommended_bid = _select_geko_recommended_bid(
+            payload.get("recommendedBid"),
+            top3,
+            legal_bids,
+        )
         review = _build_review_text(
             llm_response.explanation,
             llm_response.convention_card_reasoning,
@@ -277,11 +385,10 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
         )
         self._send_json(200, {
             "verdict": llm_response.verdict,
-            "recommendedBid": llm_response.recommended_bid,
+            "recommendedBid": geko_recommended_bid,
             "explanation": review["explanation"],
             "conventionCardReasoning": review["convention_card_reasoning"],
             "reviewText": review["review_text"],
-            "rawModelText": llm_response.raw_model_text,
         })
 
     # ── /api/bid ──────────────────────────────────────────────────────────────
