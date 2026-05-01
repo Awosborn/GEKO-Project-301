@@ -53,6 +53,7 @@
       <div class="hand" id="hand-view"></div>
 
       <p><strong>Auction so far:</strong> <span id="auction-log">(empty)</span></p>
+      <p><strong>Status:</strong> <span id="turn-display">waiting for deal</span></p>
 
       <div id="bid-controls">
         <label>
@@ -64,17 +65,19 @@
     </section>
 
     <section class="panel" id="results" hidden>
-      <h2>Round Result</h2>
+      <h2>Bid Review (LLM output)</h2>
       <p><strong>GEKO model top-3:</strong> <span id="top3"></span></p>
       <p><strong>Verdict:</strong> <span id="verdict"></span></p>
       <p><strong>Recommended bid:</strong> <span id="recommended"></span></p>
       <p><strong>Review output words:</strong> <span id="llm-word-count">0</span></p>
-      <p><strong>Review output text:</strong> <span id="llm-output-text">Not available</span></p>
+      <p><strong>Review output text:</strong></p>
+      <pre id="llm-output-text" class="llm-output">Not available</pre>
       <p id="explanation" class="explanation" hidden></p>
     </section>
 
     <section class="panel" id="cardplay-panel" hidden>
       <h2>3) Card Play vs 3 AI Seats</h2>
+      <p><strong>Contract:</strong> <span id="contract-display">(none)</span></p>
       <p><strong>Current trick:</strong> <span id="trick-log">(none)</span></p>
       <p><strong>Tricks won:</strong> <span id="score">NS 0 - EW 0</span></p>
       <p>Click a legal card in your hand to play.</p>

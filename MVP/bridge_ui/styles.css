@@ -20,3 +20,9 @@ button:hover { background: #1d4ed8; }
 .card.black { color: #111827; }
 
 .explanation { margin-top: .75rem; background: #f8fafc; border-left: 4px solid #dc2626; padding: .75rem; border-radius: 6px; }
+
+
+#auction-log { display:block; margin-top:.25rem; padding:.5rem .65rem; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#turn-display { font-weight:700; color:#1d4ed8; }
+#results { border:1px solid #dbeafe; }
+.llm-output { white-space: pre-wrap; background:#0f172a; color:#e2e8f0; padding:.8rem; border-radius:8px; font-size:.9rem; }

@@ -63,6 +63,7 @@ function renderHumanHand() {
 
 function renderAuction() {
   document.getElementById("auction-log").textContent = game.auction.map((a) => `${a.seat}:${a.call}`).join(" | ") || "(empty)";
+  document.getElementById("turn-display").textContent = auctionDone() ? "auction complete" : `${game.turn} to act`;
 }
 
 async function processAiBiddingUntilHuman() {
@@ -79,30 +80,36 @@ async function processAiBiddingUntilHuman() {
 }
 
 async function submitHumanBid() {
+  try {
   const bid = document.getElementById("user-bid").value.trim(); if (!bid) return;
   const hand = handToText(game.hands[game.humanSeat]);
   const auctionText = game.auction.map((a) => a.call).join(" ");
   const top3 = predictiveTop3(hand, auctionText);
-  let coached;
-  try { coached = await llmCoachViaApi({ hand, userBid: bid, top3, seat: game.humanSeat, dealer: game.dealer, vulnerability: document.getElementById("vuln").value, auction: auctionText }); }
-  catch { coached = ruleBasedCoach({ hand, userBid: bid, top3, seat: game.humanSeat, dealer: game.dealer, vulnerability: document.getElementById("vuln").value, auction: auctionText }); }
+  const coached = await llmCoachViaApi({ hand, userBid: bid, top3, seat: game.humanSeat, dealer: game.dealer, vulnerability: document.getElementById("vuln").value, auction: auctionText });
 
   document.getElementById("top3").textContent = top3.join(", "); document.getElementById("verdict").textContent = coached.verdict; document.getElementById("recommended").textContent = coached.recommendedBid || "";
-  document.getElementById("llm-word-count").textContent = String(countWords(coached.explanation || "")); document.getElementById("llm-output-text").textContent = coached.explanation || "Not available";
+  const llmText = coached.rawModelText || coached.explanation || "Not available";
+  document.getElementById("llm-word-count").textContent = String(countWords(llmText)); document.getElementById("llm-output-text").textContent = llmText;
   document.getElementById("results").hidden = false;
-
-  if (coached.verdict === "outside_top_3") return;
 
   game.auction.push({ seat: game.humanSeat, call: bid.toUpperCase() });
   game.turn = nextSeat(game.humanSeat);
   document.getElementById("user-bid").value = "";
   await processAiBiddingUntilHuman();
+  } catch (error) {
+    document.getElementById("results").hidden = false;
+    document.getElementById("verdict").textContent = "api_error";
+    document.getElementById("recommended").textContent = "";
+    document.getElementById("llm-output-text").textContent = String(error);
+    document.getElementById("llm-word-count").textContent = String(countWords(String(error)));
+  }
 }
 
 function startCardplay() {
   game.contract = game.auction.filter((a) => a.call !== "Pass").slice(-1)[0]?.call || "Pass";
   game.playTurn = nextSeat(game.dealer);
   game.trick = [];
+  document.getElementById("contract-display").textContent = game.contract;
   document.getElementById("cardplay-panel").hidden = false;
   runCardplayLoop();
 }
