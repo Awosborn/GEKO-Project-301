@@ -4,4 +4,4 @@
 
 ## Screenshots from Model VS Code
 
--https://docs.google.com/presentation/d/1jwr97kGMCNq3YDGXvPDQFCpqN1YGKgVR985Ys2Qwdog/edit?usp=sharing
+- https://docs.google.com/presentation/d/1jwr97kGMCNq3YDGXvPDQFCpqN1YGKgVR985Ys2Qwdog/edit?usp=sharing
