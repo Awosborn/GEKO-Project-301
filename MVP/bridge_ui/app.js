@@ -111,8 +111,18 @@ async function submitHumanBid() {
   }
   const hand = handToText(game.hands[game.humanSeat]);
   const auctionText = game.auction.map((a) => a.call).join(" ");
+  const auctionHistory = game.auction.map((a) => ({ seat: a.seat, call: a.call }));
   const top3 = predictiveTop3(hand, auctionText);
-  const coached = await llmCoachViaApi({ hand, userBid: bid, top3, seat: game.humanSeat, dealer: game.dealer, vulnerability: document.getElementById("vuln").value, auction: auctionText });
+  const coached = await llmCoachViaApi({
+    hand,
+    userBid: bid,
+    top3,
+    seat: game.humanSeat,
+    dealer: game.dealer,
+    vulnerability: document.getElementById("vuln").value,
+    auction: auctionText,
+    auctionHistory,
+  });
 
   document.getElementById("top3").textContent = top3.join(", "); document.getElementById("verdict").textContent = coached.verdict; document.getElementById("recommended").textContent = coached.recommendedBid || "";
   const llmText = coached.rawModelText || coached.explanation || "Not available";
