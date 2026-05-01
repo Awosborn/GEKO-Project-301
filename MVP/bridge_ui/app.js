@@ -3,7 +3,7 @@ const SUITS = ["S", "H", "D", "C"];
 const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 const TABLE_SEATS = ["north", "east", "south", "west"];
 
-const game = { hands: {}, humanSeat: "south", dealer: "north", auction: [], turn: "north", contract: null, playTurn: null, trick: [], tricksWon: { ns: 0, ew: 0 } };
+const game = { hands: {}, humanSeat: "south", dealer: "north", auction: [], turn: "north", contract: null, playTurn: null, trick: [], tricksWon: { ns: 0, ew: 0 }, playHistory: [], declarer: null, dummy: null };
 let uiInitialized = false;
 
 function countWords(text) { return text?.trim() ? text.trim().split(/\s+/).length : 0; }
@@ -36,28 +36,52 @@ function predictiveTop3(handText, auctionText) {
   if (hcp >= 16) return ["1NT", "1S", "1H"]; if (hcp >= 12) return ["1H", "1S", "1D"]; if (hcp >= 8) return hasNt ? ["2D", "2H", "Pass"] : ["1D", "Pass", "1C"]; return ["Pass", "1C", "1D"];
 }
 
-function ruleBasedCoach({ hand, userBid, top3, seat, dealer, vulnerability, auction }) {
-  const normalized = userBid.trim().toUpperCase(); const userInTop3 = top3.map((b) => b.toUpperCase()).includes(normalized); const best = top3[0]; const hcp = calculateHcp(hand);
-  if (userInTop3) return { verdict: "inside_top_3", recommendedBid: normalized, explanation: "" };
-  return { verdict: "outside_top_3", recommendedBid: best, explanation: `Rule-based review: Bid ${normalized} is outside top-3 (${top3.join(", ")}). Hand=${hand}; HCP=${hcp}; Seat=${seat}; Dealer=${dealer}; Vuln=${vulnerability}; Auction=${auction || "(empty)"}. Recommend ${best}.` };
+// Determine the declarer from the completed auction (first player on declaring side to bid that strain)
+function findDeclarer(auction, dealer) {
+  let finalStrain = null;
+  let finalBidSeat = null;
+  for (let i = auction.length - 1; i >= 0; i--) {
+    const call = window.bridgeRules.parseCall(auction[i].call);
+    if (call && !["PASS", "X", "XX"].includes(call)) {
+      finalStrain = call.slice(1); // "H", "NT", "S", etc.
+      finalBidSeat = auction[i].seat;
+      break;
+    }
+  }
+  if (!finalStrain || !finalBidSeat) return dealer;
+  const nsTeam = ["north", "south"];
+  const declarerTeam = nsTeam.includes(finalBidSeat) ? nsTeam : ["east", "west"];
+  for (const entry of auction) {
+    const call = window.bridgeRules.parseCall(entry.call);
+    if (call && call.slice(1) === finalStrain && declarerTeam.includes(entry.seat)) return entry.seat;
+  }
+  return finalBidSeat;
 }
 
-async function postCoach(url, payload) {
-  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-  return response;
+async function postJson(url, payload) {
+  return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
 }
 
 async function llmCoachViaApi(payload) {
-  let response = await postCoach("/api/coach", payload);
-
+  let response = await postJson("/api/coach", payload);
   if (!response.ok && (response.status === 404 || response.status === 501)) {
-    const runningOnPort8000 = window.location.port === "8000";
-    if (!runningOnPort8000) {
-      response = await postCoach("http://localhost:8000/api/coach", payload);
-    }
+    if (window.location.port !== "8000") response = await postJson("http://localhost:8000/api/coach", payload);
   }
-
   if (!response.ok) throw new Error(`Coach API failed: ${response.status}`);
+  return response.json();
+}
+
+// Call GEKO bidding model via server API; returns { recommendedBid, top3 }
+async function gekoAiBid(seat, hand, dealer, vulnerability, auction) {
+  const response = await postJson("/api/bid", { seat, hand, dealer, vulnerability, auction });
+  if (!response.ok) throw new Error(`Bid API ${response.status}`);
+  return response.json();
+}
+
+// Call GEKO card-play model via server API; returns { recommendedCard }
+async function gekoAiCard(seat, hand, trick, playHistory, auction, contract, declarer, dummy, vulnerability, dummyHand) {
+  const response = await postJson("/api/card", { seat, hand, trick, playHistory, auction, contract, declarer, dummy, vulnerability, dummyHand });
+  if (!response.ok) throw new Error(`Card API ${response.status}`);
   return response.json();
 }
 
@@ -78,10 +102,29 @@ async function processAiBiddingUntilHuman() {
     while (!auctionDone() && game.turn !== game.humanSeat) {
       const seat = game.turn;
       const hand = handToText(game.hands[seat]);
-      const prefs = predictiveTop3(hand, game.auction.map((a) => a.call).join(" "));
-      const choices = [...prefs, ...BID_ORDER, "Pass"];
-      const call = choices.find((c) => window.bridgeRules.isLegalCall(game.auction, seat, c).ok) || "Pass";
-      game.auction.push({ seat, call: call.toUpperCase() });
+      const auctionCalls = game.auction.map((a) => a.call);
+      const vuln = document.getElementById("vuln").value;
+      let call = null;
+
+      // Try GEKO bidding model first
+      try {
+        const result = await gekoAiBid(seat, hand, game.dealer, vuln, auctionCalls);
+        const recommended = result.recommendedBid;
+        if (recommended) {
+          const legality = window.bridgeRules.isLegalCall(game.auction, seat, recommended);
+          if (legality.ok) call = legality.call;
+        }
+      } catch (_) { /* fallback below */ }
+
+      // Heuristic fallback
+      if (!call) {
+        const prefs = predictiveTop3(hand, auctionCalls.join(" "));
+        const choices = [...prefs, ...BID_ORDER, "Pass"];
+        const chosen = choices.find((c) => window.bridgeRules.isLegalCall(game.auction, seat, c).ok) || "Pass";
+        call = window.bridgeRules.isLegalCall(game.auction, seat, chosen).call || "PASS";
+      }
+
+      game.auction.push({ seat, call });
       game.turn = nextSeat(game.turn);
     }
     renderAuction();
@@ -99,40 +142,61 @@ async function processAiBiddingUntilHuman() {
 
 async function submitHumanBid() {
   try {
-  const bid = document.getElementById("user-bid").value.trim(); if (!bid) return;
-  const legality = window.bridgeRules.isLegalCall(game.auction, game.humanSeat, bid);
-  if (!legality.ok) {
+    const bid = document.getElementById("user-bid").value.trim(); if (!bid) return;
+    const legality = window.bridgeRules.isLegalCall(game.auction, game.humanSeat, bid);
+    if (!legality.ok) {
+      document.getElementById("results").hidden = false;
+      document.getElementById("verdict").textContent = "illegal_call";
+      document.getElementById("recommended").textContent = "";
+      document.getElementById("llm-output-text").textContent = legality.reason;
+      document.getElementById("llm-word-count").textContent = String(countWords(legality.reason));
+      return;
+    }
+    const hand = handToText(game.hands[game.humanSeat]);
+    const auctionText = game.auction.map((a) => a.call).join(" ");
+    const auctionHistory = game.auction.map((a) => ({ seat: a.seat, call: a.call }));
+    const auctionCalls = game.auction.map((a) => a.call);
+    const vuln = document.getElementById("vuln").value;
+
+    // Compute all legally available calls for the current position
+    const allCalls = [...BID_ORDER, "Pass", "X", "XX"];
+    const legalBids = allCalls.filter((c) => window.bridgeRules.isLegalCall(game.auction, game.humanSeat, c).ok);
+
+    // Get top3 from GEKO bidding model, filtered to legal calls; heuristic fallback
+    let top3 = [];
+    try {
+      const result = await gekoAiBid(game.humanSeat, hand, game.dealer, vuln, auctionCalls);
+      top3 = (result.top3 || []).filter((c) => legalBids.some((lb) => lb.toUpperCase() === c.toUpperCase()));
+    } catch (_) { /* fallback below */ }
+    if (!top3.length) {
+      top3 = predictiveTop3(hand, auctionText).filter((c) => legalBids.some((lb) => lb.toUpperCase() === c.toUpperCase()));
+    }
+    if (!top3.length) top3 = legalBids.slice(0, 3);
+
+    const coached = await llmCoachViaApi({
+      hand,
+      userBid: bid,
+      top3,
+      seat: game.humanSeat,
+      dealer: game.dealer,
+      vulnerability: vuln,
+      auction: auctionText,
+      auctionHistory,
+      legalBids,
+    });
+
+    document.getElementById("top3").textContent = top3.join(", ");
+    document.getElementById("verdict").textContent = coached.verdict;
+    document.getElementById("recommended").textContent = coached.recommendedBid || "";
+    const llmText = coached.rawModelText || coached.explanation || "Not available";
+    document.getElementById("llm-word-count").textContent = String(countWords(llmText));
+    document.getElementById("llm-output-text").textContent = llmText;
     document.getElementById("results").hidden = false;
-    document.getElementById("verdict").textContent = "illegal_call";
-    document.getElementById("recommended").textContent = "";
-    document.getElementById("llm-output-text").textContent = legality.reason;
-    document.getElementById("llm-word-count").textContent = String(countWords(legality.reason));
-    return;
-  }
-  const hand = handToText(game.hands[game.humanSeat]);
-  const auctionText = game.auction.map((a) => a.call).join(" ");
-  const auctionHistory = game.auction.map((a) => ({ seat: a.seat, call: a.call }));
-  const top3 = predictiveTop3(hand, auctionText);
-  const coached = await llmCoachViaApi({
-    hand,
-    userBid: bid,
-    top3,
-    seat: game.humanSeat,
-    dealer: game.dealer,
-    vulnerability: document.getElementById("vuln").value,
-    auction: auctionText,
-    auctionHistory,
-  });
 
-  document.getElementById("top3").textContent = top3.join(", "); document.getElementById("verdict").textContent = coached.verdict; document.getElementById("recommended").textContent = coached.recommendedBid || "";
-  const llmText = coached.rawModelText || coached.explanation || "Not available";
-  document.getElementById("llm-word-count").textContent = String(countWords(llmText)); document.getElementById("llm-output-text").textContent = llmText;
-  document.getElementById("results").hidden = false;
-
-  game.auction.push({ seat: game.humanSeat, call: legality.call });
-  game.turn = nextSeat(game.humanSeat);
-  document.getElementById("user-bid").value = "";
-  await processAiBiddingUntilHuman();
+    game.auction.push({ seat: game.humanSeat, call: legality.call });
+    game.turn = nextSeat(game.humanSeat);
+    document.getElementById("user-bid").value = "";
+    await processAiBiddingUntilHuman();
   } catch (error) {
     document.getElementById("results").hidden = false;
     document.getElementById("verdict").textContent = "api_error";
@@ -144,11 +208,19 @@ async function submitHumanBid() {
 
 function startCardplay() {
   game.contract = window.bridgeRules.finalContract(game.auction) || "Pass";
-  game.playTurn = nextSeat(game.dealer);
-  game.trick = [];
   document.getElementById("contract-display").textContent = game.contract;
   document.getElementById("cardplay-panel").hidden = false;
-  runCardplayLoop();
+
+  if (game.contract === "Pass") return; // passed-out auction: no card play
+
+  game.declarer = findDeclarer(game.auction, game.dealer);
+  game.dummy = nextSeat(nextSeat(game.declarer)); // partner of declarer
+  game.playTurn = nextSeat(game.declarer);        // opening lead from left of declarer
+  game.trick = [];
+  game.playHistory = [];
+  runCardplayLoop().catch((err) => {
+    document.getElementById("trick-log").textContent = `Card play error: ${String(err)}`;
+  });
 }
 
 function legalCards(seat) {
@@ -159,11 +231,39 @@ function winnerOfTrick() {
   return window.bridgeRules.winnerOfTrick(game.trick, game.contract);
 }
 
-function runCardplayLoop() {
-  while (game.playTurn !== game.humanSeat && game.hands[game.playTurn].length) {
-    const aiCard = legalCards(game.playTurn)[0];
-    game.hands[game.playTurn] = game.hands[game.playTurn].filter((c) => c !== aiCard);
-    game.trick.push({ seat: game.playTurn, card: aiCard });
+async function runCardplayLoop() {
+  while (game.playTurn !== game.humanSeat && game.hands[game.playTurn] && game.hands[game.playTurn].length) {
+    const seat = game.playTurn;
+    const legalCardsList = legalCards(seat);
+    let aiCard = null;
+
+    // Try GEKO card-play model
+    if (game.declarer && game.contract && game.contract !== "Pass") {
+      try {
+        const dummyCards = game.hands[game.dummy] || [];
+        const result = await gekoAiCard(
+          seat,
+          game.hands[seat],
+          game.trick,
+          game.playHistory,
+          game.auction.map((a) => a.call),
+          game.contract,
+          game.declarer,
+          game.dummy,
+          document.getElementById("vuln").value,
+          dummyCards,
+        );
+        const recommended = result.recommendedCard;
+        if (recommended && game.hands[seat].includes(recommended) && legalCardsList.includes(recommended)) {
+          aiCard = recommended;
+        }
+      } catch (_) { /* fallback below */ }
+    }
+
+    if (!aiCard) aiCard = legalCardsList[0];
+
+    game.hands[seat] = game.hands[seat].filter((c) => c !== aiCard);
+    game.trick.push({ seat, card: aiCard });
     game.playTurn = nextSeat(game.playTurn);
     if (game.trick.length === 4) completeTrick();
   }
@@ -174,6 +274,7 @@ function runCardplayLoop() {
 function completeTrick() {
   const winner = winnerOfTrick();
   game.tricksWon[teamForSeat(winner)] += 1;
+  game.trick.forEach((p) => game.playHistory.push(p));
   game.playTurn = winner;
   game.trick = [];
   document.getElementById("score").textContent = `NS ${game.tricksWon.ns} - EW ${game.tricksWon.ew}`;
@@ -189,6 +290,9 @@ async function startNewDeal() {
   game.trick = [];
   game.contract = null;
   game.playTurn = null;
+  game.playHistory = [];
+  game.declarer = null;
+  game.dummy = null;
 
   document.getElementById("seat-display").textContent = game.humanSeat;
   document.getElementById("play-panel").hidden = false;
@@ -224,13 +328,14 @@ function initUi() {
   });
 
   playButton.addEventListener("click", submitHumanBid);
-  handView.addEventListener("click", (event) => {
+  handView.addEventListener("click", async (event) => {
     const card = event.target.dataset.card; if (!card || game.playTurn !== game.humanSeat) return;
     if (!legalCards(game.humanSeat).includes(card)) return;
     game.hands[game.humanSeat] = game.hands[game.humanSeat].filter((c) => c !== card);
-    game.trick.push({ seat: game.humanSeat, card }); game.playTurn = nextSeat(game.humanSeat);
+    game.trick.push({ seat: game.humanSeat, card });
+    game.playTurn = nextSeat(game.humanSeat);
     if (game.trick.length === 4) completeTrick();
-    runCardplayLoop();
+    await runCardplayLoop();
   });
 }
 
