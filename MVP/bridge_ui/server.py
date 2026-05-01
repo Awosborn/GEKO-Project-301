@@ -25,6 +25,7 @@ for _p in (str(STREAMLINE_SRC), str(GEKO_ROOT)):
 
 from bridge_bid_coach.bridge_rules import normalize_call  # noqa: E402
 from bridge_bid_coach.coach import coach_game_state  # noqa: E402
+from bridge_bid_coach.inference import extract_json_object  # noqa: E402
 from bridge_bid_coach.schemas import AuctionCall, GameState  # noqa: E402
 
 # ── Translation helpers ───────────────────────────────────────────────────────
@@ -84,6 +85,85 @@ def _geko_card_to_ui(card: str) -> str:
     if isinstance(card, str) and card.startswith("10") and len(card) == 3:
         return "T" + card[2]
     return str(card or "")
+
+
+_REVIEW_FIELD_LABELS = {
+    "explanation": "Explanation",
+    "convention_card_reasoning": "Convention card reasoning",
+}
+
+
+def _clean_review_text(value: object) -> str:
+    text = str(value or "").strip()
+    text = re.sub(r"\s+", " ", text)
+    return text.strip(" \t\r\n,")
+
+
+def _extract_json_string_field(raw_text: str, field: str) -> Optional[str]:
+    """Extract one string field from loose JSON-ish model text."""
+    decoder = json.JSONDecoder()
+    key_re = re.compile(rf'"{re.escape(field)}"\s*:')
+    for match in key_re.finditer(raw_text):
+        index = match.end()
+        while index < len(raw_text) and raw_text[index].isspace():
+            index += 1
+        if index >= len(raw_text):
+            continue
+        try:
+            parsed, _ = decoder.raw_decode(raw_text[index:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, str):
+            return parsed
+    return None
+
+
+def _extract_review_fields(raw_text: Optional[str]) -> Dict[str, str]:
+    """Pull only the user-facing review fields from raw model output."""
+    if not raw_text:
+        return {}
+
+    fields: Dict[str, str] = {}
+    parsed = extract_json_object(raw_text)
+    if isinstance(parsed, dict):
+        for field in _REVIEW_FIELD_LABELS:
+            value = _clean_review_text(parsed.get(field))
+            if value:
+                fields[field] = value
+
+    for field in _REVIEW_FIELD_LABELS:
+        if field not in fields:
+            value = _clean_review_text(_extract_json_string_field(raw_text, field))
+            if value:
+                fields[field] = value
+
+    return fields
+
+
+def _build_review_text(
+    explanation: object,
+    convention_card_reasoning: object,
+    raw_model_text: Optional[str],
+    verdict: str,
+) -> Dict[str, str]:
+    """Return cleaned explanation fields and a display string for the UI."""
+    fields = {
+        "explanation": _clean_review_text(explanation),
+        "convention_card_reasoning": _clean_review_text(convention_card_reasoning),
+    }
+    raw_fields = _extract_review_fields(raw_model_text)
+
+    for field, value in raw_fields.items():
+        if not fields.get(field) or verdict == "model_error":
+            fields[field] = value
+
+    review_parts = [
+        f"{label}: {fields[field]}"
+        for field, label in _REVIEW_FIELD_LABELS.items()
+        if fields.get(field)
+    ]
+    fields["review_text"] = "\n\n".join(review_parts) or "Not available"
+    return fields
 
 
 # ── GEKO model globals ────────────────────────────────────────────────────────
@@ -186,10 +266,18 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
             legal_bids=legal_bids,
         )
         llm_response = coach_game_state(state, model_dir=STREAMLINE_MODEL)
+        review = _build_review_text(
+            llm_response.explanation,
+            llm_response.convention_card_reasoning,
+            llm_response.raw_model_text,
+            llm_response.verdict,
+        )
         self._send_json(200, {
             "verdict": llm_response.verdict,
             "recommendedBid": llm_response.recommended_bid,
-            "explanation": llm_response.explanation,
+            "explanation": review["explanation"],
+            "conventionCardReasoning": review["convention_card_reasoning"],
+            "reviewText": review["review_text"],
             "rawModelText": llm_response.raw_model_text,
         })
 

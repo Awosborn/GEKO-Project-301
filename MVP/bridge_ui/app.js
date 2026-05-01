@@ -1,5 +1,7 @@
 const BID_ORDER = window.bridgeRules.CONTRACT_ORDER;
 const SUITS = ["S", "H", "D", "C"];
+const DISPLAY_SUITS = ["S", "H", "C", "D"];
+const SUIT_ENTITIES = { S: "&spades;", H: "&hearts;", C: "&clubs;", D: "&diams;" };
 const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 const TABLE_SEATS = ["north", "east", "south", "west"];
 
@@ -87,9 +89,18 @@ async function gekoAiCard(seat, hand, trick, playHistory, auction, contract, dec
 
 function auctionDone() { return window.bridgeRules.auctionDone(game.auction); }
 
+function sortCardsForDisplay(cards) {
+  return [...cards].sort((a, b) => {
+    const suitDiff = DISPLAY_SUITS.indexOf(a[1]) - DISPLAY_SUITS.indexOf(b[1]);
+    if (suitDiff) return suitDiff;
+    const rankDiff = RANKS.indexOf(a[0]) - RANKS.indexOf(b[0]);
+    return rankDiff || a.localeCompare(b);
+  });
+}
+
 function renderHumanHand() {
-  const cards = game.hands[game.humanSeat];
-  document.getElementById("hand-view").innerHTML = cards.map((card) => `<button class="card ${/[HD]/.test(card[1]) ? "red" : "black"}" data-card="${card}">${card[0]}${card[1] === "S" ? "♠" : card[1] === "H" ? "♥" : card[1] === "D" ? "♦" : "♣"}</button>`).join("");
+  const displayCards = sortCardsForDisplay(game.hands[game.humanSeat] || []);
+  document.getElementById("hand-view").innerHTML = displayCards.map((card) => `<button class="card ${/[HD]/.test(card[1]) ? "red" : "black"}" data-card="${card}">${card[0]}${SUIT_ENTITIES[card[1]] || card[1]}</button>`).join("");
 }
 
 function renderAuction() {
@@ -188,7 +199,7 @@ async function submitHumanBid() {
     document.getElementById("top3").textContent = top3.join(", ");
     document.getElementById("verdict").textContent = coached.verdict;
     document.getElementById("recommended").textContent = coached.recommendedBid || "";
-    const llmText = coached.rawModelText || coached.explanation || "Not available";
+    const llmText = coached.reviewText || coached.explanation || "Not available";
     document.getElementById("llm-word-count").textContent = String(countWords(llmText));
     document.getElementById("llm-output-text").textContent = llmText;
     document.getElementById("results").hidden = false;
