@@ -80,7 +80,7 @@ def generate_text(
     *,
     model_dir: str | Path,
     device: str = "auto",
-    max_new_tokens: int = 40,
+    max_new_tokens: int = 220,
     temperature: float = 0.1,
     top_p: float = 0.95,
     repetition_penalty: float = 1.1,
@@ -92,18 +92,19 @@ def generate_text(
     """
     pipe = load_pipeline(model_dir, device=device)
 
-    generation_kwargs: Dict[str, Any] = {
-        "max_new_tokens": max_new_tokens,
-        "repetition_penalty": repetition_penalty,
-        "do_sample": do_sample,
-        "return_full_text": False,
-        "pad_token_id": pipe.tokenizer.eos_token_id,
-        "clean_up_tokenization_spaces": False,
-    }
+    from transformers import GenerationConfig  # type: ignore[import-untyped]
+
+    generation_config = GenerationConfig.from_model_config(pipe.model.config)
+    generation_config.max_new_tokens = max_new_tokens
+    generation_config.repetition_penalty = repetition_penalty
+    generation_config.do_sample = do_sample
+    generation_config.pad_token_id = pipe.tokenizer.eos_token_id
+    # `max_length` can conflict with `max_new_tokens` and trigger warnings.
+    generation_config.max_length = None
     # These are only meaningful when sampling is enabled.
     if do_sample:
-        generation_kwargs["temperature"] = temperature
-        generation_kwargs["top_p"] = top_p
+        generation_config.temperature = temperature
+        generation_config.top_p = top_p
 
     tokenizer = pipe.tokenizer
     try:
@@ -117,7 +118,12 @@ def generate_text(
             f"{m.get('role', 'user')}: {m.get('content', '')}" for m in messages
         ) + "\nassistant:"
 
-    output = pipe(prompt_text, **generation_kwargs)
+    output = pipe(
+        prompt_text,
+        generation_config=generation_config,
+        return_full_text=False,
+        clean_up_tokenization_spaces=False,
+    )
     generated = output[0]["generated_text"]
     if isinstance(generated, str):
         return generated
@@ -131,16 +137,22 @@ def generate_text(
 
 
 def extract_json_object(text: str) -> Optional[Dict[str, Any]]:
-    """Extract and return the first complete JSON object found in *text*.
+    """Extract and return the first valid JSON object found in *text*.
 
-    Returns None if no valid JSON object is present.
+    This is robust to extra prose before/after JSON and to multiple brace
+    blocks in the same generation. Returns None if no valid object is found.
     """
-    start = text.find("{")
-    end = text.rfind("}")
-    if start == -1 or end == -1 or end <= start:
-        return None
-    try:
-        parsed = json.loads(text[start : end + 1])
-    except json.JSONDecodeError:
-        return None
-    return parsed if isinstance(parsed, dict) else None
+    decoder = json.JSONDecoder()
+    start = 0
+    while True:
+        start = text.find("{", start)
+        if start == -1:
+            return None
+        try:
+            parsed, _ = decoder.raw_decode(text[start:])
+        except json.JSONDecodeError:
+            start += 1
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+        start += 1

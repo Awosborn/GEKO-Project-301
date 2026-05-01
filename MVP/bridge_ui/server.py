@@ -14,6 +14,7 @@ STREAMLINE_MODEL = ROOT.parent / "StreamLine" / "model"
 if str(STREAMLINE_SRC) not in sys.path:
     sys.path.insert(0, str(STREAMLINE_SRC))
 
+from bridge_bid_coach.bridge_rules import normalize_call  # noqa: E402
 from bridge_bid_coach.coach import coach_game_state  # noqa: E402
 from bridge_bid_coach.schemas import AuctionCall, GameState  # noqa: E402
 
@@ -38,23 +39,35 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
             length = int(self.headers.get("Content-Length", "0"))
             payload = json.loads(self.rfile.read(length).decode("utf-8"))
             top3 = payload.get("top3", [])
+            if isinstance(top3, list):
+                top3 = [normalize_call(str(b)) for b in top3 if str(b).strip()]
+            else:
+                top3 = []
             legal_bids = payload.get("legalBids") or []
             if not isinstance(legal_bids, list):
                 legal_bids = []
+            legal_bids = [normalize_call(str(b)) for b in legal_bids if str(b).strip()]
             if not legal_bids:
                 legal_bids = [b for b in top3 if isinstance(b, str) and b]
-            auction_text = (payload.get("auction") or "").strip()
-            auction_history = [
-                AuctionCall(call=call)
-                for call in auction_text.split()
-                if call
-            ]
+            auction_history_payload = payload.get("auctionHistory")
+            auction_history = []
+            if isinstance(auction_history_payload, list) and auction_history_payload:
+                for entry in auction_history_payload:
+                    if isinstance(entry, dict):
+                        call = normalize_call(str(entry.get("call", "")).strip())
+                        if not call:
+                            continue
+                        seat = str(entry.get("seat", "")).strip().lower() or None
+                        auction_history.append(AuctionCall(seat=seat, call=call))
+            else:
+                auction_text = (payload.get("auction") or "").strip()
+                auction_history = [AuctionCall(call=normalize_call(call)) for call in auction_text.split() if call]
 
             state = GameState(
                 dealer=payload.get("dealer", "north"),
                 vulnerability=payload.get("vulnerability", "none"),
                 current_seat=payload.get("seat", "south"),
-                user_bid=payload.get("userBid", "Pass"),
+                user_bid=normalize_call(payload.get("userBid", "Pass")),
                 top_3_model_bids=top3,
                 hand=payload.get("hand", ""),
                 auction_history=auction_history,

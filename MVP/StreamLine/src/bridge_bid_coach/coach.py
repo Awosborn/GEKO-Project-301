@@ -17,7 +17,7 @@ from .utils import pydantic_model_dump, pydantic_model_validate
 
 logger = logging.getLogger(__name__)
 
-# Maximum generation attempts before using the deterministic fallback
+# Maximum generation attempts before returning model_failure
 _MAX_RETRIES = 3
 
 
@@ -64,7 +64,7 @@ def model_failure_response(
             "LLM output schema validation failed."
         ),
         risk_of_user_bid=(
-            "No deterministic recommendation is returned in this mode."
+            "No recommendation is returned in this mode."
         ),
         partner_likely_inference=(
             "Inspect raw_model_text and model prompt/configuration."
@@ -72,6 +72,8 @@ def model_failure_response(
         confidence=0.55,
         raw_model_text=raw_model_text,
     )
+
+
 
 
 def _parse_and_validate_response(
@@ -85,6 +87,31 @@ def _parse_and_validate_response(
     # Fill in fields the model sometimes omits
     parsed.setdefault("user_bid", state.user_bid)
     parsed.setdefault("top_3_bids", top_candidate_bids(state.top_3_model_bids, 3))
+    parsed.setdefault("raw_model_text", raw_text)
+    parsed.setdefault("verdict", "incorrect")
+    parsed.setdefault("recommended_bid", _recover_recommended_bid(raw_text, state))
+    parsed.setdefault(
+        "explanation",
+        "Suggested improvement based on legal bids and model candidates.",
+    )
+    parsed.setdefault(
+        "convention_card_reasoning",
+        "Recommendation recovered from partial model output.",
+    )
+    parsed.setdefault(
+        "risk_of_user_bid",
+        "Current user bid appears weaker than the recovered recommendation.",
+    )
+    parsed.setdefault(
+        "partner_likely_inference",
+        "Partner likely expects a call aligned with the recovered recommendation.",
+    )
+    parsed.setdefault("confidence", 0.55)
+    # Common alias normalization from loosely formatted outputs.
+    if "recommended" in parsed and "recommended_bid" not in parsed:
+        parsed["recommended_bid"] = parsed.get("recommended")
+    if "reasoning" in parsed and "convention_card_reasoning" not in parsed:
+        parsed["convention_card_reasoning"] = parsed.get("reasoning")
 
     try:
         return pydantic_model_validate(CoachResponse, parsed)
@@ -107,12 +134,32 @@ def _retry_message(attempt: int) -> str:
 
 
 _HCP_PATTERN = re.compile(r"(\d+)(\s*HCP)", re.IGNORECASE)
+_RECOVERY_BID_PATTERN = re.compile(
+    r"\b(?:[1-7](?:C|D|H|S|NT)|PASS|DOUBLE|REDOUBLE|X|XX|P)\b", re.IGNORECASE
+)
 _HCP_TEXT_FIELDS = (
     "explanation",
     "convention_card_reasoning",
     "risk_of_user_bid",
     "partner_likely_inference",
 )
+
+
+def _recover_recommended_bid(raw_text: str, state: GameState) -> Optional[str]:
+    """Recover a likely recommended bid when the model omits the schema field."""
+    legal = [str(b) for b in state.legal_bids if isinstance(b, str)]
+    if legal:
+        legal_set = {b.upper(): b for b in legal}
+        for token in _RECOVERY_BID_PATTERN.findall(raw_text.upper()):
+            norm = {"P": "PASS", "X": "DOUBLE", "XX": "REDOUBLE"}.get(token, token)
+            if norm in legal_set:
+                return legal_set[norm]
+
+    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
+    for bid in top_3:
+        if not legal or bid in legal:
+            return bid
+    return legal[0] if legal else None
 
 
 def _correct_hcp(response: CoachResponse, hand: str) -> CoachResponse:
@@ -164,8 +211,8 @@ def coach_game_state(
 
     The model is only called when the user's bid is NOT in the top three.
     Up to _MAX_RETRIES generation attempts are made; each failed attempt appends
-    a stronger JSON-only reminder to the user message.  If all attempts fail,
-    the deterministic fallback is returned.
+    a stronger JSON-only reminder to the user message. If all attempts fail,
+    a model_failure response is returned.
     """
     if user_bid_in_top_n(state.user_bid, state.top_3_model_bids, 3):
         return reasonable_bid_response(state)
