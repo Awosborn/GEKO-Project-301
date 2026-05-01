@@ -127,12 +127,23 @@ _RAW_FIELD_STOPS = (
     "raw_model_text",
     "vulnerability",
 )
+_REVIEW_PLACEHOLDER_TEXTS = {
+    "Suggested improvement based on legal bids and model candidates.",
+    "Recommendation recovered from partial model output.",
+    "Model output could not be parsed as valid coach JSON. Showing raw model text for debugging.",
+    "LLM output schema validation failed.",
+}
 
 
 def _clean_review_text(value: object) -> str:
     text = str(value or "").strip()
     text = re.sub(r"\s+", " ", text)
     return text.strip(" \t\r\n,")
+
+
+def _usable_review_text(value: object) -> str:
+    text = _clean_review_text(value)
+    return "" if text in _REVIEW_PLACEHOLDER_TEXTS else text
 
 
 def _alias_pattern(field: str) -> str:
@@ -176,7 +187,7 @@ def _extract_quoted_text_field(raw_text: str, field: str) -> Optional[str]:
             elif ch == "\\":
                 escaped = True
             elif ch == quote:
-                value = _clean_review_text("".join(chars))
+                value = _usable_review_text("".join(chars))
                 if value:
                     return value
                 break
@@ -196,7 +207,7 @@ def _extract_unquoted_text_field(raw_text: str, field: str) -> Optional[str]:
         stop = stop_re.search(raw_text, start)
         end = stop.start() if stop else len(raw_text)
         value = raw_text[start:end].strip().strip("{}[] \t\r\n,\"'")
-        value = _clean_review_text(value)
+        value = _usable_review_text(value)
         if value:
             return value
     return None
@@ -219,13 +230,13 @@ def _extract_review_fields(raw_text: Optional[str]) -> Dict[str, str]:
     parsed = extract_json_object(raw_text)
     if isinstance(parsed, dict):
         for field in _REVIEW_FIELD_LABELS:
-            value = _clean_review_text(parsed.get(field))
+            value = _usable_review_text(parsed.get(field))
             if value:
                 fields[field] = value
 
     for field in _REVIEW_FIELD_LABELS:
         if field not in fields:
-            value = _clean_review_text(_extract_text_field(raw_text, field))
+            value = _usable_review_text(_extract_text_field(raw_text, field))
             if value:
                 fields[field] = value
 
@@ -240,8 +251,8 @@ def _build_review_text(
 ) -> Dict[str, str]:
     """Return cleaned explanation fields and a display string for the UI."""
     fields = {
-        "explanation": _clean_review_text(explanation),
-        "convention_card_reasoning": _clean_review_text(convention_card_reasoning),
+        "explanation": _usable_review_text(explanation),
+        "convention_card_reasoning": _usable_review_text(convention_card_reasoning),
     }
     raw_fields = _extract_review_fields(raw_model_text)
 

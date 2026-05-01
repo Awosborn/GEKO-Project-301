@@ -20,6 +20,63 @@ logger = logging.getLogger(__name__)
 # Maximum generation attempts before returning model_failure
 _MAX_RETRIES = 3
 
+_REQUIRED_LLM_TEXT_FIELDS = ("explanation", "convention_card_reasoning")
+_LLM_TEXT_FIELD_ALIASES = {
+    "explanation": ("explanation", "explination"),
+    "convention_card_reasoning": (
+        "convention_card_reasoning",
+        "convention_card_reasioning",
+        "convention_card_reasiong",
+        "convention card reasoning",
+    ),
+}
+_LLM_TEXT_FIELD_STOPS = (
+    "alerts",
+    "auction_history",
+    "confidence",
+    "convention_card",
+    "convention_card_reasoning",
+    "convention_card_reasioning",
+    "convention_card_reasiong",
+    "convention card reasoning",
+    "current_seat",
+    "dealer",
+    "explanation",
+    "explination",
+    "hand",
+    "hand_shape",
+    "known_cards",
+    "legal_bids",
+    "partner_likely_inference",
+    "raw_model_text",
+    "recommended_bid",
+    "risk_of_user_bid",
+    "top_3_bids",
+    "top_3_model_bids",
+    "user_bid",
+    "verdict",
+    "vulnerability",
+)
+_LLM_PLACEHOLDER_TEXTS = {
+    "Suggested improvement based on legal bids and model candidates.",
+    "Recommendation recovered from partial model output.",
+    "Model output could not be parsed as valid coach JSON. Showing raw model text for debugging.",
+    "LLM output schema validation failed.",
+}
+_RESPONSE_KEYS = {
+    "confidence",
+    "convention_card_reasoning",
+    "explanation",
+    "partner_likely_inference",
+    "raw_model_text",
+    "recommended",
+    "recommended_bid",
+    "risk_of_user_bid",
+    "top_3_bids",
+    "user_bid",
+    "verdict",
+}
+
 
 def load_game_state(path: str | Path) -> GameState:
     """Load and validate a game-state JSON file."""
@@ -76,28 +133,106 @@ def model_failure_response(
 
 
 
+def _clean_llm_text(value: object) -> str:
+    text = str(value or "").strip()
+    text = re.sub(r"\s+", " ", text)
+    return text.strip(" \t\r\n,\"'")
+
+
+def _usable_llm_text(value: object) -> str:
+    text = _clean_llm_text(value)
+    return "" if text in _LLM_PLACEHOLDER_TEXTS else text
+
+
+def _llm_alias_pattern(field: str) -> str:
+    return "|".join(re.escape(alias) for alias in _LLM_TEXT_FIELD_ALIASES.get(field, (field,)))
+
+
+def _llm_field_key_pattern(field: str, separator: str = r"[:=]") -> str:
+    return rf'["\']?(?:{_llm_alias_pattern(field)})["\']?\s*{separator}'
+
+
+def _extract_json_string_field(raw_text: str, field: str) -> Optional[str]:
+    decoder = json.JSONDecoder()
+    key_re = re.compile(_llm_field_key_pattern(field, ":"), re.IGNORECASE)
+    for match in key_re.finditer(raw_text):
+        index = match.end()
+        while index < len(raw_text) and raw_text[index].isspace():
+            index += 1
+        if index >= len(raw_text):
+            continue
+        try:
+            parsed, _ = decoder.raw_decode(raw_text[index:])
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, str):
+            return parsed
+    return None
+
+
+def _extract_quoted_text_field(raw_text: str, field: str) -> Optional[str]:
+    key_re = re.compile(rf'{_llm_field_key_pattern(field)}\s*(["\'])', re.IGNORECASE)
+    for match in key_re.finditer(raw_text):
+        quote = match.group(1)
+        chars: list[str] = []
+        escaped = False
+        for ch in raw_text[match.end():]:
+            if escaped:
+                chars.append(ch)
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                value = _usable_llm_text("".join(chars))
+                if value:
+                    return value
+                break
+            else:
+                chars.append(ch)
+    return None
+
+
+def _extract_unquoted_text_field(raw_text: str, field: str) -> Optional[str]:
+    key_re = re.compile(rf'{_llm_field_key_pattern(field)}\s*', re.IGNORECASE)
+    stop_pattern = "|".join(re.escape(key) for key in _LLM_TEXT_FIELD_STOPS)
+    stop_re = re.compile(rf',?\s*["\']?(?:{stop_pattern})["\']?\s*[:=]', re.IGNORECASE)
+
+    for match in key_re.finditer(raw_text):
+        start = match.end()
+        stop = stop_re.search(raw_text, start)
+        end = stop.start() if stop else len(raw_text)
+        value = _usable_llm_text(raw_text[start:end].strip("{}[] \t\r\n,\"'"))
+        if value:
+            return value
+    return None
+
+
+def _extract_llm_text_field(raw_text: str, field: str) -> Optional[str]:
+    return (
+        _extract_json_string_field(raw_text, field)
+        or _extract_quoted_text_field(raw_text, field)
+        or _extract_unquoted_text_field(raw_text, field)
+    )
+
+
 def _parse_and_validate_response(
     raw_text: str, state: GameState
 ) -> Optional[CoachResponse]:
     """Try to parse *raw_text* as a CoachResponse; return None on any failure."""
     parsed = extract_json_object(raw_text)
     if parsed is None:
-        return None
+        parsed = {}
+    elif not any(key in parsed for key in _RESPONSE_KEYS):
+        logger.debug("Ignoring non-response JSON fragment in model output: %s", sorted(parsed))
+        parsed = {}
 
-    # Fill in fields the model sometimes omits
+    # Fill in structural fields the model sometimes omits. Do not invent the
+    # two UI text fields; those must come from the model text itself.
     parsed.setdefault("user_bid", state.user_bid)
     parsed.setdefault("top_3_bids", top_candidate_bids(state.top_3_model_bids, 3))
     parsed.setdefault("raw_model_text", raw_text)
     parsed.setdefault("verdict", "incorrect")
     parsed.setdefault("recommended_bid", _recover_recommended_bid(raw_text, state))
-    parsed.setdefault(
-        "explanation",
-        "Suggested improvement based on legal bids and model candidates.",
-    )
-    parsed.setdefault(
-        "convention_card_reasoning",
-        "Recommendation recovered from partial model output.",
-    )
     parsed.setdefault(
         "risk_of_user_bid",
         "Current user bid appears weaker than the recovered recommendation.",
@@ -112,6 +247,17 @@ def _parse_and_validate_response(
         parsed["recommended_bid"] = parsed.get("recommended")
     if "reasoning" in parsed and "convention_card_reasoning" not in parsed:
         parsed["convention_card_reasoning"] = parsed.get("reasoning")
+
+    for field in _REQUIRED_LLM_TEXT_FIELDS:
+        current = _usable_llm_text(parsed.get(field))
+        recovered = _extract_llm_text_field(raw_text, field)
+        if recovered:
+            parsed[field] = recovered
+        elif current:
+            parsed[field] = current
+        else:
+            logger.debug("Model output missing required text field %s; retrying.", field)
+            return None
 
     try:
         return pydantic_model_validate(CoachResponse, parsed)
