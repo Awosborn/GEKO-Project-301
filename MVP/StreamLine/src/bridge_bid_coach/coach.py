@@ -17,7 +17,7 @@ from .utils import pydantic_model_dump, pydantic_model_validate
 
 logger = logging.getLogger(__name__)
 
-# Maximum generation attempts before using the deterministic fallback
+# Maximum generation attempts before returning model_failure
 _MAX_RETRIES = 3
 
 
@@ -64,7 +64,7 @@ def model_failure_response(
             "LLM output schema validation failed."
         ),
         risk_of_user_bid=(
-            "No deterministic recommendation is returned in this mode."
+            "No recommendation is returned in this mode."
         ),
         partner_likely_inference=(
             "Inspect raw_model_text and model prompt/configuration."
@@ -74,75 +74,6 @@ def model_failure_response(
     )
 
 
-def deterministic_fallback_response(
-    state: GameState, raw_model_text: Optional[str] = None
-) -> CoachResponse:
-    """Always-returnable non-LLM fallback to avoid hard model_error outcomes."""
-    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
-    recommended = _recover_recommended_bid(raw_model_text or "", state)
-    if recommended is None and top_3:
-        recommended = top_3[0]
-    return CoachResponse(
-        user_bid=state.user_bid,
-        verdict="improve",
-        recommended_bid=recommended,
-        top_3_bids=top_3,
-        explanation="Using deterministic fallback because model JSON was invalid.",
-        convention_card_reasoning="Fallback uses legal bids and top candidate ranking.",
-        risk_of_user_bid="User bid was outside top model candidates in this context.",
-        partner_likely_inference="A higher-ranked legal call should better match expected auction meaning.",
-        confidence=0.5,
-        raw_model_text=raw_model_text,
-    )
-
-
-def deterministic_coach_response(state: GameState) -> CoachResponse:
-    """Primary non-LLM coach path: stable, schema-safe recommendation."""
-    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
-    recommended = None
-    legal = [str(b) for b in state.legal_bids if isinstance(b, str)]
-    for bid in top_3:
-        if not legal or bid in legal:
-            recommended = bid
-            break
-    if recommended is None and legal:
-        recommended = legal[0]
-
-    return CoachResponse(
-        user_bid=state.user_bid,
-        verdict="improve",
-        recommended_bid=recommended,
-        top_3_bids=top_3,
-        explanation="Deterministic recommendation chosen from legal bids and model-ranked candidates.",
-        convention_card_reasoning="This path avoids LLM JSON-output instability by using rule-safe selection.",
-        risk_of_user_bid="User bid is outside top ranked candidates for the current auction context.",
-        partner_likely_inference="A top-ranked legal call should be easier for partner to interpret.",
-        confidence=0.7,
-        raw_model_text=None,
-    )
-
-
-def _response_from_raw_text(raw_text: str, state: GameState) -> CoachResponse:
-    """Build a valid CoachResponse from free-form model text (no JSON required)."""
-    top_3 = top_candidate_bids(state.top_3_model_bids, 3)
-    recommended = _recover_recommended_bid(raw_text, state)
-    if recommended is None and top_3:
-        recommended = top_3[0]
-    explanation = raw_text.strip().splitlines()[0].strip() if raw_text.strip() else ""
-    if not explanation:
-        explanation = "Recommended bid selected from model output and legal bids."
-    return CoachResponse(
-        user_bid=state.user_bid,
-        verdict="improve",
-        recommended_bid=recommended,
-        top_3_bids=top_3,
-        explanation=explanation[:400],
-        convention_card_reasoning="Response derived from free-form model output.",
-        risk_of_user_bid="User bid is outside top ranked candidates in this auction context.",
-        partner_likely_inference="Partner is likely to infer more from a top-ranked legal call.",
-        confidence=0.65,
-        raw_model_text=raw_text,
-    )
 
 
 def _parse_and_validate_response(
@@ -281,8 +212,8 @@ def coach_game_state(
 
     The model is only called when the user's bid is NOT in the top three.
     Up to _MAX_RETRIES generation attempts are made; each failed attempt appends
-    a stronger JSON-only reminder to the user message.  If all attempts fail,
-    the deterministic fallback is returned.
+    a stronger JSON-only reminder to the user message. If all attempts fail,
+    a model_failure response is returned.
     """
     if user_bid_in_top_n(state.user_bid, state.top_3_model_bids, 3):
         return reasonable_bid_response(state)
