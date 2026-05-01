@@ -162,6 +162,9 @@ def _build_review_text(
         for field, label in _REVIEW_FIELD_LABELS.items()
         if fields.get(field)
     ]
+    raw_debug = _clean_review_text(raw_model_text)
+    if verdict == "model_error" and raw_debug:
+        review_parts.append(f"Raw model text: {raw_debug}")
     fields["review_text"] = "\n\n".join(review_parts) or "Not available"
     return fields
 
