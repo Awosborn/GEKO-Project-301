@@ -159,19 +159,61 @@ function completeTrick() {
   document.getElementById("score").textContent = `NS ${game.tricksWon.ns} - EW ${game.tricksWon.ew}`;
 }
 
-document.getElementById("deal-btn").addEventListener("click", async () => {
-  game.humanSeat = document.getElementById("seat").value; game.dealer = document.getElementById("dealer").value;
-  game.hands = dealHands(); game.auction = []; game.turn = game.dealer; game.tricksWon = { ns: 0, ew: 0 }; game.trick = [];
-  document.getElementById("seat-display").textContent = game.humanSeat; document.getElementById("play-panel").hidden = false; document.getElementById("results").hidden = true; document.getElementById("cardplay-panel").hidden = true;
-  renderHumanHand(); renderAuction(); await processAiBiddingUntilHuman();
-});
+async function startNewDeal() {
+  game.humanSeat = document.getElementById("seat").value;
+  game.dealer = document.getElementById("dealer").value;
+  game.hands = dealHands();
+  game.auction = [];
+  game.turn = game.dealer;
+  game.tricksWon = { ns: 0, ew: 0 };
+  game.trick = [];
+  game.contract = null;
+  game.playTurn = null;
 
-document.getElementById("play-btn").addEventListener("click", submitHumanBid);
-document.getElementById("hand-view").addEventListener("click", (event) => {
-  const card = event.target.dataset.card; if (!card || game.playTurn !== game.humanSeat) return;
-  if (!legalCards(game.humanSeat).includes(card)) return;
-  game.hands[game.humanSeat] = game.hands[game.humanSeat].filter((c) => c !== card);
-  game.trick.push({ seat: game.humanSeat, card }); game.playTurn = nextSeat(game.humanSeat);
-  if (game.trick.length === 4) completeTrick();
-  runCardplayLoop();
-});
+  document.getElementById("seat-display").textContent = game.humanSeat;
+  document.getElementById("play-panel").hidden = false;
+  document.getElementById("results").hidden = true;
+  document.getElementById("cardplay-panel").hidden = true;
+  document.getElementById("score").textContent = "NS 0 - EW 0";
+  document.getElementById("trick-log").textContent = "(none)";
+  document.getElementById("contract-display").textContent = "(none)";
+
+  renderHumanHand();
+  renderAuction();
+  await processAiBiddingUntilHuman();
+}
+
+function initUi() {
+  const dealButton = document.getElementById("deal-btn");
+  const playButton = document.getElementById("play-btn");
+  const handView = document.getElementById("hand-view");
+  if (!dealButton || !playButton || !handView) return;
+
+  dealButton.addEventListener("click", async () => {
+    try {
+      await startNewDeal();
+    } catch (error) {
+      document.getElementById("results").hidden = false;
+      document.getElementById("verdict").textContent = "deal_error";
+      document.getElementById("recommended").textContent = "";
+      document.getElementById("llm-output-text").textContent = String(error);
+      document.getElementById("llm-word-count").textContent = String(countWords(String(error)));
+    }
+  });
+
+  playButton.addEventListener("click", submitHumanBid);
+  handView.addEventListener("click", (event) => {
+    const card = event.target.dataset.card; if (!card || game.playTurn !== game.humanSeat) return;
+    if (!legalCards(game.humanSeat).includes(card)) return;
+    game.hands[game.humanSeat] = game.hands[game.humanSeat].filter((c) => c !== card);
+    game.trick.push({ seat: game.humanSeat, card }); game.playTurn = nextSeat(game.humanSeat);
+    if (game.trick.length === 4) completeTrick();
+    runCardplayLoop();
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initUi);
+} else {
+  initUi();
+}

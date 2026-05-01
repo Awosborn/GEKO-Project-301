@@ -70,6 +70,11 @@ No output usually means syntax is valid.
 
 ## 5) Troubleshooting
 
+- **Deal Random Hand button appears to do nothing**:
+  - Confirm you are opening the UI through the Python server (`python MVP\bridge_ui\server.py`) and not via `file:///...`.
+  - Hard refresh (`Ctrl+Shift+R`) to clear cached JavaScript.
+  - Open browser DevTools Console and check for JavaScript errors.
+
 - **`py` not recognized**: use `python` instead of `py` for venv creation.
 - **Port 8080 already in use**:
 
