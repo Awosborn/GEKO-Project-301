@@ -1,6 +1,4 @@
-const BID_ORDER = [
-  "Pass", "1C", "1D", "1H", "1S", "1NT", "2C", "2D", "2H", "2S", "2NT", "3C", "3D", "3H", "3S", "3NT"
-];
+const BID_ORDER = window.bridgeRules.CONTRACT_ORDER;
 const SUITS = ["S", "H", "D", "C"];
 const RANKS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"];
 const SEATS = ["north", "east", "south", "west"];
@@ -8,7 +6,7 @@ const SEATS = ["north", "east", "south", "west"];
 const game = { hands: {}, humanSeat: "south", dealer: "north", auction: [], turn: "north", contract: null, playTurn: null, trick: [], tricksWon: { ns: 0, ew: 0 } };
 
 function countWords(text) { return text?.trim() ? text.trim().split(/\s+/).length : 0; }
-function nextSeat(seat) { return SEATS[(SEATS.indexOf(seat) + 1) % 4]; }
+function nextSeat(seat) { return window.bridgeRules.nextSeat(seat); }
 function teamForSeat(seat) { return (seat === "north" || seat === "south") ? "ns" : "ew"; }
 
 function shuffledDeck() {
@@ -62,12 +60,7 @@ async function llmCoachViaApi(payload) {
   return response.json();
 }
 
-function auctionDone() {
-  if (game.auction.length < 4) return false;
-  const last3 = game.auction.slice(-3).every((a) => a.call === "Pass");
-  const anyBid = game.auction.some((a) => a.call !== "Pass");
-  return last3 && anyBid;
-}
+function auctionDone() { return window.bridgeRules.auctionDone(game.auction); }
 
 function renderHumanHand() {
   const cards = game.hands[game.humanSeat];
@@ -83,8 +76,10 @@ async function processAiBiddingUntilHuman() {
   while (!auctionDone() && game.turn !== game.humanSeat) {
     const seat = game.turn;
     const hand = handToText(game.hands[seat]);
-    const call = predictiveTop3(hand, game.auction.map((a) => a.call).join(" "))[0];
-    game.auction.push({ seat, call });
+    const prefs = predictiveTop3(hand, game.auction.map((a) => a.call).join(" "));
+    const choices = [...prefs, ...BID_ORDER, "Pass"];
+    const call = choices.find((c) => window.bridgeRules.isLegalCall(game.auction, seat, c).ok) || "Pass";
+    game.auction.push({ seat, call: call.toUpperCase() });
     game.turn = nextSeat(game.turn);
   }
   renderAuction();
@@ -95,6 +90,15 @@ async function processAiBiddingUntilHuman() {
 async function submitHumanBid() {
   try {
   const bid = document.getElementById("user-bid").value.trim(); if (!bid) return;
+  const legality = window.bridgeRules.isLegalCall(game.auction, game.humanSeat, bid);
+  if (!legality.ok) {
+    document.getElementById("results").hidden = false;
+    document.getElementById("verdict").textContent = "illegal_call";
+    document.getElementById("recommended").textContent = "";
+    document.getElementById("llm-output-text").textContent = legality.reason;
+    document.getElementById("llm-word-count").textContent = String(countWords(legality.reason));
+    return;
+  }
   const hand = handToText(game.hands[game.humanSeat]);
   const auctionText = game.auction.map((a) => a.call).join(" ");
   const top3 = predictiveTop3(hand, auctionText);
@@ -105,7 +109,7 @@ async function submitHumanBid() {
   document.getElementById("llm-word-count").textContent = String(countWords(llmText)); document.getElementById("llm-output-text").textContent = llmText;
   document.getElementById("results").hidden = false;
 
-  game.auction.push({ seat: game.humanSeat, call: bid.toUpperCase() });
+  game.auction.push({ seat: game.humanSeat, call: legality.call });
   game.turn = nextSeat(game.humanSeat);
   document.getElementById("user-bid").value = "";
   await processAiBiddingUntilHuman();
@@ -119,7 +123,7 @@ async function submitHumanBid() {
 }
 
 function startCardplay() {
-  game.contract = game.auction.filter((a) => a.call !== "Pass").slice(-1)[0]?.call || "Pass";
+  game.contract = window.bridgeRules.finalContract(game.auction) || "Pass";
   game.playTurn = nextSeat(game.dealer);
   game.trick = [];
   document.getElementById("contract-display").textContent = game.contract;
@@ -128,19 +132,11 @@ function startCardplay() {
 }
 
 function legalCards(seat) {
-  const cards = game.hands[seat];
-  if (!game.trick.length) return cards;
-  const leadSuit = game.trick[0].card[1];
-  const follow = cards.filter((c) => c[1] === leadSuit);
-  return follow.length ? follow : cards;
+  return window.bridgeRules.legalCards(game.hands[seat], game.trick);
 }
 
-function rankValue(r) { return RANKS.indexOf(r); }
 function winnerOfTrick() {
-  const lead = game.trick[0].card[1];
-  const candidates = game.trick.filter((p) => p.card[1] === lead);
-  candidates.sort((a, b) => rankValue(a.card[0]) - rankValue(b.card[0]));
-  return candidates[0].seat;
+  return window.bridgeRules.winnerOfTrick(game.trick, game.contract);
 }
 
 function runCardplayLoop() {
