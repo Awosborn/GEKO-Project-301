@@ -206,6 +206,7 @@ def coach_game_state(
     system_prompt: Optional[str] = None,
     device: str = "auto",
     max_new_tokens: int = 220,
+    use_llm: bool = True,
 ) -> CoachResponse:
     """Coach one game state with the SFT model.
 
@@ -216,6 +217,9 @@ def coach_game_state(
     """
     if user_bid_in_top_n(state.user_bid, state.top_3_model_bids, 3):
         return reasonable_bid_response(state)
+
+    if not use_llm:
+        raise RuntimeError("Deterministic fallback is disabled; set use_llm=True.")
 
     if model_dir is None:
         raise RuntimeError("model_dir is required for LLM coaching")
