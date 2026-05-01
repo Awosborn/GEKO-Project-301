@@ -85,6 +85,17 @@ def _parse_and_validate_response(
     # Fill in fields the model sometimes omits
     parsed.setdefault("user_bid", state.user_bid)
     parsed.setdefault("top_3_bids", top_candidate_bids(state.top_3_model_bids, 3))
+    parsed.setdefault("verdict", "incorrect")
+    parsed.setdefault(
+        "explanation",
+        "Model returned incomplete JSON. Using recovered fields where possible.",
+    )
+    parsed.setdefault("confidence", 0.55)
+    # Common alias normalization from loosely formatted outputs.
+    if "recommended" in parsed and "recommended_bid" not in parsed:
+        parsed["recommended_bid"] = parsed.get("recommended")
+    if "reasoning" in parsed and "convention_card_reasoning" not in parsed:
+        parsed["convention_card_reasoning"] = parsed.get("reasoning")
 
     try:
         return pydantic_model_validate(CoachResponse, parsed)
