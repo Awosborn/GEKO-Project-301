@@ -51,8 +51,9 @@ class BridgeUIHandler(SimpleHTTPRequestHandler):
             llm_response = coach_game_state(state, model_dir=STREAMLINE_MODEL)
             body = {
                 "verdict": llm_response.verdict,
-                "recommendedBid": llm_response.recommended_bid or (top3[0] if top3 else "Pass"),
+                "recommendedBid": llm_response.recommended_bid,
                 "explanation": llm_response.explanation,
+                "rawModelText": llm_response.raw_model_text,
             }
             self._send_json(200, body)
         except Exception as exc:  # noqa: BLE001

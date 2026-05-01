@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Optional
 
-from .bid_ranker import recommended_bid, top_candidate_bids, user_bid_in_top_n
+from .bid_ranker import top_candidate_bids, user_bid_in_top_n
 from .bridge_rules import calculate_hcp
 from .inference import extract_json_object, generate_text
 from .prompt_builder import build_messages
@@ -47,31 +47,27 @@ def reasonable_bid_response(state: GameState) -> CoachResponse:
     )
 
 
-def fallback_improvement_response(
+def model_failure_response(
     state: GameState, raw_model_text: Optional[str] = None
 ) -> CoachResponse:
-    """Deterministic fallback when the model cannot produce valid JSON after retries."""
+    """Return an explicit model-failure response with raw model output."""
     top_3 = top_candidate_bids(state.top_3_model_bids, 3)
-    best = recommended_bid(state.top_3_model_bids) or (top_3[0] if top_3 else None)
     return CoachResponse(
         user_bid=state.user_bid,
-        verdict="improve",
-        recommended_bid=best,
+        verdict="model_error",
+        recommended_bid=None,
         top_3_bids=top_3,
         explanation=(
-            f"{best or 'The top model candidate'} is preferred because the user's "
-            "choice is outside the model's top three candidates for this auction."
+            "Model output could not be parsed as valid coach JSON. Showing raw model text for debugging."
         ),
         convention_card_reasoning=(
-            "Review the partnership agreements and alerts in the convention card before "
-            "choosing a call that changes strain, level, or forcing status."
+            "LLM output schema validation failed."
         ),
         risk_of_user_bid=(
-            "The user bid may overstate or misdescribe hand type, strength, or intended "
-            "strain relative to the auction context."
+            "No deterministic recommendation is returned in this mode."
         ),
         partner_likely_inference=(
-            "Partner may infer a different strength range or contract goal than intended."
+            "Inspect raw_model_text and model prompt/configuration."
         ),
         confidence=0.55,
         raw_model_text=raw_model_text,
@@ -175,8 +171,7 @@ def coach_game_state(
         return reasonable_bid_response(state)
 
     if model_dir is None:
-        logger.warning("No model_dir provided; using deterministic fallback.")
-        return fallback_improvement_response(state)
+        raise RuntimeError("model_dir is required for LLM coaching")
 
     messages = build_messages(state, system_prompt=system_prompt)
     last_raw: Optional[str] = None
@@ -211,5 +206,5 @@ def coach_game_state(
             "Attempt %d/%d: invalid JSON output — %r", attempt + 1, _MAX_RETRIES, raw_text[:120]
         )
 
-    logger.warning("All %d attempts failed; using deterministic fallback.", _MAX_RETRIES)
-    return fallback_improvement_response(state, last_raw)
+    logger.warning("All %d attempts failed; returning model_failure response.", _MAX_RETRIES)
+    return model_failure_response(state, last_raw)
