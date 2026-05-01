@@ -92,18 +92,19 @@ def generate_text(
     """
     pipe = load_pipeline(model_dir, device=device)
 
-    generation_kwargs: Dict[str, Any] = {
-        "max_new_tokens": max_new_tokens,
-        "repetition_penalty": repetition_penalty,
-        "do_sample": do_sample,
-        "return_full_text": False,
-        "pad_token_id": pipe.tokenizer.eos_token_id,
-        "clean_up_tokenization_spaces": False,
-    }
+    from transformers import GenerationConfig  # type: ignore[import-untyped]
+
+    generation_config = GenerationConfig.from_model_config(pipe.model.config)
+    generation_config.max_new_tokens = max_new_tokens
+    generation_config.repetition_penalty = repetition_penalty
+    generation_config.do_sample = do_sample
+    generation_config.pad_token_id = pipe.tokenizer.eos_token_id
+    # `max_length` can conflict with `max_new_tokens` and trigger warnings.
+    generation_config.max_length = None
     # These are only meaningful when sampling is enabled.
     if do_sample:
-        generation_kwargs["temperature"] = temperature
-        generation_kwargs["top_p"] = top_p
+        generation_config.temperature = temperature
+        generation_config.top_p = top_p
 
     tokenizer = pipe.tokenizer
     try:
@@ -117,12 +118,12 @@ def generate_text(
             f"{m.get('role', 'user')}: {m.get('content', '')}" for m in messages
         ) + "\nassistant:"
 
-    # Avoid conflicts with any model-level `max_length` in generation_config by
-    # setting an explicit total limit from prompt length + requested new tokens.
-    prompt_token_count = len(tokenizer(prompt_text, add_special_tokens=False)["input_ids"])
-    generation_kwargs["max_length"] = prompt_token_count + max_new_tokens
-
-    output = pipe(prompt_text, **generation_kwargs)
+    output = pipe(
+        prompt_text,
+        generation_config=generation_config,
+        return_full_text=False,
+        clean_up_tokenization_spaces=False,
+    )
     generated = output[0]["generated_text"]
     if isinstance(generated, str):
         return generated
