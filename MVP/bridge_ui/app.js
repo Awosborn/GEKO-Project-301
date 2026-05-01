@@ -98,14 +98,57 @@ function sortCardsForDisplay(cards) {
   });
 }
 
+function humanSideDeclared() {
+  return Boolean(game.declarer) && teamForSeat(game.declarer) === teamForSeat(game.humanSeat);
+}
+
+function humanControlsSeat(seat) {
+  if (seat === game.humanSeat) return true;
+  return seat === game.dummy && humanSideDeclared();
+}
+
+function canClickSeat(seat) {
+  return game.contract && game.contract !== "Pass" && game.playTurn === seat && humanControlsSeat(seat);
+}
+
+function renderCardButtons(cards, seat) {
+  const displayCards = sortCardsForDisplay(cards || []);
+  const cardplayActive = Boolean(game.contract && game.contract !== "Pass");
+  return displayCards.map((card) => {
+    const disabledClass = cardplayActive && !canClickSeat(seat) ? " disabled" : "";
+    return `<button class="card ${/[HD]/.test(card[1]) ? "red" : "black"}${disabledClass}" data-seat="${seat}" data-card="${card}">${card[0]}${SUIT_ENTITIES[card[1]] || card[1]}</button>`;
+  }).join("");
+}
+
 function renderHumanHand() {
-  const displayCards = sortCardsForDisplay(game.hands[game.humanSeat] || []);
-  document.getElementById("hand-view").innerHTML = displayCards.map((card) => `<button class="card ${/[HD]/.test(card[1]) ? "red" : "black"}" data-card="${card}">${card[0]}${SUIT_ENTITIES[card[1]] || card[1]}</button>`).join("");
+  document.getElementById("hand-view").innerHTML = renderCardButtons(game.hands[game.humanSeat] || [], game.humanSeat);
 }
 
 function renderAuction() {
   document.getElementById("auction-log").textContent = game.auction.map((a) => `${a.seat}:${a.call}`).join(" | ") || "(empty)";
   document.getElementById("turn-display").textContent = auctionDone() ? "auction complete" : `${game.turn} to act`;
+}
+
+function renderDummyHand() {
+  const dummySection = document.getElementById("dummy-section");
+  const dummyView = document.getElementById("dummy-view");
+  const dummyStatus = document.getElementById("dummy-control-status");
+  if (!dummySection || !dummyView || !dummyStatus) return;
+  if (!game.dummy || game.contract === "Pass") {
+    dummySection.hidden = true;
+    dummyView.innerHTML = "";
+    dummyStatus.textContent = "";
+    return;
+  }
+  dummySection.hidden = false;
+  dummyView.innerHTML = renderCardButtons(game.hands[game.dummy] || [], game.dummy);
+  dummyStatus.textContent = humanControlsSeat(game.dummy) ? "Human side controls dummy." : "AI controls dummy.";
+}
+
+function renderCardplay() {
+  renderHumanHand();
+  renderDummyHand();
+  document.getElementById("trick-log").textContent = game.trick.map((p) => `${p.seat}:${p.card}`).join(" | ") || "(none)";
 }
 
 async function processAiBiddingUntilHuman() {
@@ -228,13 +271,20 @@ function startCardplay() {
   document.getElementById("contract-display").textContent = game.contract;
   document.getElementById("cardplay-panel").hidden = false;
 
-  if (game.contract === "Pass") return; // passed-out auction: no card play
-
   game.declarer = findDeclarer(game.auction, game.dealer);
   game.dummy = nextSeat(nextSeat(game.declarer)); // partner of declarer
+  document.getElementById("declarer-display").textContent = game.contract === "Pass" ? "(none)" : game.declarer;
+  document.getElementById("dummy-display").textContent = game.contract === "Pass" ? "(none)" : game.dummy;
+
+  if (game.contract === "Pass") {
+    renderCardplay();
+    return;
+  }
+
   game.playTurn = nextSeat(game.declarer);        // opening lead from left of declarer
   game.trick = [];
   game.playHistory = [];
+  renderCardplay();
   runCardplayLoop().catch((err) => {
     document.getElementById("trick-log").textContent = `Card play error: ${String(err)}`;
   });
@@ -249,7 +299,7 @@ function winnerOfTrick() {
 }
 
 async function runCardplayLoop() {
-  while (game.playTurn !== game.humanSeat && game.hands[game.playTurn] && game.hands[game.playTurn].length) {
+  while (!humanControlsSeat(game.playTurn) && game.hands[game.playTurn] && game.hands[game.playTurn].length) {
     const seat = game.playTurn;
     const legalCardsList = legalCards(seat);
     let aiCard = null;
@@ -284,8 +334,7 @@ async function runCardplayLoop() {
     game.playTurn = nextSeat(game.playTurn);
     if (game.trick.length === 4) completeTrick();
   }
-  renderHumanHand();
-  document.getElementById("trick-log").textContent = game.trick.map((p) => `${p.seat}:${p.card}`).join(" | ") || "(none)";
+  renderCardplay();
 }
 
 function completeTrick() {
@@ -295,6 +344,17 @@ function completeTrick() {
   game.playTurn = winner;
   game.trick = [];
   document.getElementById("score").textContent = `NS ${game.tricksWon.ns} - EW ${game.tricksWon.ew}`;
+}
+
+async function playHumanControlledCard(seat, card) {
+  if (!card || !seat || game.playTurn !== seat || !humanControlsSeat(seat)) return;
+  if (!legalCards(seat).includes(card)) return;
+  game.hands[seat] = game.hands[seat].filter((c) => c !== card);
+  game.trick.push({ seat, card });
+  game.playTurn = nextSeat(seat);
+  if (game.trick.length === 4) completeTrick();
+  renderCardplay();
+  await runCardplayLoop();
 }
 
 async function startNewDeal() {
@@ -318,6 +378,11 @@ async function startNewDeal() {
   document.getElementById("score").textContent = "NS 0 - EW 0";
   document.getElementById("trick-log").textContent = "(none)";
   document.getElementById("contract-display").textContent = "(none)";
+  document.getElementById("declarer-display").textContent = "(none)";
+  document.getElementById("dummy-display").textContent = "(none)";
+  document.getElementById("dummy-section").hidden = true;
+  document.getElementById("dummy-view").innerHTML = "";
+  document.getElementById("dummy-control-status").textContent = "";
 
   renderHumanHand();
   renderAuction();
@@ -329,7 +394,8 @@ function initUi() {
   const dealButton = document.getElementById("deal-btn");
   const playButton = document.getElementById("play-btn");
   const handView = document.getElementById("hand-view");
-  if (!dealButton || !playButton || !handView) return;
+  const dummyView = document.getElementById("dummy-view");
+  if (!dealButton || !playButton || !handView || !dummyView) return;
   uiInitialized = true;
 
   dealButton.addEventListener("click", async () => {
@@ -345,15 +411,13 @@ function initUi() {
   });
 
   playButton.addEventListener("click", submitHumanBid);
-  handView.addEventListener("click", async (event) => {
-    const card = event.target.dataset.card; if (!card || game.playTurn !== game.humanSeat) return;
-    if (!legalCards(game.humanSeat).includes(card)) return;
-    game.hands[game.humanSeat] = game.hands[game.humanSeat].filter((c) => c !== card);
-    game.trick.push({ seat: game.humanSeat, card });
-    game.playTurn = nextSeat(game.humanSeat);
-    if (game.trick.length === 4) completeTrick();
-    await runCardplayLoop();
-  });
+  const onCardClick = async (event) => {
+    const button = event.target.closest("button[data-card]");
+    if (!button) return;
+    await playHumanControlledCard(button.dataset.seat, button.dataset.card);
+  };
+  handView.addEventListener("click", onCardClick);
+  dummyView.addEventListener("click", onCardClick);
 }
 
 if (document.readyState === "loading") {
